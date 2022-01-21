@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "com.seneral.nodeeditorframework": "file:Node_Editor_Framework-1.0.4-lts/Node_Editor_Framework-1.0.4-lts",
+    "com.seneral.nodeeditorframework": "https://github.com/Seneral/Node_Editor_Framework.git#v1.0.4-lts",
     "com.seneral.undopro": "https://github.com/Seneral/UndoPro.git#release-pkg",
     "com.unity.2d.animation": "3.2.6",
     "com.unity.2d.pixel-perfect": "2.1.0",

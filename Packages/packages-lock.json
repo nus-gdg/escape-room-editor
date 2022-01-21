@@ -1,12 +1,13 @@
 {
   "dependencies": {
     "com.seneral.nodeeditorframework": {
-      "version": "file:Node_Editor_Framework-1.0.4-lts/Node_Editor_Framework-1.0.4-lts",
+      "version": "https://github.com/Seneral/Node_Editor_Framework.git#v1.0.4-lts",
       "depth": 0,
-      "source": "local",
+      "source": "git",
       "dependencies": {
         "com.seneral.undopro": "1.0.0"
-      }
+      },
+      "hash": "768b0e66dc8be4fc052e1de37cbd9ad060d1d213"
     },
     "com.seneral.undopro": {
       "version": "https://github.com/Seneral/UndoPro.git#release-pkg",
