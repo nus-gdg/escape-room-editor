@@ -1,2 +1,11 @@
+# Node modules
+node_modules/
+
 # Mac folder cache
-**/.DS_Store
+*.DS_Store
+
+# JetBrains Rider cache directory
+.idea/
+
+# Visual Studio cache directory
+.vs/
