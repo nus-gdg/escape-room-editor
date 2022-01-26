@@ -36,7 +36,7 @@ jobs:
 
         with:
           # (Optional) The label to use to mark dependent issues
-          label: dependent
+          label: blocked
 
           # (Optional) Enable checking for dependencies in issues.
           # Enable by setting the value to "on". Default "off"
@@ -52,9 +52,6 @@ jobs:
 
           # (Optional) A custom comment body. It supports `{{ dependencies }}` token.
           comment: >
-            This PR/issue depends on:
+            🏁 Please complete the following dependencies before starting this PR/issue 🏁:
 
             {{ dependencies }}
-
-
-            Please complete them before starting this PR/issue!
