@@ -1,17 +1,15 @@
 import React, {useContext} from 'react';
-import { RootStore} from "./context";
-import { Action } from "./Actions";
+import { RootStore} from "../../../common/containers/RootStore";
+import { UserAction } from "../../../state/user/userActions";
 
-export const Header = () => {
-  const {
-    state: { username },
-    dispatch,
-  } = useContext(RootStore);
+export const GeneralPageHeader = () => {
+  const ctx = useContext(RootStore);
+  const username = ctx.state.username;
 
   const toggleLoginLogoutHandler = () => {
     return username
-      ? dispatch({ type: Action.LOGOUT })
-      : dispatch({ type: Action.LOGIN, payload: { username: "potatoes" } });
+      ? ctx.dispatch({ type: UserAction.LOGOUT })
+      : ctx.dispatch({ type: UserAction.LOGIN, payload: { username: "potatoes" } });
   };
 
   return (

@@ -1,14 +1,12 @@
 import React from 'react'
 import { ChakraProvider } from '@chakra-ui/react'
-import { Content } from "./Content"
-// import {JsonFileReader} from "./JsonFileReader";
-import {RootStoreProvider} from "./context";
-import {Header} from "./Header";
+import {RootStoreProvider} from "../common/containers/RootStore";
+import {GeneralPage} from "./GeneralPage/GeneralPage";
 
 export const App = () => (
     <ChakraProvider resetCSS>
         <RootStoreProvider>
-            <Header />
+            <GeneralPage />
         </RootStoreProvider>
     </ChakraProvider>
 )

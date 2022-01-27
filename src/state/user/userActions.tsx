@@ -1,4 +1,4 @@
-export enum Action {
+export enum UserAction {
     LOGIN = "LOGIN",
     LOGOUT = "LOGOUT"
 }
