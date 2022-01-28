@@ -1,9 +1,9 @@
-import React, {useContext} from 'react';
-import { RootStore} from "../../../common/containers/RootStore";
-import { UserAction } from "../../../state/user/userActions";
+import React from 'react';
+import {UserAction} from "../../../state/user/userActions";
+import {useRoot} from "../../../hooks/useRoot";
 
 export const GeneralPageHeader = () => {
-  const ctx = useContext(RootStore);
+  const ctx = useRoot();
   const username = ctx.state.username;
 
   const toggleLoginLogoutHandler = () => {
