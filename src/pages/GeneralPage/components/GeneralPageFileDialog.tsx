@@ -8,7 +8,9 @@ export const GeneralPageFileDialog = () => {
     const ctx = useRoot();
 
     const handleFileLoaded = (content: string) => {
-        ctx.dispatch({type: FileAction.LOAD, payload: { username: "mango" }})
+        const obj = JSON.parse(content);
+        // TODO: validate obj is typeof Partial<State>
+        ctx.dispatch({type: FileAction.LOAD, payload: obj})
     };
 
     return (
