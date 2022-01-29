@@ -1,12 +1,12 @@
-import React, {useRef} from 'react'
+import React, {ReactNode, useRef} from 'react'
 import {Button} from '@chakra-ui/react'
 
 interface LoadFileButtonProps {
-    label?: string,
-    accept?: string
+    accept?: string,
+    children?: ReactNode
 }
 
-export const LoadFileButton = ({label = "Load", accept = ""}: LoadFileButtonProps) => {
+export const LoadFileButton = ({accept = "", children}: LoadFileButtonProps) => {
     const fileInput = useRef<HTMLInputElement | null>(null);
     let fileReader : FileReader;
 
@@ -36,7 +36,7 @@ export const LoadFileButton = ({label = "Load", accept = ""}: LoadFileButtonProp
                    onChange={handleFileChosen}
                    hidden />
             <Button onClick={handleClick}>
-                {label}
+                {children}
             </Button>
         </>
     )

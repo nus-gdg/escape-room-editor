@@ -1,20 +1,22 @@
-import React, {useRef} from 'react'
+import React, {ReactNode, useRef} from 'react'
 import {Button} from '@chakra-ui/react'
 
 interface SaveFileButtonProps {
-    label?: string
+    type: string,
+    filename?: string,
+    children?: ReactNode
 }
 
-export const SaveFileButton = ({label = "Save"}: SaveFileButtonProps) => {
+export const SaveFileButton = ({type, filename = "game.json", children}: SaveFileButtonProps) => {
     const fileOutput = useRef<HTMLAnchorElement | null>(null);
 
     const handleClick = () => {
         if (!fileOutput.current) {
             return;
         }
-        const file = new Blob(["{\"potato\": 100}"], {type: "text/plain"});
+        const file = new Blob(["{\"potato\": 100}"], {type: type});
         fileOutput.current.href = URL.createObjectURL(file);
-        fileOutput.current.download = "game.json";
+        fileOutput.current.download = filename;
         fileOutput.current?.click();
     }
 
@@ -22,7 +24,7 @@ export const SaveFileButton = ({label = "Save"}: SaveFileButtonProps) => {
         <>
             <a ref={fileOutput} />
             <Button onClick={handleClick}>
-                {label}
+                {children}
             </Button>
         </>
     )
