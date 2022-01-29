@@ -22,7 +22,9 @@ export const SaveFileButton = ({type, filename = "game.json", children}: SaveFil
 
     return (
         <>
-            <a ref={fileOutput} />
+            <a ref={fileOutput} href={"#/"} style={{display: "none"}}>
+                Anchor for downloading json file
+            </a>
             <Button onClick={handleClick}>
                 {children}
             </Button>
