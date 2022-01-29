@@ -1,7 +1,7 @@
-import {GeneralPageFileDialog} from "./components/GeneralPageFileDialog";
+import {Toolbar} from "../Toolbar/Toolbar";
 
 export const GeneralPage = () => (
     <>
-        <GeneralPageFileDialog />
+        <Toolbar />
     </>
 )
