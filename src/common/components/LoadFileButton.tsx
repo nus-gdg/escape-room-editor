@@ -3,10 +3,11 @@ import {Button} from '@chakra-ui/react'
 
 interface LoadFileButtonProps {
     accept?: string,
+    onFileRead?: ((content: string) => void),
     children?: ReactNode
 }
 
-export const LoadFileButton = ({accept = "", children}: LoadFileButtonProps) => {
+export const LoadFileButton = ({accept = "", onFileRead = undefined, children}: LoadFileButtonProps) => {
     const fileInput = useRef<HTMLInputElement | null>(null);
     let fileReader : FileReader;
 
@@ -15,8 +16,11 @@ export const LoadFileButton = ({accept = "", children}: LoadFileButtonProps) => 
     }
 
     const handleFileRead = (e: ProgressEvent<FileReader>) => {
-        const content = fileReader.result;
-        console.log(content);
+        const content = fileReader.result as string;
+        if (!onFileRead) {
+            return;
+        }
+        onFileRead(content);
     }
 
     const handleFileChosen = (e: React.ChangeEvent<HTMLInputElement>) => {

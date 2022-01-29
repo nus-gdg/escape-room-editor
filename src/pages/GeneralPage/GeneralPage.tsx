@@ -1,13 +1,7 @@
-import {LoadFileButton} from "../../common/components/LoadFileButton";
-import {SaveFileButton} from "../../common/components/SaveFileButton";
+import {GeneralPageFileDialog} from "./components/GeneralPageFileDialog";
 
 export const GeneralPage = () => (
     <>
-        <LoadFileButton accept={".json"}>
-            Load
-        </LoadFileButton>
-        <SaveFileButton type={"application/json"}>
-            Save
-        </SaveFileButton>
+        <GeneralPageFileDialog />
     </>
 )
