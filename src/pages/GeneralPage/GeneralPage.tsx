@@ -1,7 +1,7 @@
-import {GeneralPageHeader} from "./components/GeneralPageHeader";
+import {LoadFileButton} from "../../common/components/LoadFileButton";
 
 export const GeneralPage = () => (
     <>
-        <GeneralPageHeader />
+        <LoadFileButton label={"Done"} accept={".json"}/>
     </>
 )
