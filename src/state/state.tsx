@@ -1,9 +1,18 @@
+import {getKeysOfType} from "../utils/getKeysOfType";
+
 export interface State {
-    username: string | null;
-    text: string | null;
+    title: string;
+    description: string;
+    image: string;
+    flags: string;
 }
 
 export const initialState: State = {
-    username: null,
-    text: "escape"
+    title: "Escape Room",
+    description: "An NUSGDG initiative",
+    image: "https://c.tenor.com/_4YgA77ExHEAAAAd/rick-roll.gif",
+    flags: "water is dry"
 };
+
+export const keysOfState = getKeysOfType(initialState);
+export const isKeyOfState = (key: keyof State) => keysOfState.includes(key);

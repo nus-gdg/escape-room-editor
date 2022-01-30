@@ -4,12 +4,13 @@ import {LoadFileButton} from "../../common/components/LoadFileButton";
 import {useRoot} from "../../hooks/useRoot";
 import {FileAction} from "../../state/file/fileActions";
 import {Flex} from '@chakra-ui/react';
+import {State} from "../../state/state";
 
 export const Toolbar = () => {
     const ctx = useRoot();
 
     const handleFileLoaded = (content: string) => {
-        const obj = JSON.parse(content);
+        const obj: State = JSON.parse(content);
         // TODO: validate obj is typeof Partial<State>
         ctx.dispatch({type: FileAction.LOAD, payload: obj})
     };

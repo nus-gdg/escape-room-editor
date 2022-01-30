@@ -1,5 +1,7 @@
-import {initialState, State} from "../state";
+import {isKeyOfState, initialState, State} from "../state";
 import {ActionType} from "../actions";
+import {setProps} from "../../utils/setProps";
+import {filterProps} from "../../utils/filterProps";
 
 export const FileAction = {
     LOAD: "FILE_LOAD",
@@ -12,14 +14,7 @@ export const fileActions = {
 };
 
 function loadFile(state: State, action: ActionType) {
-    // TODO: Create utility function to select desired properties (for validation)
-    // Without validation, alternative is to use spread operator { ...state, ...action.payload }
-    if (!action.payload?.username) {
-        return state;
-    }
-    const shallowCopy = { ...state };
-    shallowCopy.username = action.payload.username;
-    return shallowCopy;
+    return setProps(state, filterProps(action.payload, isKeyOfState));
 }
 
 function saveFile(state: State, action: ActionType) {
