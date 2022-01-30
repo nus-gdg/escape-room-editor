@@ -17,17 +17,21 @@ import {
 import { SearchIcon } from '@chakra-ui/icons'
 import {Toolbar} from "../Toolbar/Toolbar";
 import {useRoot} from "../../hooks/useRoot";
-import {FileAction} from "../../state/file/fileActions";
+import {ContentAction} from "../../state/content/contentActions";
 
 export const ContentPage = () => {
     const ctx = useRoot();
+    const separator = "\n";
 
     function handleTitleChange(e: React.ChangeEvent<HTMLInputElement>) {
-        ctx.dispatch({type: FileAction.LOAD, payload: { title: e.target.value }})
+        ctx.dispatch({type: ContentAction.SET_TITLE, payload: { title: e.target.value }})
     }
 
     function handleDescriptionChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
-        ctx.dispatch({type: FileAction.LOAD, payload: { description: e.target.value }})
+        ctx.dispatch({
+            type: ContentAction.SET_DESCRIPTION,
+            payload: { description: e.target.value.split(separator) }
+        })
     }
 
     return (
@@ -39,11 +43,11 @@ export const ContentPage = () => {
                         <FormControl>
                             <FormLabel>Title</FormLabel>
                             <Input value={ctx.state.title}
-                                   onChange={handleTitleChange}/>
+                                   onChange={handleTitleChange} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Description</FormLabel>
-                            <Textarea value={ctx.state.description}
+                            <Textarea value={ctx.state.description.join(separator)}
                                       onChange={handleDescriptionChange}
                                       resize="vertical"/>
                         </FormControl>
