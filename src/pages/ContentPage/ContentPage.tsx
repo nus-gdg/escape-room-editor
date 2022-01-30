@@ -5,14 +5,13 @@ import {
     FormControl,
     FormLabel,
     Textarea,
+    Image,
     Input,
     InputGroup,
     InputRightElement,
-    Icon,
     Flex,
     Center,
     Stack,
-    Button
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
 import {Toolbar} from "../Toolbar/Toolbar";
@@ -31,6 +30,17 @@ export const ContentPage = () => {
         ctx.dispatch({
             type: ContentAction.SET_DESCRIPTION,
             payload: { description: e.target.value.split(separator) }
+        })
+    }
+
+    function handleImageChange(e: React.ChangeEvent<HTMLInputElement>) {
+        ctx.dispatch({type: ContentAction.SET_IMAGE, payload: { image: e.target.value }})
+    }
+
+    function handleFlagsChange(e: React.ChangeEvent<HTMLTextAreaElement>) {
+        ctx.dispatch({
+            type: ContentAction.SET_FLAGS,
+            payload: { flags: e.target.value.split(separator) }
         })
     }
 
@@ -53,29 +63,20 @@ export const ContentPage = () => {
                         </FormControl>
                         <FormControl>
                             <FormLabel>Image</FormLabel>
-                            <Input/>
+                            <Input value={ctx.state.image}
+                                   onChange={handleImageChange}
+                                   type={"url"} />
                         </FormControl>
                         <FormControl>
                             <FormLabel>Flags</FormLabel>
-                            <InputGroup>
-                                <Input/>
-                                <InputRightElement
-                                    backgroundColor="whiteAlpha.500"
-                                    overflow="visible"
-                                >
-                                    <SearchIcon/>
-                                </InputRightElement>
-                            </InputGroup>
+                            <Textarea value={ctx.state.flags.join(separator)}
+                                      onChange={handleFlagsChange}
+                                      resize={"vertical"}/>
                         </FormControl>
                     </Box>
                     <Box width="50%">
                         <Center backgroundColor="gray.500" width="100%" height="100%">
-                            <Box
-                                backgroundColor="facebook.500"
-                                minWidth="75%"
-                                minHeight="75%"
-                                borderRadius={10}
-                            />
+                            <Image height="100%" width="100%" src={ctx.state.image} objectFit={"cover"}/>
                         </Center>
                     </Box>
                 </Flex>

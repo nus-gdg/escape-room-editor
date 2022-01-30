@@ -4,7 +4,7 @@ export interface State {
     title: string;
     description: string[];
     image: string;
-    flags: string;
+    flags: string[];
 }
 
 export const initialState: State = {
@@ -13,7 +13,9 @@ export const initialState: State = {
         "An NUSGDG initiative"
     ],
     image: "https://c.tenor.com/_4YgA77ExHEAAAAd/rick-roll.gif",
-    flags: "water is dry"
+    flags: [
+        "water is dry"
+    ]
 };
 
 export const keysOfState = getKeysOfType(initialState);
