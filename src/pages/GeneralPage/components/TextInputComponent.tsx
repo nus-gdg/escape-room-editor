@@ -25,7 +25,6 @@ class TextInputComponent extends React.Component<Props, State> {
     }
 
     render() {
-        console.log(this.props.fontSize);
         return (
             <div
                 style={{

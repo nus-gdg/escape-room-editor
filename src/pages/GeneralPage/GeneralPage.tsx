@@ -1,9 +1,9 @@
 import { Toolbar } from "../Toolbar/Toolbar";
 import TextInput from "./components/TextInputComponent";
-import RoomInfo from "./components/RoomComponent";
+import RoomComponent from "./components/RoomComponent";
 import ContentInfo from "./components/ContentComponent";
 import React, { Component } from "react";
-import { RoomData, tempRoomData } from "./Data/RoomData";
+import { RoomData } from "./Data/RoomData";
 import RoomsNavigationComponent from "./components/RoomsNavigationComponent";
 import { Flex } from "@chakra-ui/react";
 
@@ -19,15 +19,33 @@ class GeneralPage extends React.Component<Props, State> {
         super(props);
 
         this.state = {
-            rooms: [tempRoomData, tempRoomData],
-            currRoom: tempRoomData,
+            rooms: [new RoomData(0), new RoomData(1)],
+            currRoom: new RoomData(0),
         };
     }
 
+    //add a new room with default values
     handleAddRoom = () => {
-        console.log(this.state.rooms.length);
+        let newRoom = new RoomData(this.state.rooms.length);
         this.setState((state, props) => ({
-            rooms: this.state.rooms.concat([tempRoomData]),
+            rooms: this.state.rooms.concat([newRoom]),
+        }));
+    };
+
+    //user press button to edit another room
+    handleChangeCurrRoom = (roomID: number) => {
+        let nextRoom = this.state.rooms.find((room) => room.id === roomID);
+        this.setState((state, props) => ({
+            currRoom: nextRoom ? nextRoom : state.currRoom,
+        }));
+    };
+
+    handleUpdateRoomData = (roomData: RoomData) => {
+        // Update main state that holds all Rooms i.e. RoomData[]
+        let newRoomList = this.state.rooms.filter((r) => r.id !== roomData.id);
+        newRoomList.push(roomData);
+        this.setState((state, props) => ({
+            rooms: newRoomList,
         }));
     };
 
@@ -36,9 +54,13 @@ class GeneralPage extends React.Component<Props, State> {
             <Flex direction={"row"}>
                 <RoomsNavigationComponent
                     rooms={this.state.rooms}
-                    onAddRoomHandler={this.handleAddRoom}
+                    onAddRoom={this.handleAddRoom}
+                    onChangeRoom={this.handleChangeCurrRoom}
                 />
-                <RoomInfo />
+                <RoomComponent
+                    roomData={this.state.currRoom}
+                    onSubmitHandler={this.handleUpdateRoomData}
+                />
             </Flex>
         );
     }

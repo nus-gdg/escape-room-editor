@@ -5,7 +5,8 @@ import TextInputComponent from "./TextInputComponent";
 
 interface Props {
     rooms: RoomData[];
-    onAddRoomHandler: MouseEventHandler;
+    onAddRoom: MouseEventHandler;
+    onChangeRoom: Function;
 }
 
 interface State {}
@@ -22,7 +23,7 @@ class RoomsNavigationComponent extends React.Component<Props, State> {
                 }}
             >
                 <Text fontSize="2xl"> Rooms </Text>
-                <Button onClick={this.props.onAddRoomHandler}>+</Button>
+                <Button onClick={this.props.onAddRoom}>+</Button>
                 {this.renderPropButton()}
             </Flex>
         );
@@ -38,7 +39,14 @@ class RoomsNavigationComponent extends React.Component<Props, State> {
         return (
             <Flex direction={"column"} shrink={"0"}>
                 {this.props.rooms.map((room, index) => {
-                    return <button key={index}>{room.roomName}</button>;
+                    return (
+                        <button
+                            key={index}
+                            onClick={() => this.props.onChangeRoom(room.id)}
+                        >
+                            {room.roomName}
+                        </button>
+                    );
                 })}
             </Flex>
         );
