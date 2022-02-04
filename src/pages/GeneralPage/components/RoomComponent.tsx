@@ -30,7 +30,7 @@ class RoomComponent extends React.Component<Props, State> {
     onSaveHandler = () => {
         const updatedRoom: RoomData = {
             ...this.props.roomData,
-            roomName: this.state.roomName,
+            // roomName: this.state.roomName,
             content: {
                 ...this.props.roomData.content,
                 roomTitle: this.state.roomTitle,
@@ -50,7 +50,7 @@ class RoomComponent extends React.Component<Props, State> {
                     padding: "1%",
                 }}
             >
-                <Input
+                {/* <Input
                     placeholder="Room Name"
                     defaultValue={this.props.roomData.roomName}
                     value={
@@ -61,7 +61,7 @@ class RoomComponent extends React.Component<Props, State> {
                     onChange={(event) =>
                         this.setState({ roomName: event.currentTarget.value })
                     }
-                />
+                /> */}
                 <Input
                     placeholder="Room Title"
                     defaultValue={this.props.roomData.content.roomTitle}
@@ -90,7 +90,7 @@ class RoomComponent extends React.Component<Props, State> {
                 />
                 {/* <TextInput title="Room Name:"></TextInput> */}
                 <Button onClick={this.onSaveHandler}>Save</Button>
-                <ContentComponent />
+                {/* <ContentComponent /> */}
             </div>
         );
     }

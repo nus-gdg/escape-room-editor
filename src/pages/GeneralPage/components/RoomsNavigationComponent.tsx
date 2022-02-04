@@ -44,7 +44,7 @@ class RoomsNavigationComponent extends React.Component<Props, State> {
                             key={index}
                             onClick={() => this.props.onChangeRoom(room.id)}
                         >
-                            {room.roomName}
+                            {room.content.roomTitle}
                         </button>
                     );
                 })}

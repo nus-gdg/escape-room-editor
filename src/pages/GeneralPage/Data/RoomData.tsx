@@ -1,12 +1,10 @@
 export class RoomData {
-    roomName: string;
     content: ContentData;
     textCmds: TextCommandData[];
     buttonReactions: ButtonData[];
     id: number;
 
     constructor(id: number) {
-        this.roomName = "NewRoom";
         this.content = new ContentData();
         this.textCmds = [];
         this.buttonReactions = [];
@@ -20,7 +18,7 @@ export class ContentData {
     roomDescription: string;
 
     constructor() {
-        this.roomTitle = "";
+        this.roomTitle = "NewRoom";
         this.imageLink = "";
         this.roomDescription = "";
     }
