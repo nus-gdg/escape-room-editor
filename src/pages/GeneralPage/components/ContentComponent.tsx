@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Textarea, Box, Container } from '@chakra-ui/react'
-import TextInput from './TextInput';
+import TextInput from './TextInputComponent';
 
 interface Props {
 }
@@ -9,7 +9,7 @@ interface State {
     
 }
 
-class ContentInfo extends React.Component<Props, State> {
+class ContentComponent extends React.Component<Props, State> {
     render() {
         return (
             <div>
@@ -26,4 +26,4 @@ class ContentInfo extends React.Component<Props, State> {
     }
 }
 
-export default ContentInfo;
+export default ContentComponent;

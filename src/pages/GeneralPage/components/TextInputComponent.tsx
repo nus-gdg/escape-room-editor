@@ -13,7 +13,7 @@ interface State {
     
 }
 
-class TextInput extends React.Component<Props, State> {
+class TextInputComponent extends React.Component<Props, State> {
 
     public static defaultProps = {
         title: "Impt text wehfui",
@@ -63,4 +63,4 @@ class TextInput extends React.Component<Props, State> {
 //    },
 //}
  
-export default TextInput;
+export default TextInputComponent;
