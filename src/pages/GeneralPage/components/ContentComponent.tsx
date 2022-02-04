@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Text, Textarea, Box, Container } from "@chakra-ui/react";
-import TextInput from "./TextInputComponent";
 import { ContentData, RoomData } from "../Data/RoomData";
 
 interface Props {
@@ -36,12 +35,7 @@ class ContentComponent extends React.Component<Props, State> {
     }
 
     onSaveContentHandler = () => {
-        // const updatedContent = {
-        //     ...this.state.content,
-        // };
-
         this.props.onUpdateContent(this.state.content);
-        //call the place i need to save it at
     };
 
     onChangeText = (newText: string, varName: keyof ContentData) => {

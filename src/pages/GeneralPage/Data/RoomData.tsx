@@ -40,7 +40,9 @@ export class TextCommandData {
         flagState: boolean;
     }[];
 
-    constructor() {
+    id: number;
+
+    constructor(id: number) {
         this.command = { commandKey: "", recipe: [""] };
         this.modifyInventory = [
             {
@@ -55,15 +57,19 @@ export class TextCommandData {
                 flagState: false,
             },
         ];
+
+        this.id = id;
     }
 }
 
 export class ButtonData {
     buttonText: string;
     destination: string;
+    id: number;
 
-    constructor() {
-        this.buttonText = "";
+    constructor(id: number) {
+        this.buttonText = "ddd";
         this.destination = "";
+        this.id = id;
     }
 }
