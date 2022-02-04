@@ -24,10 +24,20 @@ class GeneralPage extends React.Component<Props, State> {
         };
     }
 
+    handleAddRoom = () => {
+        console.log(this.state.rooms.length);
+        this.setState((state, props) => ({
+            rooms: this.state.rooms.concat([tempRoomData]),
+        }));
+    };
+
     render() {
         return (
             <Flex direction={"row"}>
-                <RoomsNavigationComponent rooms={this.state.rooms} />
+                <RoomsNavigationComponent
+                    rooms={this.state.rooms}
+                    onAddRoomHandler={this.handleAddRoom}
+                />
                 <RoomInfo />
             </Flex>
         );

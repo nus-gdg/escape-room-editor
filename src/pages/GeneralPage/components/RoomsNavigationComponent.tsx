@@ -1,10 +1,11 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
-import React, { Component } from "react";
+import React, { Component, MouseEventHandler } from "react";
 import { RoomData } from "../Data/RoomData";
 import TextInputComponent from "./TextInputComponent";
 
 interface Props {
     rooms: RoomData[];
+    onAddRoomHandler: MouseEventHandler;
 }
 
 interface State {}
@@ -21,6 +22,7 @@ class RoomsNavigationComponent extends React.Component<Props, State> {
                 }}
             >
                 <Text fontSize="2xl"> Rooms </Text>
+                <Button onClick={this.props.onAddRoomHandler}>+</Button>
                 {this.renderPropButton()}
             </Flex>
         );
