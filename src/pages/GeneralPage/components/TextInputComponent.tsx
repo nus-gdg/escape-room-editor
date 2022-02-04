@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { Text, Textarea, Box } from '@chakra-ui/react'
+import React, { Component } from "react";
+import { Text, Textarea, Box } from "@chakra-ui/react";
 
 interface Props {
     title: string;
@@ -8,17 +8,14 @@ interface Props {
     boxWidth: string;
     boxHeight: string;
 }
- 
-interface State {
-    
-}
+
+interface State {}
 
 class TextInputComponent extends React.Component<Props, State> {
-
     public static defaultProps = {
         title: "Impt text wehfui",
         fontSize: "15px",
-        
+
         boxWidth: "50%",
         boxHeight: "20%",
     };
@@ -27,28 +24,30 @@ class TextInputComponent extends React.Component<Props, State> {
         super(props);
     }
 
-    render() { 
+    render() {
         console.log(this.props.fontSize);
-        return ( 
-            <div style={
-                {
-                    display: 'flex',
+        return (
+            <div
+                style={{
+                    display: "flex",
                     width: this.props.boxWidth,
                     height: this.props.boxHeight,
-                    flexDirection: 'column',
-                }
-            }>
-                <Text numberOfLines={1} fontSize= {this.props.fontSize} style = {
-                    {
+                    flexDirection: "column",
+                }}
+            >
+                <Text
+                    numberoflines={1}
+                    fontSize={this.props.fontSize}
+                    style={{
                         textAlign: "left",
-                        whiteSpace: 'nowrap',
-                    }
-                }> 
+                        whiteSpace: "nowrap",
+                    }}
+                >
                     {this.props.title}
                 </Text>
-                <Textarea placeholder="Type here..."/>
+                <Textarea placeholder="Type here..." />
             </div>
-         );
+        );
     }
 }
 //const styles = {
@@ -62,5 +61,5 @@ class TextInputComponent extends React.Component<Props, State> {
 //        margin: "1%",
 //    },
 //}
- 
+
 export default TextInputComponent;

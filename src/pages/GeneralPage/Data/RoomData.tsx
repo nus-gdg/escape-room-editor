@@ -14,7 +14,7 @@ export type ContentData = {
 export type TextCommandData = {
     command: {
         commandKey: string;
-        recipe: [];
+        recipe: string[];
     }
 
     modifyInventory: {
@@ -32,3 +32,34 @@ export type ButtonData = {
     buttonText: string;
     destination: string;
 }
+
+//Temp decalration of variables for TESTING TODO:: remove later
+export const tempContentData: ContentData = {
+    roomTitle: "Amzing room",
+    imageLink: "wjeufihewiufhjewif",
+    roomDescription: "PLEASE WORK PLEASE",
+};
+
+export const tempTextCmdData: TextCommandData = {
+    command: {
+        commandKey: "use",
+        recipe: ["stringOnMagenet", "magnet"],
+    },
+
+    modifyInventory: [{
+        itemName: "stringOnMagnet",
+        itemState: true, //either remove or add
+    }],
+    
+    modifyFlags: [{
+        flagName: "gotString",
+        flagState: false,
+    }],
+};
+
+export const tempRoomData: RoomData = {
+    roomName: "Temp room",
+    content: tempContentData,
+    textCmds: [tempTextCmdData],
+    buttonReactions: [],
+};
