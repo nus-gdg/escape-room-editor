@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Text, Textarea, Box, Container } from "@chakra-ui/react";
+import { Text, Textarea, Box, Container, Input } from "@chakra-ui/react";
 import { ContentData, RoomData } from "../Data/RoomData";
 
 interface Props {
@@ -54,7 +54,7 @@ class ContentComponent extends React.Component<Props, State> {
             <div>
                 <Text fontSize="20px">Contents</Text>
                 <Container bg={"grey"} centerContent>
-                    <Textarea
+                    <Input
                         value={this.state.content.roomTitle}
                         placeholder="Room name"
                         onChange={(event) =>
@@ -64,7 +64,7 @@ class ContentComponent extends React.Component<Props, State> {
                             )
                         }
                     />
-                    <Textarea
+                    <Input
                         value={this.state.content.imageLink}
                         placeholder="Image URL"
                         onChange={(event) =>

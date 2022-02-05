@@ -72,4 +72,8 @@ export class ButtonData {
         this.destination = "";
         this.id = id;
     }
+
+    checkValid() {
+        return true;
+    }
 }

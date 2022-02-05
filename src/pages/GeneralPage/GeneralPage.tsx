@@ -49,43 +49,40 @@ class GeneralPage extends React.Component<Props, State> {
         }));
     };
 
-    //update room data with new room data
-    handleUpdateRoomData = (roomData: RoomData) => {
-        // Update main state that holds all Rooms i.e. RoomData[]
-        let newRoomList = this.state.rooms.filter((r) => r.id !== roomData.id);
-        newRoomList.push(roomData);
-        this.setState((state, props) => ({
-            rooms: newRoomList,
-        }));
-    };
-
     //update curr Room content , id: number
     handleUpdateContent = (newContent: ContentData) => {
-        const index = this.state.rooms.indexOf(this.state.currRoom);
         const updatedRoom = {
             ...this.state.currRoom,
             content: newContent,
         };
 
-        let tempRoomList = this.state.rooms;
-        tempRoomList[index] = updatedRoom;
-
-        //update currRoom content
-        this.setState({
-            rooms: tempRoomList,
-            currRoom: updatedRoom,
-        });
+        this.updateCurrRoom(updatedRoom);
     };
 
     //add new reaction and update room content
     handleAddReaction = () => {
-        const index = this.state.rooms.indexOf(this.state.currRoom);
-
         let updatedRoom = this.state.currRoom;
         updatedRoom.buttonReactions.push(
             new ButtonData(updatedRoom.buttonReactions.length)
         );
 
+        this.updateCurrRoom(updatedRoom);
+    };
+
+    handleDelReaction = (id: number) => {
+        let newButtonReaction = this.state.currRoom.buttonReactions.filter(
+            (reaction) => reaction.id != id
+        );
+
+        let updatedRoom = this.state.currRoom;
+        updatedRoom.buttonReactions = newButtonReaction;
+
+        this.updateCurrRoom(updatedRoom);
+    };
+
+    //update room data with new room data
+    updateCurrRoom = (updatedRoom: RoomData) => {
+        const index = this.state.rooms.indexOf(this.state.currRoom);
         let tempRoomList = this.state.rooms;
         tempRoomList[index] = updatedRoom;
 
@@ -112,7 +109,8 @@ class GeneralPage extends React.Component<Props, State> {
                     />
                     <ButtonReactionComponent
                         buttonReactions={this.state.currRoom.buttonReactions}
-                        onAddCmd={this.handleAddReaction}
+                        onAddReaction={this.handleAddReaction}
+                        onDelReaction={this.handleDelReaction}
                     />
                 </Flex>
                 {/* <RoomComponent
