@@ -82,6 +82,20 @@ class GeneralPage extends React.Component<Props, State> {
         this.updateCurrRoom(updatedRoom);
     };
 
+    //updates curr room reaction value
+    handleUpdateCurrReaction(
+        reactionID: number,
+        updatedButtonReaction: ButtonData
+    ) {
+        let updatedRoom = this.state.currRoom;
+        let reactionIndex = updatedRoom.buttonReactions.findIndex(
+            (reaction) => reactionID === reaction.id
+        );
+
+        updatedRoom.buttonReactions[reactionIndex] = updatedButtonReaction;
+        this.updateCurrRoom(updatedRoom);
+    }
+
     //update room data with new room data
     updateCurrRoom = (updatedRoom: RoomData) => {
         //update currRoom content
@@ -121,6 +135,7 @@ class GeneralPage extends React.Component<Props, State> {
                         buttonReactions={this.state.currRoom.buttonReactions}
                         onAddReaction={this.handleAddReaction}
                         onDelReaction={this.handleDelReaction}
+                        onUpdateReaction={this.handleUpdateCurrReaction}
                     />
                 </Flex>
                 {/* <RoomComponent

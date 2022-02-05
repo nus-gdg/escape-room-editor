@@ -6,7 +6,10 @@ interface Props {
     buttonReactions: ButtonData[];
     onAddReaction: () => void;
     onDelReaction: (id: number) => void;
-    onUpdateReaction?: Function;
+    onUpdateReaction: (
+        reactionID: number,
+        updatedButtonReaction: ButtonData
+    ) => void;
 }
 
 interface State {}
@@ -15,6 +18,10 @@ class ButtonReactionComponent extends React.Component<Props, State> {
     constructor(props: Props | Readonly<Props>) {
         super(props);
     }
+
+    handleUpdateReaction = () => {
+        //this.props.onUpdateReaction();
+    };
 
     render() {
         return (
@@ -42,7 +49,7 @@ class ButtonReactionComponent extends React.Component<Props, State> {
                     value={buttonData.buttonText}
                     placeholder="Button input"
                     size="xs"
-                    // onChange={}
+                    //onChange={(event) => this.props.onUpdateReaction()}
                 />
 
                 <Select placeholder="Select Destination" size="xs"></Select>
