@@ -43,7 +43,9 @@ class GeneralPage extends React.Component<Props, State> {
 
     //user press button to edit another room
     handleChangeCurrRoom = (roomID: number) => {
+        this.updateRoomList(this.state.currRoom);
         let nextRoom = this.state.rooms.find((room) => room.id === roomID);
+
         this.setState((state, props) => ({
             currRoom: nextRoom ? nextRoom : state.currRoom,
         }));
@@ -82,14 +84,22 @@ class GeneralPage extends React.Component<Props, State> {
 
     //update room data with new room data
     updateCurrRoom = (updatedRoom: RoomData) => {
-        const index = this.state.rooms.indexOf(this.state.currRoom);
+        //update currRoom content
+        this.setState({
+            currRoom: updatedRoom,
+        });
+    };
+
+    updateRoomList = (updatedRoom: RoomData) => {
+        const index = this.state.rooms.findIndex(
+            (room) => room.id === updatedRoom.id
+        );
         let tempRoomList = this.state.rooms;
         tempRoomList[index] = updatedRoom;
 
         //update currRoom content
         this.setState({
             rooms: tempRoomList,
-            currRoom: updatedRoom,
         });
     };
 

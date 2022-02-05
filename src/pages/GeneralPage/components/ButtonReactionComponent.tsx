@@ -37,7 +37,7 @@ class ButtonReactionComponent extends React.Component<Props, State> {
 
     renderButtonData(buttonData: ButtonData, index: number) {
         return (
-            <Flex direction="row">
+            <Flex direction="row" key={index}>
                 <Input
                     value={buttonData.buttonText}
                     placeholder="Button input"
