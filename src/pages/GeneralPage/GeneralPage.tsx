@@ -31,6 +31,8 @@ class GeneralPage extends React.Component<Props, State> {
             flags: ["foundString", "foundMagnet"],
             commandNames: ["Use", "kick"],
         };
+
+        console.log(this.state.currRoom);
     }
 
     //add a new room with default values
@@ -83,18 +85,15 @@ class GeneralPage extends React.Component<Props, State> {
     };
 
     //updates curr room reaction value
-    handleUpdateCurrReaction(
-        reactionID: number,
+    handleUpdateCurrReaction = (
+        index: number,
         updatedButtonReaction: ButtonData
-    ) {
+    ) => {
         let updatedRoom = this.state.currRoom;
-        let reactionIndex = updatedRoom.buttonReactions.findIndex(
-            (reaction) => reactionID === reaction.id
-        );
 
-        updatedRoom.buttonReactions[reactionIndex] = updatedButtonReaction;
+        updatedRoom.buttonReactions[index] = updatedButtonReaction;
         this.updateCurrRoom(updatedRoom);
-    }
+    };
 
     //update room data with new room data
     updateCurrRoom = (updatedRoom: RoomData) => {

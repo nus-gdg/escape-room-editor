@@ -1,5 +1,5 @@
 import { Button, Flex, Text, Select, Input } from "@chakra-ui/react";
-import React, { Component } from "react";
+import React, { ChangeEvent, ChangeEventHandler, Component } from "react";
 import { ButtonData } from "../Data/RoomData";
 
 interface Props {
@@ -7,7 +7,7 @@ interface Props {
     onAddReaction: () => void;
     onDelReaction: (id: number) => void;
     onUpdateReaction: (
-        reactionID: number,
+        index: number,
         updatedButtonReaction: ButtonData
     ) => void;
 }
@@ -19,8 +19,15 @@ class ButtonReactionComponent extends React.Component<Props, State> {
         super(props);
     }
 
-    handleUpdateReaction = () => {
-        //this.props.onUpdateReaction();
+    handleUpdateReaction = (
+        event: ChangeEvent<HTMLInputElement>,
+        varName: keyof ButtonData,
+        index: number
+    ) => {
+        let updatedButton = this.props.buttonReactions[index];
+        updatedButton[varName] = event.target.value as never;
+
+        this.props.onUpdateReaction(index, updatedButton);
     };
 
     render() {
@@ -49,7 +56,9 @@ class ButtonReactionComponent extends React.Component<Props, State> {
                     value={buttonData.buttonText}
                     placeholder="Button input"
                     size="xs"
-                    //onChange={(event) => this.props.onUpdateReaction()}
+                    onChange={(event) =>
+                        this.handleUpdateReaction(event, "buttonText", index)
+                    }
                 />
 
                 <Select placeholder="Select Destination" size="xs"></Select>
