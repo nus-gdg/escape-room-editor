@@ -11,23 +11,30 @@ interface Props {
 export const ButtonReactionComponent = (props: Props) => {
     const ctx = useRoot();
 
+    //update button reaction data
     function handleUpdateReaction(
         event: ChangeEvent<HTMLInputElement>,
         varName: keyof ButtonData,
         index: number
     ) {
-        let updatedRoom = { ...props.roomData };
-        let updatedButton = props.roomData.buttonReactions[index];
+        let updatedRoom = {
+            ...props.roomData,
+            buttonReactions: [...props.roomData.buttonReactions],
+        };
+
+        let updatedButton = updatedRoom.buttonReactions[index];
         updatedButton[varName] = event.target.value as never;
 
         updateCurrRoom(updatedRoom, ctx);
-
-        console.log(ctx.state.currRoom === updatedRoom);
     }
 
     //add new reaction and update room content
     function handleAddReaction() {
-        let updatedRoom = props.roomData;
+        let updatedRoom = {
+            ...props.roomData,
+            buttonReactions: [...props.roomData.buttonReactions],
+        };
+
         updatedRoom.buttonReactions.push(
             new ButtonData(updatedRoom.buttonReactions.length)
         );
@@ -35,6 +42,7 @@ export const ButtonReactionComponent = (props: Props) => {
         updateCurrRoom(updatedRoom, ctx);
     }
 
+    //del reaction base on id number
     function handleDelReaction(id: number) {
         let newButtonReaction = props.roomData.buttonReactions.filter(
             (reaction) => reaction.id != id

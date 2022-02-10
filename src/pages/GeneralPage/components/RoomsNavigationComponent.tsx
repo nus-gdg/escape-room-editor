@@ -1,14 +1,12 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import React, { Component, MouseEventHandler } from "react";
 import { useRoot } from "../../../hooks/useRoot";
-import { ContentAction } from "../../../state/content/contentActions";
 import { RoomData } from "../Data/RoomData";
 import {
     updateCurrRoom,
     updateRoomInList,
     updateRoomList,
 } from "../GeneralHelperFuncs";
-import TextInputComponent from "./TextInputComponent";
 
 export const RoomsNavigationComponent = () => {
     const ctx = useRoot();
@@ -16,7 +14,7 @@ export const RoomsNavigationComponent = () => {
     //user press button to edit another room
     function handleChangeCurrRoom(roomID: number) {
         //'save' currRoom data in the list
-        //updateRoomInList(ctx.state.currRoom, ctx);
+        updateRoomInList(ctx.state.currRoom, ctx);
         let nextRoom = ctx.state.rooms.find((room) => room.id === roomID);
 
         //if there is a next room, change the currRoom to next Room

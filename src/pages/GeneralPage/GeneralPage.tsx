@@ -24,51 +24,6 @@ interface State {
 export const GeneralPage = () => {
     const ctx = useRoot();
 
-    // constructor(props: Props | Readonly<Props>) {
-    //     super(props);
-
-    //     let tempRoomList = [new RoomData(0), new RoomData(1)];
-
-    //     this.state = {
-    //         rooms: tempRoomList,
-    //         currRoom: tempRoomList[0],
-    //         flags: { "1": "foundString", "2": "foundMagnet" },
-    //         commandNames: { "1": "Use", "2": "kick" },
-    //         roomNames: { "0": "Room1", "1": "Room2" },
-    //     };
-
-    //     console.log(this.state.currRoom);
-    // }
-
-    // //update curr Room content , id: number
-    // handleUpdateContent = (newContent: ContentData) => {
-    //     const updatedRoom = {
-    //         ...this.state.currRoom,
-    //         content: newContent,
-    //     };
-
-    //     this.updateCurrRoom(updatedRoom);
-    // };
-
-    // //updates curr room reaction value
-    // handleUpdateCurrReaction = (
-    //     index: number,
-    //     updatedButtonReaction: ButtonData
-    // ) => {
-    //     let updatedRoom = this.state.currRoom;
-
-    //     updatedRoom.buttonReactions[index] = updatedButtonReaction;
-    //     this.updateCurrRoom(updatedRoom);
-    // };
-
-    // //update room data with new room data
-    // updateCurrRoom = (updatedRoom: RoomData) => {
-    //     //update currRoom content
-    //     this.setState({
-    //         currRoom: updatedRoom,
-    //     });
-    // };
-
     return (
         <Flex direction={"row"}>
             <RoomsNavigationComponent />

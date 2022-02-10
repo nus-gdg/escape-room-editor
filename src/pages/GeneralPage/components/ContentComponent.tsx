@@ -11,7 +11,11 @@ export const ContentComponent = () => {
 
     //update the content of the currRoom
     function onChangeContentData(newData: string, varName: keyof ContentData) {
-        let updatedRoom = { ...ctx.state.currRoom };
+        let updatedRoom = {
+            ...ctx.state.currRoom,
+            content: { ...ctx.state.currRoom.content },
+        };
+
         updatedRoom.content[varName] = newData;
 
         updateCurrRoom(updatedRoom, ctx);
