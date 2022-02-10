@@ -8,144 +8,153 @@ import RoomsNavigationComponent from "./components/RoomsNavigationComponent";
 import { Flex } from "@chakra-ui/react";
 import ContentComponent from "./components/ContentComponent";
 import ButtonReactionComponent from "./components/ButtonReactionComponent";
+import { useRoot } from "../../hooks/useRoot";
+import { ContentAction } from "../../state/content/contentActions";
 
 interface Props {}
 
 interface State {
-    rooms: RoomData[]; //store all the curr rooms
-    currRoom: RoomData; //the curr room data pressed
+    // rooms: RoomData[]; //store all the curr rooms
+    // currRoom: RoomData; //the curr room data pressed
 
     flags: {}; //key-value, id-flagName
     commandNames: {}; //key-value, id-commandName
     roomNames: {}; //key-value pair, id-roomName
 }
 
-class GeneralPage extends React.Component<Props, State> {
-    constructor(props: Props | Readonly<Props>) {
-        super(props);
+export const GeneralPage = () => {
+    const ctx = useRoot();
 
-        let tempRoomList = [new RoomData(0), new RoomData(1)];
+    // constructor(props: Props | Readonly<Props>) {
+    //     super(props);
 
-        this.state = {
-            rooms: tempRoomList,
-            currRoom: tempRoomList[0],
-            flags: { "1": "foundString", "2": "foundMagnet" },
-            commandNames: { "1": "Use", "2": "kick" },
-            roomNames: { "0": "Room1", "1": "Room2" },
-        };
+    //     let tempRoomList = [new RoomData(0), new RoomData(1)];
 
-        console.log(this.state.currRoom);
-    }
+    //     this.state = {
+    //         rooms: tempRoomList,
+    //         currRoom: tempRoomList[0],
+    //         flags: { "1": "foundString", "2": "foundMagnet" },
+    //         commandNames: { "1": "Use", "2": "kick" },
+    //         roomNames: { "0": "Room1", "1": "Room2" },
+    //     };
+
+    //     console.log(this.state.currRoom);
+    // }
 
     //add a new room with default values
-    handleAddRoom = () => {
-        let newRoom = new RoomData(this.state.rooms.length);
-        this.setState((state, props) => ({
-            rooms: this.state.rooms.concat([newRoom]),
-        }));
+    function handleAddRoom() {
+        let newRoom = new RoomData(ctx.state.rooms.length);
+
+        ctx.dispatch({
+            type: ContentAction.UPDATE_ROOMS_DATA,
+            payload: { rooms: ctx.state.rooms.concat([newRoom]) }
+        })
     };
 
     //user press button to edit another room
-    handleChangeCurrRoom = (roomID: number) => {
-        this.updateRoomList(this.state.currRoom);
-        let nextRoom = this.state.rooms.find((room) => room.id === roomID);
+    function handleChangeCurrRoom(roomID: number) {
+        //update currRoom data in the list
+        updateRoomInList(ctx.state.currRoom);
+        let nextRoom = ctx.state.rooms.find((room) => room.id === roomID);
 
-        this.setState((state, props) => ({
-            currRoom: nextRoom ? nextRoom : state.currRoom,
-        }));
+        ctx.dispatch({
+            type: ContentAction.UPDATE_CURR_ROOM,
+            payload: { currRoom: nextRoom ? nextRoom : ctx.state.currRoom }
+        })
     };
 
-    //update curr Room content , id: number
-    handleUpdateContent = (newContent: ContentData) => {
-        const updatedRoom = {
-            ...this.state.currRoom,
-            content: newContent,
-        };
+    // //update curr Room content , id: number
+    // handleUpdateContent = (newContent: ContentData) => {
+    //     const updatedRoom = {
+    //         ...this.state.currRoom,
+    //         content: newContent,
+    //     };
 
-        this.updateCurrRoom(updatedRoom);
-    };
+    //     this.updateCurrRoom(updatedRoom);
+    // };
 
-    //add new reaction and update room content
-    handleAddReaction = () => {
-        let updatedRoom = this.state.currRoom;
-        updatedRoom.buttonReactions.push(
-            new ButtonData(updatedRoom.buttonReactions.length)
-        );
+    // //add new reaction and update room content
+    // handleAddReaction = () => {
+    //     let updatedRoom = this.state.currRoom;
+    //     updatedRoom.buttonReactions.push(
+    //         new ButtonData(updatedRoom.buttonReactions.length)
+    //     );
 
-        this.updateCurrRoom(updatedRoom);
-    };
+    //     this.updateCurrRoom(updatedRoom);
+    // };
 
-    handleDelReaction = (id: number) => {
-        let newButtonReaction = this.state.currRoom.buttonReactions.filter(
-            (reaction) => reaction.id != id
-        );
+    // handleDelReaction = (id: number) => {
+    //     let newButtonReaction = this.state.currRoom.buttonReactions.filter(
+    //         (reaction) => reaction.id != id
+    //     );
 
-        let updatedRoom = this.state.currRoom;
-        updatedRoom.buttonReactions = newButtonReaction;
+    //     let updatedRoom = this.state.currRoom;
+    //     updatedRoom.buttonReactions = newButtonReaction;
 
-        this.updateCurrRoom(updatedRoom);
-    };
+    //     this.updateCurrRoom(updatedRoom);
+    // };
 
-    //updates curr room reaction value
-    handleUpdateCurrReaction = (
-        index: number,
-        updatedButtonReaction: ButtonData
-    ) => {
-        let updatedRoom = this.state.currRoom;
+    // //updates curr room reaction value
+    // handleUpdateCurrReaction = (
+    //     index: number,
+    //     updatedButtonReaction: ButtonData
+    // ) => {
+    //     let updatedRoom = this.state.currRoom;
 
-        updatedRoom.buttonReactions[index] = updatedButtonReaction;
-        this.updateCurrRoom(updatedRoom);
-    };
+    //     updatedRoom.buttonReactions[index] = updatedButtonReaction;
+    //     this.updateCurrRoom(updatedRoom);
+    // };
 
-    //update room data with new room data
-    updateCurrRoom = (updatedRoom: RoomData) => {
-        //update currRoom content
-        this.setState({
-            currRoom: updatedRoom,
-        });
-    };
+    // //update room data with new room data
+    // updateCurrRoom = (updatedRoom: RoomData) => {
+    //     //update currRoom content
+    //     this.setState({
+    //         currRoom: updatedRoom,
+    //     });
+    // };
 
-    updateRoomList = (updatedRoom: RoomData) => {
-        const index = this.state.rooms.findIndex(
+    function updateRoomInList(updatedRoom: RoomData) {
+        const index = ctx.state.rooms.findIndex(
             (room) => room.id === updatedRoom.id
         );
-        let tempRoomList = this.state.rooms;
+
+        //update the correct room in the list
+        let tempRoomList = ctx.state.rooms;
         tempRoomList[index] = updatedRoom;
 
-        //update currRoom content
-        this.setState({
-            rooms: tempRoomList,
-        });
+        //update roomList
+        ctx.dispatch({
+            type: ContentAction.UPDATE_ROOMS_DATA,
+            payload: { rooms: tempRoomList }
+        })
     };
 
-    render() {
-        return (
-            <Flex direction={"row"}>
-                <RoomsNavigationComponent
-                    rooms={this.state.rooms}
-                    onAddRoom={this.handleAddRoom}
-                    onChangeRoom={this.handleChangeCurrRoom}
+    return (
+        <Flex direction={"row"}>
+            <RoomsNavigationComponent
+                rooms={ctx.state.rooms}
+                onAddRoom={handleAddRoom}
+                onChangeRoom={handleChangeCurrRoom}
+            />
+            {/* <Flex direction={"column"}>
+                <ContentComponent
+                    contentData={this.state.currRoom.content}
+                    id={this.state.currRoom.id}
+                    onUpdateContent={this.handleUpdateContent}
                 />
-                <Flex direction={"column"}>
-                    <ContentComponent
-                        contentData={this.state.currRoom.content}
-                        id={this.state.currRoom.id}
-                        onUpdateContent={this.handleUpdateContent}
-                    />
-                    <ButtonReactionComponent
-                        buttonReactions={this.state.currRoom.buttonReactions}
-                        onAddReaction={this.handleAddReaction}
-                        onDelReaction={this.handleDelReaction}
-                        onUpdateReaction={this.handleUpdateCurrReaction}
-                    />
-                </Flex>
-                {/* <RoomComponent
-                    roomData={this.state.currRoom}
-                    onSubmitHandler={this.handleUpdateRoomData}
-                /> */}
+                <ButtonReactionComponent
+                    buttonReactions={this.state.currRoom.buttonReactions}
+                    onAddReaction={this.handleAddReaction}
+                    onDelReaction={this.handleDelReaction}
+                    onUpdateReaction={this.handleUpdateCurrReaction}
+                />
             </Flex>
-        );
-    }
+            <RoomComponent
+                roomData={this.state.currRoom}
+                onSubmitHandler={this.handleUpdateRoomData}
+            /> */}
+        </Flex>
+    );
 }
 
 export default GeneralPage;
