@@ -1,12 +1,11 @@
 import { Toolbar } from "../Toolbar/Toolbar";
 import TextInput from "./components/TextInputComponent";
 import RoomComponent from "./components/RoomComponent";
-import ContentInfo from "./components/ContentComponent";
 import React, { Component } from "react";
 import { RoomData, ContentData, ButtonData } from "./Data/RoomData";
 import RoomsNavigationComponent from "./components/RoomsNavigationComponent";
 import { Flex } from "@chakra-ui/react";
-import ContentComponent from "./components/ContentComponent";
+import { ContentComponent } from "./components/ContentComponent";
 import ButtonReactionComponent from "./components/ButtonReactionComponent";
 import { useRoot } from "../../hooks/useRoot";
 import { ContentAction } from "../../state/content/contentActions";
@@ -95,25 +94,19 @@ export const GeneralPage = () => {
     return (
         <Flex direction={"row"}>
             <RoomsNavigationComponent />
-            {/* <Flex direction={"column"}>
-                <ContentComponent
-                    contentData={this.state.currRoom.content}
-                    id={this.state.currRoom.id}
-                    onUpdateContent={this.handleUpdateContent}
-                />
-                <ButtonReactionComponent
+            <Flex direction={"column"}>
+                <ContentComponent />
+                {/* <ButtonReactionComponent
                     buttonReactions={this.state.currRoom.buttonReactions}
                     onAddReaction={this.handleAddReaction}
                     onDelReaction={this.handleDelReaction}
                     onUpdateReaction={this.handleUpdateCurrReaction}
-                />
+                /> */}
             </Flex>
-            <RoomComponent
+            {/* <RoomComponent
                 roomData={this.state.currRoom}
                 onSubmitHandler={this.handleUpdateRoomData}
             /> */}
         </Flex>
     );
 };
-
-export default GeneralPage;

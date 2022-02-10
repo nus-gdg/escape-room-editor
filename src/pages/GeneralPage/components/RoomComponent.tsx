@@ -1,8 +1,6 @@
 import React, { Component } from "react";
 import { Text, Textarea, Box, Button, Input } from "@chakra-ui/react";
 import TextInput from "./TextInputComponent";
-import ContentInfo from "./ContentComponent";
-import ContentComponent from "./ContentComponent";
 import { RoomData } from "../Data/RoomData";
 
 interface Props {
