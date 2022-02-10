@@ -1,12 +1,11 @@
 import { Toolbar } from "../Toolbar/Toolbar";
 import TextInput from "./components/TextInputComponent";
-import RoomComponent from "./components/RoomComponent";
 import React, { Component } from "react";
 import { RoomData, ContentData, ButtonData } from "./Data/RoomData";
 import RoomsNavigationComponent from "./components/RoomsNavigationComponent";
 import { Flex } from "@chakra-ui/react";
 import { ContentComponent } from "./components/ContentComponent";
-import ButtonReactionComponent from "./components/ButtonReactionComponent";
+import { ButtonReactionComponent } from "./components/ButtonReactionComponent";
 import { useRoot } from "../../hooks/useRoot";
 import { ContentAction } from "../../state/content/contentActions";
 
@@ -51,27 +50,6 @@ export const GeneralPage = () => {
     //     this.updateCurrRoom(updatedRoom);
     // };
 
-    // //add new reaction and update room content
-    // handleAddReaction = () => {
-    //     let updatedRoom = this.state.currRoom;
-    //     updatedRoom.buttonReactions.push(
-    //         new ButtonData(updatedRoom.buttonReactions.length)
-    //     );
-
-    //     this.updateCurrRoom(updatedRoom);
-    // };
-
-    // handleDelReaction = (id: number) => {
-    //     let newButtonReaction = this.state.currRoom.buttonReactions.filter(
-    //         (reaction) => reaction.id != id
-    //     );
-
-    //     let updatedRoom = this.state.currRoom;
-    //     updatedRoom.buttonReactions = newButtonReaction;
-
-    //     this.updateCurrRoom(updatedRoom);
-    // };
-
     // //updates curr room reaction value
     // handleUpdateCurrReaction = (
     //     index: number,
@@ -96,17 +74,8 @@ export const GeneralPage = () => {
             <RoomsNavigationComponent />
             <Flex direction={"column"}>
                 <ContentComponent />
-                {/* <ButtonReactionComponent
-                    buttonReactions={this.state.currRoom.buttonReactions}
-                    onAddReaction={this.handleAddReaction}
-                    onDelReaction={this.handleDelReaction}
-                    onUpdateReaction={this.handleUpdateCurrReaction}
-                /> */}
+                <ButtonReactionComponent roomData={ctx.state.currRoom} />
             </Flex>
-            {/* <RoomComponent
-                roomData={this.state.currRoom}
-                onSubmitHandler={this.handleUpdateRoomData}
-            /> */}
         </Flex>
     );
 };

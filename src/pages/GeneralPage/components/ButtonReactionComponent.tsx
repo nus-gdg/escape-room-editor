@@ -1,55 +1,52 @@
 import { Button, Flex, Text, Select, Input } from "@chakra-ui/react";
-import React, { ChangeEvent, ChangeEventHandler, Component } from "react";
-import { ButtonData } from "../Data/RoomData";
+import { ChangeEvent } from "react";
+import { useRoot } from "../../../hooks/useRoot";
+import { ButtonData, RoomData } from "../Data/RoomData";
+import { updateCurrRoom } from "../GeneralHelperFuncs";
 
 interface Props {
-    buttonReactions: ButtonData[];
-    onAddReaction: () => void;
-    onDelReaction: (id: number) => void;
-    onUpdateReaction: (
-        index: number,
-        updatedButtonReaction: ButtonData
-    ) => void;
+    roomData: RoomData;
 }
 
-interface State {}
+export const ButtonReactionComponent = (props: Props) => {
+    const ctx = useRoot();
 
-class ButtonReactionComponent extends React.Component<Props, State> {
-    constructor(props: Props | Readonly<Props>) {
-        super(props);
-    }
-
-    handleUpdateReaction = (
+    function handleUpdateReaction(
         event: ChangeEvent<HTMLInputElement>,
         varName: keyof ButtonData,
         index: number
-    ) => {
-        let updatedButton = this.props.buttonReactions[index];
+    ) {
+        let updatedRoom = { ...props.roomData };
+        let updatedButton = props.roomData.buttonReactions[index];
         updatedButton[varName] = event.target.value as never;
 
-        this.props.onUpdateReaction(index, updatedButton);
-    };
+        updateCurrRoom(updatedRoom, ctx);
 
-    render() {
-        return (
-            <div>
-                <Flex direction="row">
-                    <Text>Button Reactions</Text>
-                    <Button onClick={() => this.props.onAddReaction()}>
-                        +
-                    </Button>
-                </Flex>
-
-                <Flex direction="column" bg="gray">
-                    {this.props.buttonReactions.map((button, index) => {
-                        return this.renderButtonData(button, index);
-                    })}
-                </Flex>
-            </div>
-        );
+        console.log(ctx.state.currRoom === updatedRoom);
     }
 
-    renderButtonData(buttonData: ButtonData, index: number) {
+    //add new reaction and update room content
+    function handleAddReaction() {
+        let updatedRoom = props.roomData;
+        updatedRoom.buttonReactions.push(
+            new ButtonData(updatedRoom.buttonReactions.length)
+        );
+
+        updateCurrRoom(updatedRoom, ctx);
+    }
+
+    function handleDelReaction(id: number) {
+        let newButtonReaction = props.roomData.buttonReactions.filter(
+            (reaction) => reaction.id != id
+        );
+
+        let updatedRoom = props.roomData;
+        updatedRoom.buttonReactions = newButtonReaction;
+
+        updateCurrRoom(updatedRoom, ctx);
+    }
+
+    function renderButtonData(buttonData: ButtonData, index: number) {
         return (
             <Flex direction="row" key={index}>
                 <Input
@@ -57,17 +54,30 @@ class ButtonReactionComponent extends React.Component<Props, State> {
                     placeholder="Button input"
                     size="xs"
                     onChange={(event) =>
-                        this.handleUpdateReaction(event, "buttonText", index)
+                        handleUpdateReaction(event, "buttonText", index)
                     }
                 />
 
                 <Select placeholder="Select Destination" size="xs"></Select>
-                <Button onClick={() => this.props.onDelReaction(buttonData.id)}>
+                <Button onClick={() => handleDelReaction(buttonData.id)}>
                     -
                 </Button>
             </Flex>
         );
     }
-}
 
-export default ButtonReactionComponent;
+    return (
+        <div>
+            <Flex direction="row">
+                <Text>Button Reactions</Text>
+                <Button onClick={() => handleAddReaction()}>+</Button>
+            </Flex>
+
+            <Flex direction="column" bg="gray">
+                {props.roomData.buttonReactions.map((button, index) => {
+                    return renderButtonData(button, index);
+                })}
+            </Flex>
+        </div>
+    );
+};

@@ -3,7 +3,11 @@ import React, { Component, MouseEventHandler } from "react";
 import { useRoot } from "../../../hooks/useRoot";
 import { ContentAction } from "../../../state/content/contentActions";
 import { RoomData } from "../Data/RoomData";
-import { updateRoomInList } from "../GeneralHelperFuncs";
+import {
+    updateCurrRoom,
+    updateRoomInList,
+    updateRoomList,
+} from "../GeneralHelperFuncs";
 import TextInputComponent from "./TextInputComponent";
 
 export const RoomsNavigationComponent = () => {
@@ -11,24 +15,20 @@ export const RoomsNavigationComponent = () => {
 
     //user press button to edit another room
     function handleChangeCurrRoom(roomID: number) {
-        //update currRoom data in the list
-        updateRoomInList(ctx.state.currRoom, ctx);
+        //'save' currRoom data in the list
+        //updateRoomInList(ctx.state.currRoom, ctx);
         let nextRoom = ctx.state.rooms.find((room) => room.id === roomID);
 
-        ctx.dispatch({
-            type: ContentAction.UPDATE_CURR_ROOM,
-            payload: { currRoom: nextRoom ? nextRoom : ctx.state.currRoom },
-        });
+        //if there is a next room, change the currRoom to next Room
+        if (nextRoom) {
+            updateCurrRoom(nextRoom, ctx);
+        }
     }
 
     //add a new room with default values
     function handleAddRoom() {
         let newRoom = new RoomData(ctx.state.rooms.length);
-
-        ctx.dispatch({
-            type: ContentAction.UPDATE_ROOMS_DATA,
-            payload: { rooms: ctx.state.rooms.concat([newRoom]) },
-        });
+        updateRoomList(ctx.state.rooms.concat([newRoom]), ctx);
     }
 
     function renderPropButton() {

@@ -3,6 +3,7 @@ import { Text, Textarea, Box, Container, Input } from "@chakra-ui/react";
 import { ContentData, RoomData } from "../Data/RoomData";
 import { useRoot } from "../../../hooks/useRoot";
 import { ContentAction } from "../../../state/content/contentActions";
+import { updateCurrRoom } from "../GeneralHelperFuncs";
 
 //TODO: IMPT NOTE: CONTENT COMPONENT USES CURRROOM, change later
 export const ContentComponent = () => {
@@ -10,13 +11,10 @@ export const ContentComponent = () => {
 
     //update the content of the currRoom
     function onChangeContentData(newData: string, varName: keyof ContentData) {
-        let tempRoom = ctx.state.currRoom;
-        tempRoom.content[varName] = newData;
+        let updatedRoom = { ...ctx.state.currRoom };
+        updatedRoom.content[varName] = newData;
 
-        ctx.dispatch({
-            type: ContentAction.UPDATE_CURR_ROOM,
-            payload: { currRoom: tempRoom },
-        });
+        updateCurrRoom(updatedRoom, ctx);
     }
 
     return (
