@@ -22,6 +22,7 @@ interface State {
     roomNames: {}; //key-value pair, id-roomName
 }
 
+//props: Props
 export const GeneralPage = () => {
     const ctx = useRoot();
 
@@ -40,28 +41,6 @@ export const GeneralPage = () => {
 
     //     console.log(this.state.currRoom);
     // }
-
-    //add a new room with default values
-    function handleAddRoom() {
-        let newRoom = new RoomData(ctx.state.rooms.length);
-
-        ctx.dispatch({
-            type: ContentAction.UPDATE_ROOMS_DATA,
-            payload: { rooms: ctx.state.rooms.concat([newRoom]) }
-        })
-    };
-
-    //user press button to edit another room
-    function handleChangeCurrRoom(roomID: number) {
-        //update currRoom data in the list
-        updateRoomInList(ctx.state.currRoom);
-        let nextRoom = ctx.state.rooms.find((room) => room.id === roomID);
-
-        ctx.dispatch({
-            type: ContentAction.UPDATE_CURR_ROOM,
-            payload: { currRoom: nextRoom ? nextRoom : ctx.state.currRoom }
-        })
-    };
 
     // //update curr Room content , id: number
     // handleUpdateContent = (newContent: ContentData) => {
@@ -113,29 +92,9 @@ export const GeneralPage = () => {
     //     });
     // };
 
-    function updateRoomInList(updatedRoom: RoomData) {
-        const index = ctx.state.rooms.findIndex(
-            (room) => room.id === updatedRoom.id
-        );
-
-        //update the correct room in the list
-        let tempRoomList = ctx.state.rooms;
-        tempRoomList[index] = updatedRoom;
-
-        //update roomList
-        ctx.dispatch({
-            type: ContentAction.UPDATE_ROOMS_DATA,
-            payload: { rooms: tempRoomList }
-        })
-    };
-
     return (
         <Flex direction={"row"}>
-            <RoomsNavigationComponent
-                rooms={ctx.state.rooms}
-                onAddRoom={handleAddRoom}
-                onChangeRoom={handleChangeCurrRoom}
-            />
+            <RoomsNavigationComponent />
             {/* <Flex direction={"column"}>
                 <ContentComponent
                     contentData={this.state.currRoom.content}
@@ -155,6 +114,6 @@ export const GeneralPage = () => {
             /> */}
         </Flex>
     );
-}
+};
 
 export default GeneralPage;
