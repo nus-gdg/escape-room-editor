@@ -1,14 +1,25 @@
+interface UniqueID {
+    [key: number]: string;
+}
+
 export class RoomData {
     content: ContentData;
     textCmds: TextCommandData[];
     buttonReactions: ButtonData[];
     id: number;
 
+    static currID = 0;
+
+    static roomNames: UniqueID = {};
+
     constructor(id: number) {
         this.content = new ContentData();
         this.textCmds = [];
         this.buttonReactions = [];
-        this.id = id;
+        this.id = RoomData.currID;
+
+        ++RoomData.currID;
+        RoomData.roomNames[RoomData.currID] = this.content.roomTitle;
     }
 }
 

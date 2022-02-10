@@ -15,8 +15,9 @@ interface State {
     rooms: RoomData[]; //store all the curr rooms
     currRoom: RoomData; //the curr room data pressed
 
-    flags: string[];
-    commandNames: string[];
+    flags: {}; //key-value, id-flagName
+    commandNames: {}; //key-value, id-commandName
+    roomNames: {}; //key-value pair, id-roomName
 }
 
 class GeneralPage extends React.Component<Props, State> {
@@ -28,8 +29,9 @@ class GeneralPage extends React.Component<Props, State> {
         this.state = {
             rooms: tempRoomList,
             currRoom: tempRoomList[0],
-            flags: ["foundString", "foundMagnet"],
-            commandNames: ["Use", "kick"],
+            flags: { "1": "foundString", "2": "foundMagnet" },
+            commandNames: { "1": "Use", "2": "kick" },
+            roomNames: { "0": "Room1", "1": "Room2" },
         };
 
         console.log(this.state.currRoom);
