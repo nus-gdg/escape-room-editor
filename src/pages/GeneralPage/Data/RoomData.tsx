@@ -1,7 +1,3 @@
-interface UniqueID {
-    [key: number]: string;
-}
-
 export class RoomData {
     content: ContentData;
     textCmds: TextCommandData[];
@@ -10,8 +6,6 @@ export class RoomData {
 
     static currID = 0;
 
-    static roomNames: UniqueID = {};
-
     constructor(id: number) {
         this.content = new ContentData();
         this.textCmds = [];
@@ -19,7 +13,6 @@ export class RoomData {
         this.id = RoomData.currID;
 
         ++RoomData.currID;
-        RoomData.roomNames[RoomData.currID] = this.content.roomTitle;
     }
 }
 

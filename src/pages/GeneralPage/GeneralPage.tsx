@@ -8,19 +8,8 @@ import { ContentComponent } from "./components/ContentComponent";
 import { ButtonReactionComponent } from "./components/ButtonReactionComponent";
 import { useRoot } from "../../hooks/useRoot";
 import { ContentAction } from "../../state/content/contentActions";
+import { ListHashMapComponent } from "./components/ListHashMapComponent";
 
-interface Props {}
-
-interface State {
-    // rooms: RoomData[]; //store all the curr rooms
-    // currRoom: RoomData; //the curr room data pressed
-
-    flags: {}; //key-value, id-flagName
-    commandNames: {}; //key-value, id-commandName
-    roomNames: {}; //key-value pair, id-roomName
-}
-
-//props: Props
 export const GeneralPage = () => {
     const ctx = useRoot();
 
@@ -31,6 +20,7 @@ export const GeneralPage = () => {
                 <ContentComponent />
                 <ButtonReactionComponent roomData={ctx.state.currRoom} />
             </Flex>
+            <ListHashMapComponent hashmap={ctx.state.roomNames} title="flags" />
         </Flex>
     );
 };
