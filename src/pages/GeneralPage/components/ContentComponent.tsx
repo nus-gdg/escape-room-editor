@@ -5,20 +5,20 @@ import { useRoot } from "../../../hooks/useRoot";
 import { ContentAction } from "../../../state/content/contentActions";
 import { updateCurrRoom } from "../GeneralHelperFuncs";
 
-//TODO: IMPT NOTE: CONTENT COMPONENT USES CURRROOM, change later
-export const ContentComponent = () => {
+interface Props {
+    content: ContentData;
+    onUpdateContent: (updatedContent: ContentData) => void;
+}
+
+export const ContentComponent = (props: Props) => {
     const ctx = useRoot();
 
     //update the content of the currRoom
     function onChangeContentData(newData: string, varName: keyof ContentData) {
-        let updatedRoom = {
-            ...ctx.state.currRoom,
-            content: { ...ctx.state.currRoom.content },
-        };
+        let updateContent = { ...props.content };
+        updateContent[varName] = newData;
 
-        updatedRoom.content[varName] = newData;
-
-        updateCurrRoom(updatedRoom, ctx);
+        props.onUpdateContent(updateContent);
     }
 
     return (
