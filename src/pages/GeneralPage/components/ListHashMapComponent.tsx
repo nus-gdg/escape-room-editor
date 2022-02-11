@@ -26,6 +26,7 @@ export const ListHashMapComponent = (props: Props) => {
                         key={index}
                         placeholder={props.title + "input"}
                         value={props.hashmap[Number(key)]}
+                        onChange={() => {}}
                     />
                 );
             })}

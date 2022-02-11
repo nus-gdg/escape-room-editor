@@ -68,12 +68,12 @@ export class TextCommandData {
 
 export class ButtonData {
     buttonText: string;
-    destination: string;
+    destination: number;
     id: number;
 
     constructor(id: number) {
         this.buttonText = "ddd";
-        this.destination = "";
+        this.destination = -1;
         this.id = id;
     }
 

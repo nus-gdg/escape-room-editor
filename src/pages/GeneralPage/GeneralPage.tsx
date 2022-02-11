@@ -39,7 +39,10 @@ export const GeneralPage = () => {
                     content={ctx.state.currRoom.content}
                     onUpdateContent={handleUpdateRoomContent}
                 />
-                <ButtonReactionComponent roomData={ctx.state.currRoom} />
+                <ButtonReactionComponent
+                    roomData={ctx.state.currRoom}
+                    selectOptions={ctx.state.roomNames}
+                />
             </Flex>
             <ListHashMapComponent hashmap={ctx.state.roomNames} title="flags" />
         </Flex>

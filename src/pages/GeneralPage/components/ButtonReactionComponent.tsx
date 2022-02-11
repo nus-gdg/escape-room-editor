@@ -6,15 +6,38 @@ import { updateCurrRoom } from "../GeneralHelperFuncs";
 
 interface Props {
     roomData: RoomData;
+    selectOptions: { [key: number]: string };
 }
 
 export const ButtonReactionComponent = (props: Props) => {
     const ctx = useRoot();
 
     //update button reaction data
-    function handleUpdateReaction(
+    function handleUpdateReactionText(
         event: ChangeEvent<HTMLInputElement>,
-        varName: keyof ButtonData,
+        index: number
+    ) {
+        //make a soft copy of the room
+        let updatedRoom = {
+            ...props.roomData,
+            buttonReactions: [...props.roomData.buttonReactions],
+        };
+
+        //make a soft copy of the button
+        let updatedButton = {
+            ...updatedRoom.buttonReactions[index],
+        } as ButtonData;
+        updatedButton.buttonText = event.target.value;
+
+        //update the button in the room
+        updatedRoom.buttonReactions[index] = updatedButton;
+
+        updateCurrRoom(updatedRoom, ctx);
+    }
+
+    //update button reaction option data
+    function handleUpdateReactionOption(
+        event: ChangeEvent<HTMLSelectElement>,
         index: number
     ) {
         let updatedRoom = {
@@ -22,8 +45,11 @@ export const ButtonReactionComponent = (props: Props) => {
             buttonReactions: [...props.roomData.buttonReactions],
         };
 
-        let updatedButton = updatedRoom.buttonReactions[index];
-        updatedButton[varName] = event.target.value as never;
+        let updatedButton = {
+            ...updatedRoom.buttonReactions[index],
+        } as ButtonData;
+        updatedButton.destination = Number(event.target.value);
+        updatedRoom.buttonReactions[index] = updatedButton;
 
         updateCurrRoom(updatedRoom, ctx);
     }
@@ -61,12 +87,26 @@ export const ButtonReactionComponent = (props: Props) => {
                     value={buttonData.buttonText}
                     placeholder="Button input"
                     size="xs"
-                    onChange={(event) =>
-                        handleUpdateReaction(event, "buttonText", index)
-                    }
+                    onChange={(event) => handleUpdateReactionText(event, index)}
                 />
 
-                <Select placeholder="Select Destination" size="xs"></Select>
+                <Select
+                    placeholder="Select Destination"
+                    size="xs"
+                    errorBorderColor="tomato"
+                    value={buttonData.destination}
+                    onChange={(event) =>
+                        handleUpdateReactionOption(event, index)
+                    }
+                >
+                    {Object.keys(props.selectOptions).map((mapKey, index) => {
+                        return (
+                            <option value={mapKey} key={index}>
+                                {props.selectOptions[Number(mapKey)]}
+                            </option>
+                        );
+                    })}
+                </Select>
                 <Button onClick={() => handleDelReaction(buttonData.id)}>
                     -
                 </Button>
