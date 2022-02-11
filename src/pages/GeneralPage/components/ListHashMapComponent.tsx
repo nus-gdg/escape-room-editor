@@ -1,5 +1,5 @@
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
-import { RootContext } from "../../../common/containers/Root";
+import { useState } from "react";
 import { useRoot } from "../../../hooks/useRoot";
 
 interface Props {
@@ -11,14 +11,22 @@ interface Props {
 
 export const ListHashMapComponent = (props: Props) => {
     const ctx = useRoot();
+    const [uniqueIDs, setUniqueIDs] = useState(
+        Object.keys(props.hashmap).length
+    );
+
+    function onAddHashmapValue() {
+        console.log(uniqueIDs);
+        props.onUpdateHashMap(uniqueIDs, "New");
+
+        setUniqueIDs(uniqueIDs + 1);
+    }
 
     return (
         <Flex direction={"column"}>
             <Flex direction={"row"}>
                 <Text fontSize="20px">{props.title}</Text>
-                <Button onClick={() => props.onUpdateHashMap(5, "New")}>
-                    +
-                </Button>
+                <Button onClick={() => onAddHashmapValue()}>+</Button>
             </Flex>
 
             {Object.keys(props.hashmap).map((key, index) => {

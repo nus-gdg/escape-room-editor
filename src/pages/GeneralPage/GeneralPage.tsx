@@ -63,6 +63,27 @@ export const GeneralPage = () => {
         );
     }
 
+    function handleUpdateFlags(keyID: number, newName: string) {
+        updateHashMap(
+            keyID,
+            newName,
+            ctx.state.gameFlags,
+            ContentAction.UPDATE_GAME_FLAGS,
+            "gameFlags",
+            ctx
+        );
+    }
+
+    function handleDeleteFlagValue(keyID: number) {
+        deleteValueInHashmap(
+            keyID,
+            ctx.state.gameFlags,
+            ContentAction.UPDATE_GAME_FLAGS,
+            "gameFlags",
+            ctx
+        );
+    }
+
     return (
         <Flex direction={"row"}>
             <RoomsNavigationComponent />
@@ -86,8 +107,8 @@ export const GeneralPage = () => {
                 <ListHashMapComponent
                     hashmap={ctx.state.gameFlags}
                     title="Flags"
-                    onUpdateHashMap={handleUpdateCommands}
-                    onRemoveHashMap={handleDeleteCommandValue}
+                    onUpdateHashMap={handleUpdateFlags}
+                    onRemoveHashMap={handleDeleteFlagValue}
                 />
             </Flex>
         </Flex>
