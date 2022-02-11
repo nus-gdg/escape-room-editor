@@ -52,14 +52,16 @@ export const GeneralPage = () => {
             <Flex direction={"column"}>
                 <ListHashMapComponent
                     hashmap={ctx.state.commands}
-                    title="flags"
+                    title="Commands"
                     onUpdateHashMap={updateCommands}
                     onRemoveHashMap={deleteCommands}
                 />
-                {/* <ListHashMapComponent
-                    hashmap={ctx.state.roomNames}
-                    title="flags"
-                /> */}
+                <ListHashMapComponent
+                    hashmap={ctx.state.gameFlags}
+                    title="Flags"
+                    onUpdateHashMap={updateCommands}
+                    onRemoveHashMap={deleteCommands}
+                />
             </Flex>
         </Flex>
     );

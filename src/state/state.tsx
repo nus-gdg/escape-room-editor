@@ -12,7 +12,7 @@ export interface State {
 
     roomNames: { [key: number]: string }; //key-value, id-commandName
     commands: { [key: number]: string }; //key-value, id-commandName
-    //flags: { [key: number]: string }; //key-value pair, id-roomName
+    gameFlags: { [key: number]: string }; //key-value pair, id-roomName
 }
 
 export const defaultRoom = new RoomData(0); //TEMP TODO:: REMOVE THIS
@@ -27,6 +27,7 @@ export const initialState: State = {
     currRoom: defaultRoom,
     roomNames: { [defaultRoom.id]: defaultRoom.content.roomTitle },
     commands: { [0]: "Use", [1]: "Kick" },
+    gameFlags: {},
 };
 
 export const keysOfState = getKeysOfType(initialState);

@@ -14,6 +14,7 @@ export const ContentAction = {
     UPDATE_ROOM_NAMES: "UPDATE_ROOM_NAMES",
 
     UPDATE_COMMANDS: "UPDATE_COMMANDS",
+    UPDATE_GAME_FLAGS: "UPDATE_FLAGS",
 };
 
 export const contentActions = {
@@ -27,6 +28,7 @@ export const contentActions = {
     [ContentAction.UPDATE_ROOM_NAMES]: updateRoomNames,
 
     [ContentAction.UPDATE_COMMANDS]: updateCommands,
+    [ContentAction.UPDATE_GAME_FLAGS]: updateGameFlags,
 };
 
 function setTitle(state: State, action: ActionType) {
@@ -82,5 +84,12 @@ function updateCommands(state: State, action: ActionType) {
     return setProps(
         state,
         filterProps(action.payload, (key) => key === "commands")
+    );
+}
+
+function updateGameFlags(state: State, action: ActionType) {
+    return setProps(
+        state,
+        filterProps(action.payload, (key) => key === "gameFlags")
     );
 }

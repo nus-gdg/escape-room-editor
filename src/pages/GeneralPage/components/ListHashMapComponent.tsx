@@ -23,23 +23,33 @@ export const ListHashMapComponent = (props: Props) => {
 
             {Object.keys(props.hashmap).map((key, index) => {
                 let statement = props.hashmap[Number(key)];
+                let keyNumber = Number(key);
                 return (
-                    <Input
-                        size="sm"
-                        //variant="unstyled"
-                        errorBorderColor="crimson"
-                        isInvalid={statement.length === 0}
-                        key={index}
-                        placeholder={props.title + "input"}
-                        value={props.hashmap[Number(key)]}
-                        onChange={(event) =>
-                            props.onUpdateHashMap(
-                                Number(key),
-                                event.currentTarget.value,
-                                ctx
-                            )
-                        }
-                    />
+                    <Flex direction={"row"}>
+                        <Input
+                            size="sm"
+                            //variant="unstyled"
+                            errorBorderColor="crimson"
+                            isInvalid={statement.length === 0}
+                            key={index}
+                            placeholder={props.title + "input"}
+                            value={props.hashmap[keyNumber]}
+                            onChange={(event) =>
+                                props.onUpdateHashMap(
+                                    keyNumber,
+                                    event.currentTarget.value,
+                                    ctx
+                                )
+                            }
+                        />
+                        <Button
+                            onClick={() =>
+                                props.onRemoveHashMap(keyNumber, ctx)
+                            }
+                        >
+                            -
+                        </Button>
+                    </Flex>
                 );
             })}
         </Flex>
