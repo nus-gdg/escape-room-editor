@@ -16,7 +16,6 @@ export const ListHashMapComponent = (props: Props) => {
     );
 
     function onAddHashmapValue() {
-        console.log(uniqueIDs);
         props.onUpdateHashMap(uniqueIDs, "New");
 
         setUniqueIDs(uniqueIDs + 1);

@@ -14,6 +14,7 @@ import {
     updateCurrRoom,
     updateHashMap,
 } from "./GeneralHelperFuncs";
+import { TextCommandsComponent } from "./components/TextCommandsComponent";
 
 export const GeneralPage = () => {
     const ctx = useRoot();
@@ -96,6 +97,7 @@ export const GeneralPage = () => {
                     roomData={ctx.state.currRoom}
                     selectOptions={ctx.state.roomNames}
                 />
+                <TextCommandsComponent roomData={ctx.state.currRoom} />
             </Flex>
             <Flex direction={"column"}>
                 <ListHashMapComponent

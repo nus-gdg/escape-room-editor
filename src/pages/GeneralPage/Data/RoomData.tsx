@@ -8,7 +8,7 @@ export class RoomData {
 
     constructor(id: number) {
         this.content = new ContentData();
-        this.textCmds = [];
+        this.textCmds = [new TextCommandData(0)];
         this.buttonReactions = [];
         this.id = RoomData.currID;
 
