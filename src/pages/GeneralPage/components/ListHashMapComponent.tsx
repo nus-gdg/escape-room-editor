@@ -25,13 +25,12 @@ export const ListHashMapComponent = (props: Props) => {
                 let statement = props.hashmap[Number(key)];
                 let keyNumber = Number(key);
                 return (
-                    <Flex direction={"row"}>
+                    <Flex direction={"row"} key={index}>
                         <Input
                             size="sm"
                             //variant="unstyled"
                             errorBorderColor="crimson"
                             isInvalid={statement.length === 0}
-                            key={index}
                             placeholder={props.title + "input"}
                             value={props.hashmap[keyNumber]}
                             onChange={(event) =>
