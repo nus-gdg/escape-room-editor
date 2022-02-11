@@ -21,7 +21,7 @@ export const ContentNavigationComponent = (props: Props) => {
                             key={index}
                             onClick={() => props.onPressButton(content.id)}
                         >
-                            {content.roomTitle}
+                            {content.title}
                         </button>
                     );
                 })}

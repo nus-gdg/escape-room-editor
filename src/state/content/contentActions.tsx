@@ -13,6 +13,7 @@ export const ContentAction = {
     UPDATE_CURR_ROOM: "UPDATE_CURR_ROOM",
 
     UPDATE_OBJECTS: "UPDATE_OBJECTS",
+    UPDATE_CURR_OBJECT: "UPDATE_CURR_OBJECT",
 
     UPDATE_ROOM_NAMES: "UPDATE_ROOM_NAMES",
     UPDATE_COMMANDS: "UPDATE_COMMANDS",
@@ -33,6 +34,7 @@ export const contentActions = {
     [ContentAction.UPDATE_COMMANDS]: updateObjects,
 
     [ContentAction.UPDATE_OBJECTS]: updateObjects,
+    [ContentAction.UPDATE_CURR_OBJECT]: updateCurrObject,
 
     [ContentAction.UPDATE_ROOM_NAMES]: updateRoomNames,
     [ContentAction.UPDATE_COMMANDS]: updateCommands,
@@ -115,5 +117,12 @@ function updateObjectNames(state: State, action: ActionType) {
     return setProps(
         state,
         filterProps(action.payload, (key) => key === "objectNames")
+    );
+}
+
+function updateCurrObject(state: State, action: ActionType) {
+    return setProps(
+        state,
+        filterProps(action.payload, (key) => key === "currObj")
     );
 }

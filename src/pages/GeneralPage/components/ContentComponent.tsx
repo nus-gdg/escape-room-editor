@@ -29,17 +29,14 @@ export const ContentComponent = (props: Props) => {
             <Text fontSize="20px">Contents</Text>
             <Container bg={"grey"} centerContent>
                 <Input
-                    value={ctx.state.currRoom.content.roomTitle}
+                    value={props.content.title}
                     placeholder="Room name"
                     onChange={(event) =>
-                        onChangeContentData(
-                            event.currentTarget.value,
-                            "roomTitle"
-                        )
+                        onChangeContentData(event.currentTarget.value, "title")
                     }
                 />
                 <Input
-                    value={ctx.state.currRoom.content.imageLink}
+                    value={props.content.imageLink}
                     placeholder="Image URL"
                     onChange={(event) =>
                         onChangeContentData(
@@ -49,12 +46,12 @@ export const ContentComponent = (props: Props) => {
                     }
                 />
                 <Textarea
-                    value={ctx.state.currRoom.content.roomDescription}
+                    value={props.content.description}
                     placeholder="Room description"
                     onChange={(event) =>
                         onChangeContentData(
                             event.currentTarget.value,
-                            "roomDescription"
+                            "description"
                         )
                     }
                 />

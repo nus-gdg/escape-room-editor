@@ -9,8 +9,7 @@ export class RoomData {
     constructor(id: number) {
         this.id = RoomData.currID;
 
-        this.content = new ContentData();
-        this.content.id = this.id;
+        this.content = new ContentData(this.id);
         this.textCmds = [new TextCommandData(0)];
         this.buttonReactions = [];
 
@@ -19,16 +18,16 @@ export class RoomData {
 }
 
 export class ContentData {
-    roomTitle: string;
+    title: string;
     imageLink: string;
-    roomDescription: string;
+    description: string;
     id: number;
 
-    constructor() {
-        this.roomTitle = "New";
+    constructor(id: number) {
+        this.title = "New";
         this.imageLink = "";
-        this.roomDescription = "";
-        this.id = 0;
+        this.description = "";
+        this.id = id;
     }
 }
 

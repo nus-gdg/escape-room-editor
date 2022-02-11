@@ -2,7 +2,7 @@ import { Dispatch } from "react";
 import { RootContext } from "../../common/containers/Root";
 import { ActionType } from "../../state/actions";
 import { ContentAction } from "../../state/content/contentActions";
-import { RoomData } from "./Data/RoomData";
+import { ContentData, RoomData } from "./Data/RoomData";
 
 function updateRoomList(updatedList: RoomData[], ctx: RootContext) {
     ctx.dispatch({
@@ -31,6 +31,37 @@ function updateCurrRoom(updatedRoom: RoomData, ctx: RootContext) {
     ctx.dispatch({
         type: ContentAction.UPDATE_CURR_ROOM,
         payload: { currRoom: updatedRoom },
+    });
+}
+
+//update object list
+function updateObjList(updatedList: ContentData[], ctx: RootContext) {
+    ctx.dispatch({
+        type: ContentAction.UPDATE_OBJECTS,
+        payload: { objects: updatedList },
+    });
+}
+
+function updateCurrObject(updatedObj: ContentData, ctx: RootContext) {
+    ctx.dispatch({
+        type: ContentAction.UPDATE_CURR_OBJECT,
+        payload: { currObj: updatedObj },
+    });
+}
+
+function updateObjInList(updatedObj: ContentData, ctx: RootContext) {
+    const index = ctx.state.objects.findIndex(
+        (obj) => obj.id === updatedObj.id
+    );
+
+    //update the correct room in the list
+    let tempObjectList = [...ctx.state.objects];
+    tempObjectList[index] = updatedObj;
+
+    //update objList
+    ctx.dispatch({
+        type: ContentAction.UPDATE_OBJECTS,
+        payload: { objects: tempObjectList },
     });
 }
 
@@ -78,4 +109,7 @@ export {
     updateRoomInList,
     updateHashMap,
     deleteValueInHashmap,
+    updateObjList,
+    updateCurrObject,
+    updateObjInList,
 };

@@ -11,6 +11,7 @@ export interface State {
     currRoom: RoomData; //the curr room data pressed
 
     objects: ContentData[];
+    currObj: ContentData;
 
     roomNames: { [key: number]: string }; //key-value, id-commandName
     commands: { [key: number]: string }; //key-value, id-commandName
@@ -20,6 +21,7 @@ export interface State {
 }
 
 export const defaultRoom = new RoomData(0); //TEMP TODO:: REMOVE THIS
+export const defaultObj = new ContentData(0);
 
 export const initialState: State = {
     title: "Escape Room",
@@ -30,9 +32,10 @@ export const initialState: State = {
     rooms: [defaultRoom],
     currRoom: defaultRoom,
 
-    objects: [new ContentData()],
+    objects: [defaultObj],
+    currObj: defaultObj,
 
-    roomNames: { [defaultRoom.id]: defaultRoom.content.roomTitle },
+    roomNames: { [defaultRoom.id]: defaultRoom.content.title },
     commands: { [0]: "Use", [1]: "Kick" },
     gameFlags: {},
 

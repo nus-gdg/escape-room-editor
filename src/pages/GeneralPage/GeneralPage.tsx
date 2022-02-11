@@ -1,6 +1,6 @@
 import { Toolbar } from "../Toolbar/Toolbar";
 import TextInput from "./components/TextInputComponent";
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { RoomData, ContentData, ButtonData } from "./Data/RoomData";
 import ContentNavigationComponent from "./components/ContentNavigationComponent";
 import { Flex } from "@chakra-ui/react";
@@ -11,8 +11,11 @@ import { ContentAction } from "../../state/content/contentActions";
 import { ListHashMapComponent } from "./components/ListHashMapComponent";
 import {
     deleteValueInHashmap,
+    updateCurrObject,
     updateCurrRoom,
     updateHashMap,
+    updateObjInList,
+    updateObjList,
     updateRoomInList,
     updateRoomList,
 } from "./GeneralHelperFuncs";
@@ -21,15 +24,26 @@ import { TextCommandsComponent } from "./components/TextCommandsComponent";
 export const GeneralPage = () => {
     const ctx = useRoot();
 
+    const [isRoomPage, setIsRoomPage] = useState(true);
+    const [uniqueObjID, setUniqueObjID] = useState(ctx.state.objects.length);
+
     function handleChangeCurrRoom(nextRoomId: number) {
-        //'save' currRoom data in the list
-        updateRoomInList(ctx.state.currRoom, ctx);
+        //save room if prev page was room
+        if (!isRoomPage) {
+            updateCurrObject(ctx.state.currObj, ctx);
+        } else {
+            //'save' currRoom data in the list
+            updateRoomInList(ctx.state.currRoom, ctx);
+        }
+
         let nextRoom = ctx.state.rooms.find((room) => room.id === nextRoomId);
 
         //if there is a next room, change the currRoom to next Room
         if (nextRoom) {
             updateCurrRoom(nextRoom, ctx);
         }
+
+        setIsRoomPage(true);
     }
 
     function handleAddRoom() {
@@ -39,7 +53,7 @@ export const GeneralPage = () => {
         //add name to hashmap
         updateHashMap(
             newRoom.id,
-            newRoom.content.roomTitle,
+            newRoom.content.title,
             ctx.state.roomNames,
             ContentAction.UPDATE_ROOM_NAMES,
             "roomNames",
@@ -59,10 +73,10 @@ export const GeneralPage = () => {
         updateCurrRoom(updatedRoom, ctx);
 
         //if room name has been updated, update the unique value hashmap
-        if (varName === "roomTitle") {
+        if (varName === "title") {
             updateHashMap(
                 updatedRoom.id,
-                updatedRoom.content.roomTitle,
+                updatedRoom.content.title,
                 ctx.state.roomNames,
                 ContentAction.UPDATE_ROOM_NAMES,
                 "roomNames",
@@ -113,6 +127,98 @@ export const GeneralPage = () => {
         );
     }
 
+    //---------------Object related things-------------
+    function handleChangeCurrObject(nextObjID: number) {
+        //save room if prev page was room
+        if (isRoomPage) {
+            updateRoomInList(ctx.state.currRoom, ctx);
+        } else {
+            //'save' currObj data in the list
+            updateObjInList(ctx.state.currObj, ctx);
+        }
+
+        let nextObj = ctx.state.objects.find(
+            (object) => object.id === nextObjID
+        );
+
+        //if there is a next room, change the currRoom to next Room
+        if (nextObj) {
+            updateCurrObject(nextObj, ctx);
+        }
+
+        setIsRoomPage(false);
+    }
+
+    function handleAddObject() {
+        let newObj = new ContentData(uniqueObjID);
+        updateObjList(ctx.state.objects.concat([newObj]), ctx);
+
+        //add name to hashmap
+        updateHashMap(
+            newObj.id,
+            newObj.title,
+            ctx.state.objectNames,
+            ContentAction.UPDATE_OBJECT_NAMES,
+            "objectNames",
+            ctx
+        );
+
+        setUniqueObjID(uniqueObjID + 1);
+    }
+
+    function handleUpdateObjectData(
+        updatedContent: ContentData,
+        varName: keyof ContentData
+    ) {
+        updateCurrObject(updatedContent, ctx);
+
+        //if room name has been updated, update the unique value hashmap
+        if (varName === "title") {
+            updateHashMap(
+                updatedContent.id,
+                updatedContent.title,
+                ctx.state.objectNames,
+                ContentAction.UPDATE_OBJECT_NAMES,
+                "objectNames",
+                ctx
+            );
+        }
+    }
+
+    //-----------for rendering------------------
+    function renderRoomData() {
+        return (
+            <Flex direction={"column"}>
+                <ContentComponent
+                    content={ctx.state.currRoom.content}
+                    onUpdateContent={handleUpdateRoomContent}
+                />
+                <ButtonReactionComponent
+                    roomData={ctx.state.currRoom}
+                    selectOptions={ctx.state.roomNames}
+                />
+                <TextCommandsComponent roomData={ctx.state.currRoom} />
+            </Flex>
+        );
+    }
+
+    function renderObjectData() {
+        return (
+            <ContentComponent
+                content={ctx.state.currObj}
+                onUpdateContent={handleUpdateObjectData}
+            />
+        );
+    }
+
+    function renderContent() {
+        if (isRoomPage) {
+            return renderRoomData();
+        }
+
+        return renderObjectData();
+    }
+
     return (
         <Flex direction={"row"}>
             <Flex direction={"column"}>
@@ -125,21 +231,11 @@ export const GeneralPage = () => {
                 <ContentNavigationComponent
                     title="Objects"
                     contents={ctx.state.objects}
-                    onPressButton={handleChangeCurrRoom}
-                    onAdd={handleAddRoom}
+                    onPressButton={handleChangeCurrObject}
+                    onAdd={handleAddObject}
                 />
             </Flex>
-            <Flex direction={"column"}>
-                <ContentComponent
-                    content={ctx.state.currRoom.content}
-                    onUpdateContent={handleUpdateRoomContent}
-                />
-                <ButtonReactionComponent
-                    roomData={ctx.state.currRoom}
-                    selectOptions={ctx.state.roomNames}
-                />
-                <TextCommandsComponent roomData={ctx.state.currRoom} />
-            </Flex>
+            {renderContent()}
             <Flex direction={"column"}>
                 <ListHashMapComponent
                     hashmap={ctx.state.commands}
