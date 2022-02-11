@@ -30,34 +30,34 @@ export class ContentData {
 
 export class TextCommandData {
     command: {
-        commandKey: string;
+        commandKey: number;
         recipe: string[];
     };
 
     modifyInventory: {
-        itemName: string;
+        itemName: number;
         itemState: boolean; //either remove or add
     }[];
 
     modifyFlags: {
-        flagName: string;
+        flagName: number;
         flagState: boolean;
     }[];
 
     id: number;
 
     constructor(id: number) {
-        this.command = { commandKey: "", recipe: [""] };
+        this.command = { commandKey: -1, recipe: [""] };
         this.modifyInventory = [
             {
-                itemName: "stringOnMagnet",
+                itemName: -1,
                 itemState: true, //either remove or add
             },
         ];
 
         this.modifyFlags = [
             {
-                flagName: "gotString",
+                flagName: -1,
                 flagState: false,
             },
         ];
