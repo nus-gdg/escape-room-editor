@@ -57,10 +57,36 @@ function deleteRoomName(keyID: number, ctx: RootContext) {
     });
 }
 
+//update commands hashmap
+function updateCommands(keyID: number, newName: string, ctx: RootContext) {
+    let updatedCmdHashMap = { ...ctx.state.commands };
+    updatedCmdHashMap[keyID] = newName;
+
+    ctx.dispatch({
+        type: ContentAction.UPDATE_COMMANDS,
+        payload: { commands: updatedCmdHashMap },
+    });
+}
+
+//delete key value pairs in hashmap
+function deleteCommands(keyID: number, ctx: RootContext) {
+    let updatedCmdHashMap = { ...ctx.state.commands };
+    if (updatedCmdHashMap[keyID] !== undefined) {
+        delete updatedCmdHashMap[keyID];
+    }
+
+    ctx.dispatch({
+        type: ContentAction.UPDATE_COMMANDS,
+        payload: { commands: updatedCmdHashMap },
+    });
+}
+
 export {
     updateRoomList,
     updateCurrRoom,
     updateRoomInList,
     updateRoomName,
     deleteRoomName,
+    updateCommands,
+    deleteCommands,
 };

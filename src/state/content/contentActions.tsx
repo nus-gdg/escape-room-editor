@@ -12,6 +12,8 @@ export const ContentAction = {
     UPDATE_ROOMS_DATA: "UPDATE_ROOMS_DATA",
     UPDATE_CURR_ROOM: "UPDATE_CURR_ROOM",
     UPDATE_ROOM_NAMES: "UPDATE_ROOM_NAMES",
+
+    UPDATE_COMMANDS: "UPDATE_COMMANDS",
 };
 
 export const contentActions = {
@@ -23,6 +25,8 @@ export const contentActions = {
     [ContentAction.UPDATE_ROOMS_DATA]: updateRooms,
     [ContentAction.UPDATE_CURR_ROOM]: updateCurrRooms,
     [ContentAction.UPDATE_ROOM_NAMES]: updateRoomNames,
+
+    [ContentAction.UPDATE_COMMANDS]: updateCommands,
 };
 
 function setTitle(state: State, action: ActionType) {
@@ -71,5 +75,12 @@ function updateRoomNames(state: State, action: ActionType) {
     return setProps(
         state,
         filterProps(action.payload, (key) => key === "roomNames")
+    );
+}
+
+function updateCommands(state: State, action: ActionType) {
+    return setProps(
+        state,
+        filterProps(action.payload, (key) => key === "commands")
     );
 }

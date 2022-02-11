@@ -9,7 +9,12 @@ import { ButtonReactionComponent } from "./components/ButtonReactionComponent";
 import { useRoot } from "../../hooks/useRoot";
 import { ContentAction } from "../../state/content/contentActions";
 import { ListHashMapComponent } from "./components/ListHashMapComponent";
-import { updateCurrRoom, updateRoomName } from "./GeneralHelperFuncs";
+import {
+    deleteCommands,
+    updateCommands,
+    updateCurrRoom,
+    updateRoomName,
+} from "./GeneralHelperFuncs";
 
 export const GeneralPage = () => {
     const ctx = useRoot();
@@ -44,7 +49,18 @@ export const GeneralPage = () => {
                     selectOptions={ctx.state.roomNames}
                 />
             </Flex>
-            <ListHashMapComponent hashmap={ctx.state.roomNames} title="flags" />
+            <Flex direction={"column"}>
+                <ListHashMapComponent
+                    hashmap={ctx.state.commands}
+                    title="flags"
+                    onUpdateHashMap={updateCommands}
+                    onRemoveHashMap={deleteCommands}
+                />
+                {/* <ListHashMapComponent
+                    hashmap={ctx.state.roomNames}
+                    title="flags"
+                /> */}
+            </Flex>
         </Flex>
     );
 };

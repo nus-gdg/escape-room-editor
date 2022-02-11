@@ -1,10 +1,12 @@
 import { Button, Flex, Input, Text } from "@chakra-ui/react";
+import { RootContext } from "../../../common/containers/Root";
 import { useRoot } from "../../../hooks/useRoot";
 
 interface Props {
     hashmap: { [key: number]: string };
     title: string;
-    onUpdateHashMap?: Function; //TODO: change this later on
+    onUpdateHashMap: (keyID: number, newName: string, ctx: RootContext) => void;
+    onRemoveHashMap: (keyID: number, ctx: RootContext) => void;
 }
 
 export const ListHashMapComponent = (props: Props) => {
@@ -12,21 +14,31 @@ export const ListHashMapComponent = (props: Props) => {
 
     return (
         <Flex direction={"column"}>
-            <Text fontSize="20px">{props.title}</Text>
+            <Flex direction={"row"}>
+                <Text fontSize="20px">{props.title}</Text>
+                <Button onClick={() => props.onUpdateHashMap(5, "New", ctx)}>
+                    +
+                </Button>
+            </Flex>
 
             {Object.keys(props.hashmap).map((key, index) => {
                 let statement = props.hashmap[Number(key)];
                 return (
                     <Input
                         size="sm"
-                        variant="unstyled"
-                        focusBorderColor="lime"
+                        //variant="unstyled"
                         errorBorderColor="crimson"
                         isInvalid={statement.length === 0}
                         key={index}
                         placeholder={props.title + "input"}
                         value={props.hashmap[Number(key)]}
-                        onChange={() => {}}
+                        onChange={(event) =>
+                            props.onUpdateHashMap(
+                                Number(key),
+                                event.currentTarget.value,
+                                ctx
+                            )
+                        }
                     />
                 );
             })}

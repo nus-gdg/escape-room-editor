@@ -11,6 +11,7 @@ export interface State {
     currRoom: RoomData; //the curr room data pressed
 
     roomNames: { [key: number]: string }; //key-value, id-commandName
+    commands: { [key: number]: string }; //key-value, id-commandName
     //flags: { [key: number]: string }; //key-value pair, id-roomName
 }
 
@@ -25,6 +26,7 @@ export const initialState: State = {
     rooms: [defaultRoom],
     currRoom: defaultRoom,
     roomNames: { [defaultRoom.id]: defaultRoom.content.roomTitle },
+    commands: { [0]: "Use", [1]: "Kick" },
 };
 
 export const keysOfState = getKeysOfType(initialState);
