@@ -32,4 +32,35 @@ function updateCurrRoom(updatedRoom: RoomData, ctx: RootContext) {
     });
 }
 
-export { updateRoomList, updateCurrRoom, updateRoomInList };
+//update room name hashmap
+function updateRoomName(keyID: number, newName: string, ctx: RootContext) {
+    let updatedNameHashMap = { ...ctx.state.roomNames };
+    updatedNameHashMap[keyID] = newName;
+
+    ctx.dispatch({
+        type: ContentAction.UPDATE_ROOM_NAMES,
+        payload: { roomNames: updatedNameHashMap },
+    });
+}
+
+//delete key value pair in roomNames hashmap
+function deleteRoomName(keyID: number, ctx: RootContext) {
+    let updatedNameHashMap = { ...ctx.state.roomNames };
+
+    if (updatedNameHashMap[keyID] !== undefined) {
+        delete updatedNameHashMap[keyID];
+    }
+
+    ctx.dispatch({
+        type: ContentAction.UPDATE_ROOM_NAMES,
+        payload: { roomNames: updatedNameHashMap },
+    });
+}
+
+export {
+    updateRoomList,
+    updateCurrRoom,
+    updateRoomInList,
+    updateRoomName,
+    deleteRoomName,
+};

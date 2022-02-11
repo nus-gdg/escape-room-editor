@@ -7,7 +7,10 @@ import { updateCurrRoom } from "../GeneralHelperFuncs";
 
 interface Props {
     content: ContentData;
-    onUpdateContent: (updatedContent: ContentData) => void;
+    onUpdateContent: (
+        updatedContent: ContentData,
+        varName: keyof ContentData
+    ) => void;
 }
 
 export const ContentComponent = (props: Props) => {
@@ -18,7 +21,7 @@ export const ContentComponent = (props: Props) => {
         let updateContent = { ...props.content };
         updateContent[varName] = newData;
 
-        props.onUpdateContent(updateContent);
+        props.onUpdateContent(updateContent, varName);
     }
 
     return (

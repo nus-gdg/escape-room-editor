@@ -9,18 +9,26 @@ import { ButtonReactionComponent } from "./components/ButtonReactionComponent";
 import { useRoot } from "../../hooks/useRoot";
 import { ContentAction } from "../../state/content/contentActions";
 import { ListHashMapComponent } from "./components/ListHashMapComponent";
-import { updateCurrRoom } from "./GeneralHelperFuncs";
+import { updateCurrRoom, updateRoomName } from "./GeneralHelperFuncs";
 
 export const GeneralPage = () => {
     const ctx = useRoot();
 
-    function handleUpdateRoomContent(updatedContent: ContentData) {
+    function handleUpdateRoomContent(
+        updatedContent: ContentData,
+        varName: keyof ContentData
+    ) {
         let updatedRoom = {
             ...ctx.state.currRoom,
             content: updatedContent,
         };
 
         updateCurrRoom(updatedRoom, ctx);
+
+        //if room name has been updated, update the unique value hashmap
+        if (varName === "roomTitle") {
+            updateRoomName(updatedRoom.id, updatedContent.roomTitle, ctx);
+        }
     }
 
     return (

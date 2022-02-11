@@ -6,6 +6,7 @@ import {
     updateCurrRoom,
     updateRoomInList,
     updateRoomList,
+    updateRoomName,
 } from "../GeneralHelperFuncs";
 
 export const RoomsNavigationComponent = () => {
@@ -27,6 +28,9 @@ export const RoomsNavigationComponent = () => {
     function handleAddRoom() {
         let newRoom = new RoomData(ctx.state.rooms.length);
         updateRoomList(ctx.state.rooms.concat([newRoom]), ctx);
+
+        //add to hashmap
+        updateRoomName(newRoom.id, newRoom.content.roomTitle, ctx);
     }
 
     function renderPropButton() {
