@@ -11,10 +11,14 @@ export const ContentAction = {
 
     UPDATE_ROOMS_DATA: "UPDATE_ROOMS_DATA",
     UPDATE_CURR_ROOM: "UPDATE_CURR_ROOM",
-    UPDATE_ROOM_NAMES: "UPDATE_ROOM_NAMES",
 
+    UPDATE_OBJECTS: "UPDATE_OBJECTS",
+
+    UPDATE_ROOM_NAMES: "UPDATE_ROOM_NAMES",
     UPDATE_COMMANDS: "UPDATE_COMMANDS",
     UPDATE_GAME_FLAGS: "UPDATE_FLAGS",
+
+    UPDATE_OBJECT_NAMES: "UPDATE_OBJECT_NAMES",
 };
 
 export const contentActions = {
@@ -25,10 +29,16 @@ export const contentActions = {
 
     [ContentAction.UPDATE_ROOMS_DATA]: updateRooms,
     [ContentAction.UPDATE_CURR_ROOM]: updateCurrRooms,
-    [ContentAction.UPDATE_ROOM_NAMES]: updateRoomNames,
 
+    [ContentAction.UPDATE_COMMANDS]: updateObjects,
+
+    [ContentAction.UPDATE_OBJECTS]: updateObjects,
+
+    [ContentAction.UPDATE_ROOM_NAMES]: updateRoomNames,
     [ContentAction.UPDATE_COMMANDS]: updateCommands,
     [ContentAction.UPDATE_GAME_FLAGS]: updateGameFlags,
+
+    [ContentAction.UPDATE_OBJECT_NAMES]: updateObjectNames,
 };
 
 function setTitle(state: State, action: ActionType) {
@@ -91,5 +101,19 @@ function updateGameFlags(state: State, action: ActionType) {
     return setProps(
         state,
         filterProps(action.payload, (key) => key === "gameFlags")
+    );
+}
+
+function updateObjects(state: State, action: ActionType) {
+    return setProps(
+        state,
+        filterProps(action.payload, (key) => key === "objects")
+    );
+}
+
+function updateObjectNames(state: State, action: ActionType) {
+    return setProps(
+        state,
+        filterProps(action.payload, (key) => key === "objectNames")
     );
 }

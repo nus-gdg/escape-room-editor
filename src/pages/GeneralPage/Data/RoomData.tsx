@@ -7,10 +7,12 @@ export class RoomData {
     static currID = 0;
 
     constructor(id: number) {
+        this.id = RoomData.currID;
+
         this.content = new ContentData();
+        this.content.id = this.id;
         this.textCmds = [new TextCommandData(0)];
         this.buttonReactions = [];
-        this.id = RoomData.currID;
 
         ++RoomData.currID;
     }
@@ -20,11 +22,13 @@ export class ContentData {
     roomTitle: string;
     imageLink: string;
     roomDescription: string;
+    id: number;
 
     constructor() {
-        this.roomTitle = "NewRoom";
+        this.roomTitle = "New";
         this.imageLink = "";
         this.roomDescription = "";
+        this.id = 0;
     }
 }
 

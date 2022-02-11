@@ -1,4 +1,4 @@
-import { RoomData } from "../pages/GeneralPage/Data/RoomData";
+import { ContentData, RoomData } from "../pages/GeneralPage/Data/RoomData";
 import { getKeysOfType } from "../utils/getKeysOfType";
 
 export interface State {
@@ -10,9 +10,13 @@ export interface State {
     rooms: RoomData[]; //store all the curr rooms
     currRoom: RoomData; //the curr room data pressed
 
+    objects: ContentData[];
+
     roomNames: { [key: number]: string }; //key-value, id-commandName
     commands: { [key: number]: string }; //key-value, id-commandName
     gameFlags: { [key: number]: string }; //key-value pair, id-roomName
+
+    objectNames: { [key: number]: string }; //key-value, id-commandName
 }
 
 export const defaultRoom = new RoomData(0); //TEMP TODO:: REMOVE THIS
@@ -25,9 +29,14 @@ export const initialState: State = {
 
     rooms: [defaultRoom],
     currRoom: defaultRoom,
+
+    objects: [new ContentData()],
+
     roomNames: { [defaultRoom.id]: defaultRoom.content.roomTitle },
     commands: { [0]: "Use", [1]: "Kick" },
     gameFlags: {},
+
+    objectNames: {},
 };
 
 export const keysOfState = getKeysOfType(initialState);

@@ -19,7 +19,7 @@ export const ContentComponent = (props: Props) => {
     //update the content of the currRoom
     function onChangeContentData(newData: string, varName: keyof ContentData) {
         let updateContent = { ...props.content };
-        updateContent[varName] = newData;
+        updateContent[varName] = newData as never;
 
         props.onUpdateContent(updateContent, varName);
     }
