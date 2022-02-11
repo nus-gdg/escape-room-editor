@@ -1,4 +1,6 @@
+import { Dispatch } from "react";
 import { RootContext } from "../../common/containers/Root";
+import { ActionType } from "../../state/actions";
 import { ContentAction } from "../../state/content/contentActions";
 import { RoomData } from "./Data/RoomData";
 
@@ -33,51 +35,40 @@ function updateCurrRoom(updatedRoom: RoomData, ctx: RootContext) {
 }
 
 //update room name hashmap
-function updateRoomName(keyID: number, newName: string, ctx: RootContext) {
-    let updatedNameHashMap = { ...ctx.state.roomNames };
-    updatedNameHashMap[keyID] = newName;
+function updateHashMap(
+    keyID: number,
+    newName: string,
+    hashmap: { [key: number]: string },
+    contentActionType: string,
+    stateVarName: string,
+    ctx: RootContext
+) {
+    let updatedHashMap = { ...hashmap };
+    updatedHashMap[keyID] = newName;
 
     ctx.dispatch({
-        type: ContentAction.UPDATE_ROOM_NAMES,
-        payload: { roomNames: updatedNameHashMap },
+        type: contentActionType,
+        payload: { [stateVarName]: updatedHashMap },
     });
 }
 
 //delete key value pair in roomNames hashmap
-function deleteRoomName(keyID: number, ctx: RootContext) {
-    let updatedNameHashMap = { ...ctx.state.roomNames };
+function deleteValueInHashmap(
+    keyID: number,
+    hashmap: { [key: number]: string },
+    contentActionType: string,
+    stateVarName: string,
+    ctx: RootContext
+) {
+    let updatedHashMap = { ...hashmap };
 
-    if (updatedNameHashMap[keyID] !== undefined) {
-        delete updatedNameHashMap[keyID];
+    if (updatedHashMap[keyID] !== undefined) {
+        delete updatedHashMap[keyID];
     }
 
     ctx.dispatch({
-        type: ContentAction.UPDATE_ROOM_NAMES,
-        payload: { roomNames: updatedNameHashMap },
-    });
-}
-
-//update commands hashmap
-function updateCommands(keyID: number, newName: string, ctx: RootContext) {
-    let updatedCmdHashMap = { ...ctx.state.commands };
-    updatedCmdHashMap[keyID] = newName;
-
-    ctx.dispatch({
-        type: ContentAction.UPDATE_COMMANDS,
-        payload: { commands: updatedCmdHashMap },
-    });
-}
-
-//delete key value pairs in hashmap
-function deleteCommands(keyID: number, ctx: RootContext) {
-    let updatedCmdHashMap = { ...ctx.state.commands };
-    if (updatedCmdHashMap[keyID] !== undefined) {
-        delete updatedCmdHashMap[keyID];
-    }
-
-    ctx.dispatch({
-        type: ContentAction.UPDATE_COMMANDS,
-        payload: { commands: updatedCmdHashMap },
+        type: contentActionType,
+        payload: { [stateVarName]: updatedHashMap },
     });
 }
 
@@ -85,8 +76,6 @@ export {
     updateRoomList,
     updateCurrRoom,
     updateRoomInList,
-    updateRoomName,
-    deleteRoomName,
-    updateCommands,
-    deleteCommands,
+    updateHashMap,
+    deleteValueInHashmap,
 };

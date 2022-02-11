@@ -5,8 +5,8 @@ import { useRoot } from "../../../hooks/useRoot";
 interface Props {
     hashmap: { [key: number]: string };
     title: string;
-    onUpdateHashMap: (keyID: number, newName: string, ctx: RootContext) => void;
-    onRemoveHashMap: (keyID: number, ctx: RootContext) => void;
+    onUpdateHashMap: (keyID: number, newName: string) => void;
+    onRemoveHashMap: (keyID: number) => void;
 }
 
 export const ListHashMapComponent = (props: Props) => {
@@ -16,7 +16,7 @@ export const ListHashMapComponent = (props: Props) => {
         <Flex direction={"column"}>
             <Flex direction={"row"}>
                 <Text fontSize="20px">{props.title}</Text>
-                <Button onClick={() => props.onUpdateHashMap(5, "New", ctx)}>
+                <Button onClick={() => props.onUpdateHashMap(5, "New")}>
                     +
                 </Button>
             </Flex>
@@ -36,15 +36,12 @@ export const ListHashMapComponent = (props: Props) => {
                             onChange={(event) =>
                                 props.onUpdateHashMap(
                                     keyNumber,
-                                    event.currentTarget.value,
-                                    ctx
+                                    event.currentTarget.value
                                 )
                             }
                         />
                         <Button
-                            onClick={() =>
-                                props.onRemoveHashMap(keyNumber, ctx)
-                            }
+                            onClick={() => props.onRemoveHashMap(keyNumber)}
                         >
                             -
                         </Button>

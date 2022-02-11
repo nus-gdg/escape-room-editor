@@ -10,10 +10,9 @@ import { useRoot } from "../../hooks/useRoot";
 import { ContentAction } from "../../state/content/contentActions";
 import { ListHashMapComponent } from "./components/ListHashMapComponent";
 import {
-    deleteCommands,
-    updateCommands,
+    deleteValueInHashmap,
     updateCurrRoom,
-    updateRoomName,
+    updateHashMap,
 } from "./GeneralHelperFuncs";
 
 export const GeneralPage = () => {
@@ -32,8 +31,36 @@ export const GeneralPage = () => {
 
         //if room name has been updated, update the unique value hashmap
         if (varName === "roomTitle") {
-            updateRoomName(updatedRoom.id, updatedContent.roomTitle, ctx);
+            updateHashMap(
+                updatedRoom.id,
+                updatedRoom.content.roomTitle,
+                ctx.state.roomNames,
+                ContentAction.UPDATE_ROOM_NAMES,
+                "roomNames",
+                ctx
+            );
         }
+    }
+
+    function handleUpdateCommands(keyID: number, newName: string) {
+        updateHashMap(
+            keyID,
+            newName,
+            ctx.state.commands,
+            ContentAction.UPDATE_COMMANDS,
+            "commands",
+            ctx
+        );
+    }
+
+    function handleDeleteCommandValue(keyID: number) {
+        deleteValueInHashmap(
+            keyID,
+            ctx.state.commands,
+            ContentAction.UPDATE_COMMANDS,
+            "commands",
+            ctx
+        );
     }
 
     return (
@@ -53,14 +80,14 @@ export const GeneralPage = () => {
                 <ListHashMapComponent
                     hashmap={ctx.state.commands}
                     title="Commands"
-                    onUpdateHashMap={updateCommands}
-                    onRemoveHashMap={deleteCommands}
+                    onUpdateHashMap={handleUpdateCommands}
+                    onRemoveHashMap={handleDeleteCommandValue}
                 />
                 <ListHashMapComponent
                     hashmap={ctx.state.gameFlags}
                     title="Flags"
-                    onUpdateHashMap={updateCommands}
-                    onRemoveHashMap={deleteCommands}
+                    onUpdateHashMap={handleUpdateCommands}
+                    onRemoveHashMap={handleDeleteCommandValue}
                 />
             </Flex>
         </Flex>

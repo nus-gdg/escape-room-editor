@@ -1,12 +1,13 @@
 import { Button, Flex, Text } from "@chakra-ui/react";
 import React, { Component, MouseEventHandler } from "react";
 import { useRoot } from "../../../hooks/useRoot";
+import { ContentAction } from "../../../state/content/contentActions";
 import { RoomData } from "../Data/RoomData";
 import {
     updateCurrRoom,
     updateRoomInList,
     updateRoomList,
-    updateRoomName,
+    updateHashMap,
 } from "../GeneralHelperFuncs";
 
 export const RoomsNavigationComponent = () => {
@@ -30,7 +31,14 @@ export const RoomsNavigationComponent = () => {
         updateRoomList(ctx.state.rooms.concat([newRoom]), ctx);
 
         //add to hashmap
-        updateRoomName(newRoom.id, newRoom.content.roomTitle, ctx);
+        updateHashMap(
+            newRoom.id,
+            newRoom.content.roomTitle,
+            ctx.state.roomNames,
+            ContentAction.UPDATE_ROOM_NAMES,
+            "roomNames",
+            ctx
+        );
     }
 
     function renderPropButton() {
