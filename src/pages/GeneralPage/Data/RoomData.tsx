@@ -69,6 +69,14 @@ export class TextCommandData {
             },
         ];
     }
+
+    static getDefaultItemData() {
+        return { itemKey: -1, itemState: InventoryAction.NONE };
+    }
+
+    static getDefaultFlagData() {
+        return { flagKey: -1, flagState: false };
+    }
 }
 
 export class ButtonData {

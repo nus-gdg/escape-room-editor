@@ -79,11 +79,7 @@ export const TextCommandsComponent = (props: Props) => {
             ...props.roomData.textCmds[txtCommandIndex].commandInput.recipe,
         ];
 
-        console.log(updatedRecipeList);
-        console.log(ingredientIndex);
         updatedRecipeList.splice(ingredientIndex, 1);
-
-        console.log(updatedRecipeList);
 
         updateRecipeList(updatedRecipeList, txtCommandIndex);
     }
@@ -172,6 +168,39 @@ export const TextCommandsComponent = (props: Props) => {
         updateItemInInventory(updatedItem, txtCommandIndex, itemIndex);
     }
 
+    //add new item to inventory
+    function handleAddItemOption(txtCommandIndex: number) {
+        let updatedInventory = [
+            ...props.roomData.textCmds[txtCommandIndex].modifyInventory,
+        ];
+
+        updatedInventory.push(TextCommandData.getDefaultItemData());
+
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCommandIndex],
+            modifyInventory: updatedInventory,
+        };
+
+        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
+    }
+
+    function handleDeleteItemOption(
+        txtCommandIndex: number,
+        itemIndex: number
+    ) {
+        let updatedInventory = [
+            ...props.roomData.textCmds[txtCommandIndex].modifyInventory,
+        ];
+
+        updatedInventory.splice(itemIndex, 1);
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCommandIndex],
+            modifyInventory: updatedInventory,
+        };
+
+        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
+    }
+
     //update item in inventory
     function updateItemInInventory(
         updatedItem: {
@@ -235,6 +264,36 @@ export const TextCommandsComponent = (props: Props) => {
         };
 
         updateFlagList(updatedFlag, txtCommandIndex, flagIndex);
+    }
+
+    function handleAddFlagOption(txtCmdIndex: number) {
+        let updatedFlagList = [
+            ...props.roomData.textCmds[txtCmdIndex].modifyFlags,
+        ];
+
+        updatedFlagList.push(TextCommandData.getDefaultFlagData());
+
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCmdIndex],
+            modifyFlags: updatedFlagList,
+        };
+
+        updateRoomTextCommandList(updatedTextCmd, txtCmdIndex);
+    }
+
+    function handleDelFlagOption(txtCmdIndex: number, flagIndex: number) {
+        let updatedFlagList = [
+            ...props.roomData.textCmds[txtCmdIndex].modifyFlags,
+        ];
+
+        updatedFlagList.splice(flagIndex, 1);
+
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCmdIndex],
+            modifyFlags: updatedFlagList,
+        };
+
+        updateRoomTextCommandList(updatedTextCmd, txtCmdIndex);
     }
 
     function updateFlagList(
@@ -363,6 +422,10 @@ export const TextCommandsComponent = (props: Props) => {
     ) {
         return (
             <Flex direction="column">
+                <Button onClick={() => handleAddFlagOption(txtCmdIndex)}>
+                    Add Flag
+                </Button>
+                {/* <Button onClick={}>Add Flag</Button> */}
                 {modifyFlags.map((flag, flagIndex) => {
                     return (
                         <Flex direction="row">
@@ -398,6 +461,13 @@ export const TextCommandsComponent = (props: Props) => {
                                     True
                                 </option>
                             </Select>
+                            <Button
+                                onClick={() =>
+                                    handleDelFlagOption(txtCmdIndex, flagIndex)
+                                }
+                            >
+                                -
+                            </Button>
                         </Flex>
                     );
                 })}
@@ -414,6 +484,9 @@ export const TextCommandsComponent = (props: Props) => {
     ) {
         return (
             <Flex direction="column">
+                <Button onClick={() => handleAddItemOption(txtCmdIndex)}>
+                    Add item
+                </Button>
                 {modifyInventory.map((item, itemIndex) => {
                     return (
                         <Flex direction="row">
@@ -453,6 +526,16 @@ export const TextCommandsComponent = (props: Props) => {
                                     Add
                                 </option>
                             </Select>
+                            <Button
+                                onClick={() =>
+                                    handleDeleteItemOption(
+                                        txtCmdIndex,
+                                        itemIndex
+                                    )
+                                }
+                            >
+                                -
+                            </Button>
                         </Flex>
                     );
                 })}
