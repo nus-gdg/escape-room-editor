@@ -39,7 +39,7 @@ export const initialState: State = {
     commands: { [0]: "Use", [1]: "Kick" },
     gameFlags: {},
 
-    objectNames: {},
+    objectNames: { [defaultObj.id]: defaultObj.title },
 };
 
 export const keysOfState = getKeysOfType(initialState);

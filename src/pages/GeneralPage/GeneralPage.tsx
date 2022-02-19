@@ -28,9 +28,9 @@ export const GeneralPage = () => {
     const [uniqueObjID, setUniqueObjID] = useState(ctx.state.objects.length);
 
     function handleChangeCurrRoom(nextRoomId: number) {
-        //save room if prev page was room
+        //save obj if prev page was obj
         if (!isRoomPage) {
-            updateCurrObject(ctx.state.currObj, ctx);
+            updateObjInList(ctx.state.currObj, ctx);
         } else {
             //'save' currRoom data in the list
             updateRoomInList(ctx.state.currRoom, ctx);
@@ -141,7 +141,7 @@ export const GeneralPage = () => {
             (object) => object.id === nextObjID
         );
 
-        //if there is a next room, change the currRoom to next Room
+        //if there is a next obj, change the currObj to next obj
         if (nextObj) {
             updateCurrObject(nextObj, ctx);
         }
