@@ -9,6 +9,7 @@ import {
 import { updateCurrRoom } from "../../GeneralHelperFuncs";
 import { HashMapToSelectComponent } from "../HashMapToSelectComponent";
 import { CommandInputComponent } from "./CommandInputComponent";
+import { ModifyFlagsCmdComponent } from "./ModifyFlagCmdComponent";
 import { ModifyInventoryComponent } from "./ModifyInventoryComponent";
 
 interface Props {
@@ -68,6 +69,20 @@ export const TextCommandsComponent = (props: Props) => {
         updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
     }
 
+    function handleUpdateFlagList(
+        txtCommandIndex: number,
+        updatedFlagList: {
+            flagKey: number;
+            flagState: boolean;
+        }[]
+    ) {
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCommandIndex],
+            modifyFlags: updatedFlagList,
+        };
+        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
+    }
+
     //update room's textCommandData List with an update textCommandData obj
     function updateRoomTextCommandList(
         updatedTextCommand: TextCommandData,
@@ -86,163 +101,6 @@ export const TextCommandsComponent = (props: Props) => {
         };
 
         updateCurrRoom(updatedRoom, ctx);
-    }
-
-    function handleUpdateFlagChoice(
-        event: ChangeEvent<HTMLSelectElement>,
-        txtCommandIndex: number,
-        flagIndex?: number
-    ) {
-        if (typeof flagIndex === "undefined") {
-            console.log("Flag index is undefined, there's an issue.");
-            return;
-        }
-
-        let originalFlag =
-            props.roomData.textCmds[txtCommandIndex].modifyFlags[flagIndex];
-
-        let updatedFlag = {
-            ...originalFlag,
-            flagKey: Number(event.target.value),
-        };
-
-        updateFlagList(updatedFlag, txtCommandIndex, flagIndex);
-    }
-
-    function handleUpdateFlagState(
-        event: ChangeEvent<HTMLSelectElement>,
-        txtCommandIndex: number,
-        flagIndex?: number
-    ) {
-        if (typeof flagIndex === "undefined") {
-            console.log("Flag index is undefined, there's an issue.");
-            return;
-        }
-
-        let originalFlag =
-            props.roomData.textCmds[txtCommandIndex].modifyFlags[flagIndex];
-
-        let updatedFlag = {
-            ...originalFlag,
-            flagState: Boolean(+event.target.value), //convert to number than boolean
-        };
-
-        updateFlagList(updatedFlag, txtCommandIndex, flagIndex);
-    }
-
-    function handleAddFlagOption(txtCmdIndex: number) {
-        let updatedFlagList = [
-            ...props.roomData.textCmds[txtCmdIndex].modifyFlags,
-        ];
-
-        updatedFlagList.push(TextCommandData.getDefaultFlagData());
-
-        let updatedTextCmd = {
-            ...props.roomData.textCmds[txtCmdIndex],
-            modifyFlags: updatedFlagList,
-        };
-
-        updateRoomTextCommandList(updatedTextCmd, txtCmdIndex);
-    }
-
-    function handleDelFlagOption(txtCmdIndex: number, flagIndex: number) {
-        let updatedFlagList = [
-            ...props.roomData.textCmds[txtCmdIndex].modifyFlags,
-        ];
-
-        updatedFlagList.splice(flagIndex, 1);
-
-        let updatedTextCmd = {
-            ...props.roomData.textCmds[txtCmdIndex],
-            modifyFlags: updatedFlagList,
-        };
-
-        updateRoomTextCommandList(updatedTextCmd, txtCmdIndex);
-    }
-
-    function updateFlagList(
-        updatedFlag: { flagKey: number; flagState: boolean },
-        txtCommandIndex: number,
-        flagIndex: number
-    ) {
-        let updatedFlagList = [
-            ...props.roomData.textCmds[txtCommandIndex].modifyFlags,
-        ];
-
-        updatedFlagList[flagIndex] = updatedFlag;
-
-        let updatedTextCmd = {
-            ...props.roomData.textCmds[txtCommandIndex],
-            modifyFlags: updatedFlagList,
-        };
-
-        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
-    }
-
-    //render choices for modifying flags
-    function renderFlagChoice(
-        modifyFlags: {
-            flagKey: number;
-            flagState: boolean;
-        }[],
-        txtCmdIndex: number
-    ) {
-        return (
-            <Flex direction="column">
-                <Button onClick={() => handleAddFlagOption(txtCmdIndex)}>
-                    Add Flag
-                </Button>
-                {/* <Button onClick={}>Add Flag</Button> */}
-                {modifyFlags.map((flag, flagIndex) => {
-                    return (
-                        <Flex direction="row">
-                            {
-                                <HashMapToSelectComponent
-                                    hashmap={ctx.state.gameFlags}
-                                    currValue={flag.flagKey}
-                                    onSelected={(event) =>
-                                        handleUpdateFlagChoice(
-                                            event,
-                                            txtCmdIndex,
-                                            flagIndex
-                                        )
-                                    }
-                                />
-                            }
-
-                            {/* select to set the flag to be true or false */}
-                            <Select
-                                defaultValue={0}
-                                size="xs"
-                                errorBorderColor="tomato"
-                                value={Number(flag.flagState)}
-                                onChange={(event) =>
-                                    handleUpdateFlagState(
-                                        event,
-                                        txtCmdIndex,
-                                        flagIndex
-                                    )
-                                }
-                            >
-                                <option value={0} key={txtCmdIndex}>
-                                    False
-                                </option>
-                                <option value={1} key={txtCmdIndex}>
-                                    True
-                                </option>
-                            </Select>
-                            <Button
-                                onClick={() =>
-                                    handleDelFlagOption(txtCmdIndex, flagIndex)
-                                }
-                            >
-                                -
-                            </Button>
-                        </Flex>
-                    );
-                })}
-            </Flex>
-        );
     }
 
     function renderTextCommandData(
@@ -271,8 +129,16 @@ export const TextCommandsComponent = (props: Props) => {
                         }[]
                     ) => handleUpdateModifiedInventory(index, updatedInventory)}
                 />
-
-                {renderFlagChoice(textCommandData.modifyFlags, index)}
+                <ModifyFlagsCmdComponent
+                    key={index}
+                    modifyFlags={textCommandData.modifyFlags}
+                    onUpdateFlagList={(
+                        updatedFlags: {
+                            flagKey: number;
+                            flagState: boolean;
+                        }[]
+                    ) => handleUpdateFlagList(index, updatedFlags)}
+                />
             </Flex>
         );
     }

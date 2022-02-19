@@ -1,4 +1,4 @@
-import { Button, Flex, Input, Select } from "@chakra-ui/react";
+import { Button, Flex, Select } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
 import { useRoot } from "../../../../hooks/useRoot";
 import { InventoryAction, TextCommandData } from "../../Data/RoomData";
