@@ -10,7 +10,7 @@ export class RoomData {
         this.id = RoomData.currID;
 
         this.content = new ContentData(this.id);
-        this.textCmds = [new TextCommandData(0)];
+        this.textCmds = [new TextCommandData()];
         this.buttonReactions = [];
 
         ++RoomData.currID;
@@ -38,7 +38,7 @@ export const InventoryAction = {
 };
 
 export class TextCommandData {
-    command: {
+    commandInput: {
         commandKey: number;
         recipe: string[];
     };
@@ -53,10 +53,8 @@ export class TextCommandData {
         flagState: boolean;
     }[];
 
-    id: number;
-
-    constructor(id: number) {
-        this.command = { commandKey: -1, recipe: [""] };
+    constructor() {
+        this.commandInput = { commandKey: -1, recipe: [""] };
         this.modifyInventory = [
             {
                 itemKey: -1,
@@ -70,8 +68,6 @@ export class TextCommandData {
                 flagState: false,
             },
         ];
-
-        this.id = id;
     }
 }
 
