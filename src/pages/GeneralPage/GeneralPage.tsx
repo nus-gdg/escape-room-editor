@@ -18,7 +18,7 @@ import {
     updateRoomInList,
     updateRoomList,
 } from "./GeneralHelperFuncs";
-import { TextCommandsComponent } from "./components/TextCommandsComponent";
+import { TextCommandsComponent } from "./components/TextCommandComponent/TextCommandsComponent";
 
 export const GeneralPage = () => {
     const ctx = useRoot();

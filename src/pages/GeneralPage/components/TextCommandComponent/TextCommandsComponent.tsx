@@ -1,8 +1,13 @@
 import { Button, Flex, Input, Select, Text } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
-import { useRoot } from "../../../hooks/useRoot";
-import { InventoryAction, RoomData, TextCommandData } from "../Data/RoomData";
-import { updateCurrRoom } from "../GeneralHelperFuncs";
+import { useRoot } from "../../../../hooks/useRoot";
+import {
+    InventoryAction,
+    RoomData,
+    TextCommandData,
+} from "../../Data/RoomData";
+import { updateCurrRoom } from "../../GeneralHelperFuncs";
+import { HashMapToSelectComponent } from "../HashMapToSelectComponent";
 
 interface Props {
     roomData: RoomData;
@@ -315,39 +320,6 @@ export const TextCommandsComponent = (props: Props) => {
         updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
     }
 
-    //render hashmap data into a select option dropdown
-    function hashmapToSelectRender(
-        hashmap: { [key: number]: string },
-        keyValue: number,
-        updateSelectOption: (
-            event: ChangeEvent<HTMLSelectElement>,
-            txtCmdIndex: number,
-            objIndex?: number
-        ) => void,
-        txtCmdIndex: number,
-        objIndex?: number
-    ) {
-        return (
-            <Select
-                placeholder="INPUT CHOICE"
-                size="xs"
-                errorBorderColor="tomato"
-                value={keyValue}
-                onChange={(event) =>
-                    updateSelectOption(event, txtCmdIndex, objIndex)
-                }
-            >
-                {Object.keys(hashmap).map((mapKey, index) => {
-                    return (
-                        <option value={mapKey} key={index}>
-                            {hashmap[Number(mapKey)]}
-                        </option>
-                    );
-                })}
-            </Select>
-        );
-    }
-
     //render command its choices, and the recipe inputs for the command
     function renderCommand(
         commandInput: { commandKey: number; recipe: string[] },
@@ -361,13 +333,13 @@ export const TextCommandsComponent = (props: Props) => {
                 </Button>
                 <Flex direction="row">
                     {
-                        //render the command and the possible options for it
-                        hashmapToSelectRender(
-                            ctx.state.commands,
-                            commandInput.commandKey,
-                            handleUpdateCommandChoice,
-                            txtCmdIndex
-                        )
+                        <HashMapToSelectComponent
+                            hashmap={ctx.state.commands}
+                            currValue={commandInput.commandKey}
+                            onSelected={(event) =>
+                                handleUpdateCommandChoice(event, txtCmdIndex)
+                            }
+                        />
                     }
                     {
                         //render all the recipe input for this command
@@ -430,14 +402,17 @@ export const TextCommandsComponent = (props: Props) => {
                     return (
                         <Flex direction="row">
                             {
-                                //render the possible flag choices the user can use
-                                hashmapToSelectRender(
-                                    ctx.state.gameFlags,
-                                    flag.flagKey,
-                                    handleUpdateFlagChoice,
-                                    txtCmdIndex,
-                                    flagIndex
-                                )
+                                <HashMapToSelectComponent
+                                    hashmap={ctx.state.gameFlags}
+                                    currValue={flag.flagKey}
+                                    onSelected={(event) =>
+                                        handleUpdateFlagChoice(
+                                            event,
+                                            txtCmdIndex,
+                                            flagIndex
+                                        )
+                                    }
+                                />
                             }
 
                             {/* select to set the flag to be true or false */}
@@ -491,14 +466,17 @@ export const TextCommandsComponent = (props: Props) => {
                     return (
                         <Flex direction="row">
                             {
-                                //render the possible flag choices the user can use
-                                hashmapToSelectRender(
-                                    ctx.state.objectNames,
-                                    item.itemKey,
-                                    handleUpdateInventoryItemChoice,
-                                    txtCmdIndex,
-                                    itemIndex
-                                )
+                                <HashMapToSelectComponent
+                                    hashmap={ctx.state.objectNames}
+                                    currValue={item.itemKey}
+                                    onSelected={(event) =>
+                                        handleUpdateInventoryItemChoice(
+                                            event,
+                                            txtCmdIndex,
+                                            itemIndex
+                                        )
+                                    }
+                                />
                             }
                             <Select
                                 defaultValue={-1}
