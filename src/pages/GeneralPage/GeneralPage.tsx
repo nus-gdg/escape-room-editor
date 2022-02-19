@@ -1,5 +1,4 @@
 import { Toolbar } from "../Toolbar/Toolbar";
-import TextInput from "./components/TextInputComponent";
 import React, { Component, useState } from "react";
 import { RoomData, ContentData, ButtonData } from "./Data/RoomData";
 import ContentNavigationComponent from "./components/ContentNavigationComponent";
