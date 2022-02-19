@@ -12,31 +12,40 @@ interface Props {
 export const TextCommandsComponent = (props: Props) => {
     const ctx = useRoot();
 
+    //update a recipe list in a room's textCommandData command list
     function handleUpdateRecipe(
         event: ChangeEvent<HTMLInputElement>,
-        recipeIndex: number,
+        txtCommandIndex: number,
         ingredientIndex: number
     ) {
         //create soft copy of recipe list
-        let updatedRecipe = [
-            ...props.roomData.textCmds[recipeIndex].command.recipe,
+        let updatedRecipeList = [
+            ...props.roomData.textCmds[txtCommandIndex].command.recipe,
         ];
-        updatedRecipe[ingredientIndex] = event.target.value;
+        updatedRecipeList[ingredientIndex] = event.target.value;
 
         //create soft copy and modify textcommand obj
         let updatedTextCmd = {
-            ...props.roomData.textCmds[recipeIndex],
+            ...props.roomData.textCmds[txtCommandIndex],
             command: {
-                ...props.roomData.textCmds[recipeIndex].command,
-                recipe: updatedRecipe,
+                ...props.roomData.textCmds[txtCommandIndex].command,
+                recipe: updatedRecipeList,
             },
         } as TextCommandData;
 
+        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
+    }
+
+    //update room's textCommandData List with an update textCommandData obj
+    function updateRoomTextCommandList(
+        updatedTextCommand: TextCommandData,
+        txtCommandIndex: number
+    ) {
         //create soft copy and modify the list
         let updatedTextCmdList = [
             ...props.roomData.textCmds,
         ] as TextCommandData[];
-        updatedTextCmdList[recipeIndex] = updatedTextCmd;
+        updatedTextCmdList[txtCommandIndex] = updatedTextCommand;
 
         //create soft copy of room and update the list
         let updatedRoom = {
@@ -47,30 +56,148 @@ export const TextCommandsComponent = (props: Props) => {
         updateCurrRoom(updatedRoom, ctx);
     }
 
-    function handleUpdateCommand(
+    function handleUpdateCommandChoice(
         event: ChangeEvent<HTMLSelectElement>,
-        index: number
+        txtCommandIndex: number
     ) {
-        let updatedCommand = { ...props.roomData.textCmds[index].command };
+        let updatedCommand = {
+            ...props.roomData.textCmds[txtCommandIndex].command,
+        };
         updatedCommand.commandKey = Number(event.target.value);
 
-        //create soft copy and modify the list
-        let updatedTextCmdList = [
-            ...props.roomData.textCmds,
-        ] as TextCommandData[];
-
-        updatedTextCmdList[index] = {
-            ...props.roomData.textCmds[index],
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCommandIndex],
             command: updatedCommand,
         };
 
-        //create soft copy of room and update the list
-        let updatedRoom = {
-            ...props.roomData,
-            textCmds: updatedTextCmdList,
+        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
+    }
+
+    function handleUpdateInventoryItemChoice(
+        event: ChangeEvent<HTMLSelectElement>,
+        txtCommandIndex: number,
+        itemIndex?: number
+    ) {
+        if (typeof itemIndex === "undefined") {
+            console.log("Inventory item index is undefined, there's an issue.");
+            return;
+        }
+
+        let originalItem =
+            props.roomData.textCmds[txtCommandIndex].modifyInventory[itemIndex];
+
+        let updatedItem = {
+            ...originalItem,
+            itemKey: Number(event.target.value),
         };
 
-        updateCurrRoom(updatedRoom, ctx);
+        updateInventoryItemInList(updatedItem, txtCommandIndex, itemIndex);
+    }
+
+    function handleUpdateInventoryItemFlag(
+        event: ChangeEvent<HTMLSelectElement>,
+        txtCommandIndex: number,
+        itemIndex?: number
+    ) {
+        if (typeof itemIndex === "undefined") {
+            console.log(
+                "Inventory item index is undefined, there's an issue updating flag."
+            );
+            return;
+        }
+
+        let originalItem =
+            props.roomData.textCmds[txtCommandIndex].modifyInventory[itemIndex];
+
+        let updatedItem = {
+            ...originalItem,
+            itemState: Number(event.target.value),
+        };
+
+        updateInventoryItemInList(updatedItem, txtCommandIndex, itemIndex);
+    }
+
+    function updateInventoryItemInList(
+        updatedItem: {
+            itemKey: number;
+            itemState: number;
+        },
+        txtCommandIndex: number,
+        itemIndex: number
+    ) {
+        let updatedInventory = [
+            ...props.roomData.textCmds[txtCommandIndex].modifyInventory,
+        ];
+
+        updatedInventory[itemIndex] = updatedItem;
+
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCommandIndex],
+            modifyInventory: updatedInventory,
+        };
+
+        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
+    }
+
+    function handleUpdateFlagChoice(
+        event: ChangeEvent<HTMLSelectElement>,
+        txtCommandIndex: number,
+        flagIndex?: number
+    ) {
+        if (typeof flagIndex === "undefined") {
+            console.log("Flag index is undefined, there's an issue.");
+            return;
+        }
+
+        let originalFlag =
+            props.roomData.textCmds[txtCommandIndex].modifyFlags[flagIndex];
+
+        let updatedFlag = {
+            ...originalFlag,
+            flagKey: Number(event.target.value),
+        };
+
+        updateFlagList(updatedFlag, txtCommandIndex, flagIndex);
+    }
+
+    function handleUpdateFlagState(
+        event: ChangeEvent<HTMLSelectElement>,
+        txtCommandIndex: number,
+        flagIndex?: number
+    ) {
+        if (typeof flagIndex === "undefined") {
+            console.log("Flag index is undefined, there's an issue.");
+            return;
+        }
+
+        let originalFlag =
+            props.roomData.textCmds[txtCommandIndex].modifyFlags[flagIndex];
+
+        let updatedFlag = {
+            ...originalFlag,
+            flagState: Boolean(+event.target.value), //convert to number than boolean
+        };
+
+        updateFlagList(updatedFlag, txtCommandIndex, flagIndex);
+    }
+
+    function updateFlagList(
+        updatedFlag: { flagKey: number; flagState: boolean },
+        txtCommandIndex: number,
+        flagIndex: number
+    ) {
+        let updatedFlagList = [
+            ...props.roomData.textCmds[txtCommandIndex].modifyFlags,
+        ];
+
+        updatedFlagList[flagIndex] = updatedFlag;
+
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCommandIndex],
+            modifyFlags: updatedFlagList,
+        };
+
+        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
     }
 
     function hashmapToSelectRender(
@@ -78,9 +205,11 @@ export const TextCommandsComponent = (props: Props) => {
         keyValue: number,
         updateSelectOption: (
             event: ChangeEvent<HTMLSelectElement>,
-            txtCmdIndex: number
+            txtCmdIndex: number,
+            objIndex?: number
         ) => void,
-        txtCmdIndex: number
+        txtCmdIndex: number,
+        objIndex?: number
     ) {
         return (
             <Select
@@ -88,7 +217,9 @@ export const TextCommandsComponent = (props: Props) => {
                 size="xs"
                 errorBorderColor="tomato"
                 value={keyValue}
-                onChange={(event) => updateSelectOption(event, txtCmdIndex)}
+                onChange={(event) =>
+                    updateSelectOption(event, txtCmdIndex, objIndex)
+                }
             >
                 {Object.keys(hashmap).map((mapKey, index) => {
                     return (
@@ -113,7 +244,7 @@ export const TextCommandsComponent = (props: Props) => {
                     hashmapToSelectRender(
                         ctx.state.commands,
                         command.commandKey,
-                        handleUpdateCommand,
+                        handleUpdateCommandChoice,
                         txtCmdIndex
                     )
                 }
@@ -156,7 +287,7 @@ export const TextCommandsComponent = (props: Props) => {
     ) {
         return (
             <Flex direction="column">
-                {modifyFlags.map((flag) => {
+                {modifyFlags.map((flag, flagIndex) => {
                     return (
                         <Flex direction="row">
                             {
@@ -164,26 +295,31 @@ export const TextCommandsComponent = (props: Props) => {
                                 hashmapToSelectRender(
                                     ctx.state.gameFlags,
                                     flag.flagKey,
-                                    handleUpdateCommand,
-                                    txtCmdIndex
+                                    handleUpdateFlagChoice,
+                                    txtCmdIndex,
+                                    flagIndex
                                 )
                             }
 
                             {/* select to set the flag to be true or false */}
                             <Select
-                                defaultValue={1}
+                                defaultValue={0}
                                 size="xs"
                                 errorBorderColor="tomato"
                                 value={Number(flag.flagState)}
-                                // onChange={(event) =>
-                                //     handleUpdateCommand(event, index)
-                                // }
+                                onChange={(event) =>
+                                    handleUpdateFlagState(
+                                        event,
+                                        txtCmdIndex,
+                                        flagIndex
+                                    )
+                                }
                             >
-                                <option value={1} key={txtCmdIndex}>
-                                    True
-                                </option>
                                 <option value={0} key={txtCmdIndex}>
                                     False
+                                </option>
+                                <option value={1} key={txtCmdIndex}>
+                                    True
                                 </option>
                             </Select>
                         </Flex>
@@ -202,7 +338,7 @@ export const TextCommandsComponent = (props: Props) => {
     ) {
         return (
             <Flex direction="column">
-                {modifyInventory.map((item) => {
+                {modifyInventory.map((item, itemIndex) => {
                     return (
                         <Flex direction="row">
                             {
@@ -210,8 +346,9 @@ export const TextCommandsComponent = (props: Props) => {
                                 hashmapToSelectRender(
                                     ctx.state.objectNames,
                                     item.itemKey,
-                                    handleUpdateCommand,
-                                    txtCmdIndex
+                                    handleUpdateInventoryItemChoice,
+                                    txtCmdIndex,
+                                    itemIndex
                                 )
                             }
                             <Select
@@ -219,6 +356,13 @@ export const TextCommandsComponent = (props: Props) => {
                                 size="xs"
                                 errorBorderColor="tomato"
                                 value={Number(item.itemState)}
+                                onChange={(event) =>
+                                    handleUpdateInventoryItemFlag(
+                                        event,
+                                        txtCmdIndex,
+                                        itemIndex
+                                    )
+                                }
                             >
                                 <option
                                     value={InventoryAction.REMOVE_ITEM}
