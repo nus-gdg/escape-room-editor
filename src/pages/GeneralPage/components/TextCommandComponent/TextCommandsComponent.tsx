@@ -9,6 +9,7 @@ import {
 import { updateCurrRoom } from "../../GeneralHelperFuncs";
 import { HashMapToSelectComponent } from "../HashMapToSelectComponent";
 import { CommandInputComponent } from "./CommandInputComponent";
+import { ModifyInventoryComponent } from "./ModifyInventoryComponent";
 
 interface Props {
     roomData: RoomData;
@@ -52,6 +53,21 @@ export const TextCommandsComponent = (props: Props) => {
         updateRoomTextCommandList(updatedTextCommand, txtCommandIndex);
     }
 
+    function handleUpdateModifiedInventory(
+        txtCommandIndex: number,
+        updatedInventory: {
+            itemKey: number;
+            itemState: number;
+        }[]
+    ) {
+        let updatedTextCmd = {
+            ...props.roomData.textCmds[txtCommandIndex],
+            modifyInventory: updatedInventory,
+        };
+
+        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
+    }
+
     //update room's textCommandData List with an update textCommandData obj
     function updateRoomTextCommandList(
         updatedTextCommand: TextCommandData,
@@ -70,108 +86,6 @@ export const TextCommandsComponent = (props: Props) => {
         };
 
         updateCurrRoom(updatedRoom, ctx);
-    }
-
-    //Update inventory item choice
-    function handleUpdateInventoryItemChoice(
-        event: ChangeEvent<HTMLSelectElement>,
-        txtCommandIndex: number,
-        itemIndex?: number
-    ) {
-        if (typeof itemIndex === "undefined") {
-            console.log("Inventory item index is undefined, there's an issue.");
-            return;
-        }
-
-        let originalItem =
-            props.roomData.textCmds[txtCommandIndex].modifyInventory[itemIndex];
-
-        let updatedItem = {
-            ...originalItem,
-            itemKey: Number(event.target.value),
-        };
-
-        updateItemInInventory(updatedItem, txtCommandIndex, itemIndex);
-    }
-
-    //update inventory item state
-    function handleUpdateInventoryItemState(
-        event: ChangeEvent<HTMLSelectElement>,
-        txtCommandIndex: number,
-        itemIndex?: number
-    ) {
-        if (typeof itemIndex === "undefined") {
-            console.log(
-                "Inventory item index is undefined, there's an issue updating flag."
-            );
-            return;
-        }
-
-        let originalItem =
-            props.roomData.textCmds[txtCommandIndex].modifyInventory[itemIndex];
-
-        let updatedItem = {
-            ...originalItem,
-            itemState: Number(event.target.value),
-        };
-
-        updateItemInInventory(updatedItem, txtCommandIndex, itemIndex);
-    }
-
-    //add new item to inventory
-    function handleAddItemOption(txtCommandIndex: number) {
-        let updatedInventory = [
-            ...props.roomData.textCmds[txtCommandIndex].modifyInventory,
-        ];
-
-        updatedInventory.push(TextCommandData.getDefaultItemData());
-
-        let updatedTextCmd = {
-            ...props.roomData.textCmds[txtCommandIndex],
-            modifyInventory: updatedInventory,
-        };
-
-        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
-    }
-
-    function handleDeleteItemOption(
-        txtCommandIndex: number,
-        itemIndex: number
-    ) {
-        let updatedInventory = [
-            ...props.roomData.textCmds[txtCommandIndex].modifyInventory,
-        ];
-
-        updatedInventory.splice(itemIndex, 1);
-        let updatedTextCmd = {
-            ...props.roomData.textCmds[txtCommandIndex],
-            modifyInventory: updatedInventory,
-        };
-
-        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
-    }
-
-    //update item in inventory
-    function updateItemInInventory(
-        updatedItem: {
-            itemKey: number;
-            itemState: number;
-        },
-        txtCommandIndex: number,
-        itemIndex: number
-    ) {
-        let updatedInventory = [
-            ...props.roomData.textCmds[txtCommandIndex].modifyInventory,
-        ];
-
-        updatedInventory[itemIndex] = updatedItem;
-
-        let updatedTextCmd = {
-            ...props.roomData.textCmds[txtCommandIndex],
-            modifyInventory: updatedInventory,
-        };
-
-        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
     }
 
     function handleUpdateFlagChoice(
@@ -331,77 +245,6 @@ export const TextCommandsComponent = (props: Props) => {
         );
     }
 
-    function renderInventoryChoice(
-        modifyInventory: {
-            itemKey: number;
-            itemState: number;
-        }[],
-        txtCmdIndex: number
-    ) {
-        return (
-            <Flex direction="column">
-                <Button onClick={() => handleAddItemOption(txtCmdIndex)}>
-                    Add item
-                </Button>
-                {modifyInventory.map((item, itemIndex) => {
-                    return (
-                        <Flex direction="row">
-                            {
-                                <HashMapToSelectComponent
-                                    hashmap={ctx.state.objectNames}
-                                    currValue={item.itemKey}
-                                    onSelected={(event) =>
-                                        handleUpdateInventoryItemChoice(
-                                            event,
-                                            txtCmdIndex,
-                                            itemIndex
-                                        )
-                                    }
-                                />
-                            }
-                            <Select
-                                defaultValue={-1}
-                                size="xs"
-                                errorBorderColor="tomato"
-                                value={Number(item.itemState)}
-                                onChange={(event) =>
-                                    handleUpdateInventoryItemState(
-                                        event,
-                                        txtCmdIndex,
-                                        itemIndex
-                                    )
-                                }
-                            >
-                                <option
-                                    value={InventoryAction.REMOVE_ITEM}
-                                    key={txtCmdIndex}
-                                >
-                                    Remove
-                                </option>
-                                <option
-                                    value={InventoryAction.ADD_ITEM}
-                                    key={txtCmdIndex}
-                                >
-                                    Add
-                                </option>
-                            </Select>
-                            <Button
-                                onClick={() =>
-                                    handleDeleteItemOption(
-                                        txtCmdIndex,
-                                        itemIndex
-                                    )
-                                }
-                            >
-                                -
-                            </Button>
-                        </Flex>
-                    );
-                })}
-            </Flex>
-        );
-    }
-
     function renderTextCommandData(
         textCommandData: TextCommandData,
         index: number
@@ -409,6 +252,7 @@ export const TextCommandsComponent = (props: Props) => {
         return (
             <Flex direction={"row"} key={index}>
                 <CommandInputComponent
+                    key={index}
                     commandInputData={textCommandData.commandInput}
                     onUpdateCommandInput={(updatedCommandInput: {
                         commandKey: number;
@@ -417,7 +261,17 @@ export const TextCommandsComponent = (props: Props) => {
                         handleUpdateCommandInputData(index, updatedCommandInput)
                     }
                 />
-                {renderInventoryChoice(textCommandData.modifyInventory, index)}
+                <ModifyInventoryComponent
+                    key={index}
+                    modifyInventoryData={textCommandData.modifyInventory}
+                    onUpdateInventoryInput={(
+                        updatedInventory: {
+                            itemKey: number;
+                            itemState: number;
+                        }[]
+                    ) => handleUpdateModifiedInventory(index, updatedInventory)}
+                />
+
                 {renderFlagChoice(textCommandData.modifyFlags, index)}
             </Flex>
         );
