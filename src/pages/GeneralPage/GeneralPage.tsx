@@ -60,6 +60,22 @@ export const GeneralPage = () => {
         );
     }
 
+    function handleRemoveRoom(roomId: number) {
+        let updatedRoomList = [...ctx.state.rooms];
+        let index = updatedRoomList.findIndex((room) => room.id === roomId);
+
+        updatedRoomList.splice(index, 1);
+
+        updateRoomList(updatedRoomList, ctx);
+        deleteValueInHashmap(
+            roomId,
+            ctx.state.roomNames,
+            ContentAction.UPDATE_ROOM_NAMES,
+            "roomNames",
+            ctx
+        );
+    }
+
     function handleUpdateRoomContent(
         updatedContent: ContentData,
         varName: keyof ContentData
@@ -165,6 +181,22 @@ export const GeneralPage = () => {
         setUniqueObjID(uniqueObjID + 1);
     }
 
+    function handleDeleteObject(objectId: number) {
+        let updatedObjList = [...ctx.state.objects];
+        let index = updatedObjList.findIndex((obj) => obj.id === objectId);
+
+        updatedObjList.splice(index, 1);
+
+        updateObjList(updatedObjList, ctx);
+        deleteValueInHashmap(
+            objectId,
+            ctx.state.objectNames,
+            ContentAction.UPDATE_OBJECT_NAMES,
+            "objectNames",
+            ctx
+        );
+    }
+
     function handleUpdateObjectData(
         updatedContent: ContentData,
         varName: keyof ContentData
@@ -226,12 +258,14 @@ export const GeneralPage = () => {
                     contents={ctx.state.rooms.map((room) => room.content)}
                     onPressButton={handleChangeCurrRoom}
                     onAdd={handleAddRoom}
+                    onRemove={handleRemoveRoom}
                 />
                 <ContentNavigationComponent
                     title="Objects"
                     contents={ctx.state.objects}
                     onPressButton={handleChangeCurrObject}
                     onAdd={handleAddObject}
+                    onRemove={handleDeleteObject}
                 />
             </Flex>
             {renderContent()}

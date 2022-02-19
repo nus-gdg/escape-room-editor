@@ -5,8 +5,9 @@ import { ContentData } from "../Data/RoomData";
 interface Props {
     title: string;
     contents: ContentData[];
-    onPressButton: Function;
-    onAdd: Function;
+    onPressButton: (id: number) => void;
+    onAdd: () => void;
+    onRemove: (id: number) => void;
 }
 
 export const ContentNavigationComponent = (props: Props) => {
@@ -17,12 +18,16 @@ export const ContentNavigationComponent = (props: Props) => {
             <Flex direction={"column"} shrink={"0"}>
                 {props.contents.map((content, index) => {
                     return (
-                        <button
-                            key={index}
-                            onClick={() => props.onPressButton(content.id)}
-                        >
-                            {content.title}
-                        </button>
+                        <Flex direction="row" key={index}>
+                            <button
+                                onClick={() => props.onPressButton(content.id)}
+                            >
+                                {content.title}
+                            </button>
+                            <Button onClick={() => props.onRemove(content.id)}>
+                                -
+                            </Button>
+                        </Flex>
                     );
                 })}
             </Flex>

@@ -1,13 +1,7 @@
-import { Button, Flex, Input, Select, Text } from "@chakra-ui/react";
-import { ChangeEvent } from "react";
+import { Button, Flex, Text } from "@chakra-ui/react";
 import { useRoot } from "../../../../hooks/useRoot";
-import {
-    InventoryAction,
-    RoomData,
-    TextCommandData,
-} from "../../Data/RoomData";
+import { RoomData, TextCommandData } from "../../Data/RoomData";
 import { updateCurrRoom } from "../../GeneralHelperFuncs";
-import { HashMapToSelectComponent } from "../HashMapToSelectComponent";
 import { CommandInputComponent } from "./CommandInputComponent";
 import { ModifyFlagsCmdComponent } from "./ModifyFlagCmdComponent";
 import { ModifyInventoryComponent } from "./ModifyInventoryComponent";
