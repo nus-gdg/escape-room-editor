@@ -74,7 +74,7 @@ export const ModifyFlagsCmdComponent = (props: Props) => {
             {/* <Button onClick={}>Add Flag</Button> */}
             {props.modifyFlags.map((flag, flagIndex) => {
                 return (
-                    <Flex direction="row">
+                    <Flex direction="row" key={flagIndex}>
                         {
                             <HashMapToSelectComponent
                                 hashmap={ctx.state.gameFlags}
@@ -87,7 +87,6 @@ export const ModifyFlagsCmdComponent = (props: Props) => {
 
                         {/* select to set the flag to be true or false */}
                         <Select
-                            defaultValue={0}
                             size="xs"
                             errorBorderColor="tomato"
                             value={Number(flag.flagState)}
@@ -95,12 +94,8 @@ export const ModifyFlagsCmdComponent = (props: Props) => {
                                 handleUpdateFlagState(event, flagIndex)
                             }
                         >
-                            <option value={0} key={flagIndex}>
-                                False
-                            </option>
-                            <option value={1} key={flagIndex}>
-                                True
-                            </option>
+                            <option value={0}>False</option>
+                            <option value={1}>True</option>
                         </Select>
                         <Button onClick={() => handleDelFlagOption(flagIndex)}>
                             -

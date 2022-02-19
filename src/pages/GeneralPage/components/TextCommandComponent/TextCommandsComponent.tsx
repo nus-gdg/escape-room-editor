@@ -110,7 +110,6 @@ export const TextCommandsComponent = (props: Props) => {
         return (
             <Flex direction={"row"} key={index}>
                 <CommandInputComponent
-                    key={index}
                     commandInputData={textCommandData.commandInput}
                     onUpdateCommandInput={(updatedCommandInput: {
                         commandKey: number;
@@ -120,7 +119,6 @@ export const TextCommandsComponent = (props: Props) => {
                     }
                 />
                 <ModifyInventoryComponent
-                    key={index}
                     modifyInventoryData={textCommandData.modifyInventory}
                     onUpdateInventoryInput={(
                         updatedInventory: {
@@ -130,7 +128,6 @@ export const TextCommandsComponent = (props: Props) => {
                     ) => handleUpdateModifiedInventory(index, updatedInventory)}
                 />
                 <ModifyFlagsCmdComponent
-                    key={index}
                     modifyFlags={textCommandData.modifyFlags}
                     onUpdateFlagList={(
                         updatedFlags: {

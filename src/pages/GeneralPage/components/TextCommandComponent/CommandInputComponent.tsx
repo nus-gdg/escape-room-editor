@@ -64,7 +64,7 @@ export const CommandInputComponent = (props: Props) => {
             <Flex direction={"column"}>
                 {recipe.map((ingredient, index) => {
                     return (
-                        <Flex direction={"row"}>
+                        <Flex direction={"row"} key={index}>
                             <Input
                                 value={ingredient}
                                 placeholder="ingredient"

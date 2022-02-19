@@ -91,7 +91,7 @@ export const ModifyInventoryComponent = (props: Props) => {
             <Button onClick={() => handleAddItemOption()}>Add item</Button>
             {props.modifyInventoryData.map((item, itemIndex) => {
                 return (
-                    <Flex direction="row">
+                    <Flex direction="row" key={itemIndex}>
                         {
                             <HashMapToSelectComponent
                                 hashmap={ctx.state.objectNames}
@@ -105,7 +105,6 @@ export const ModifyInventoryComponent = (props: Props) => {
                             />
                         }
                         <Select
-                            defaultValue={-1}
                             size="xs"
                             errorBorderColor="tomato"
                             value={Number(item.itemState)}
@@ -113,16 +112,10 @@ export const ModifyInventoryComponent = (props: Props) => {
                                 handleUpdateInventoryItemState(event, itemIndex)
                             }
                         >
-                            <option
-                                value={InventoryAction.REMOVE_ITEM}
-                                key={itemIndex}
-                            >
+                            <option value={InventoryAction.REMOVE_ITEM}>
                                 Remove
                             </option>
-                            <option
-                                value={InventoryAction.ADD_ITEM}
-                                key={itemIndex}
-                            >
+                            <option value={InventoryAction.ADD_ITEM}>
                                 Add
                             </option>
                         </Select>
