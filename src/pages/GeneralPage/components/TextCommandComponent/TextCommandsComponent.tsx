@@ -8,6 +8,7 @@ import {
 } from "../../Data/RoomData";
 import { updateCurrRoom } from "../../GeneralHelperFuncs";
 import { HashMapToSelectComponent } from "../HashMapToSelectComponent";
+import { CommandInputComponent } from "./CommandInputComponent";
 
 interface Props {
     roomData: RoomData;
@@ -36,75 +37,19 @@ export const TextCommandsComponent = (props: Props) => {
 
     function handleDeleteCommand() {}
 
-    //update a recipe list in a room's textCommandData command list
-    function handleUpdateRecipe(
-        event: ChangeEvent<HTMLInputElement>,
+    function handleUpdateCommandInputData(
         txtCommandIndex: number,
-        ingredientIndex: number
+        updatedCommandInput: {
+            commandKey: number;
+            recipe: string[];
+        }
     ) {
-        //create soft copy of recipe list
-        let updatedRecipeList = [
-            ...props.roomData.textCmds[txtCommandIndex].commandInput.recipe,
-        ];
-        updatedRecipeList[ingredientIndex] = event.target.value;
-
-        updateRecipeList(updatedRecipeList, txtCommandIndex);
-    }
-
-    function updateRecipeList(
-        updatedRecipeList: string[],
-        txtCommandIndex: number
-    ) {
-        //create soft copy and modify textcommand obj
-        let updatedTextCmd = {
+        let updatedTextCommand = {
             ...props.roomData.textCmds[txtCommandIndex],
-            commandInput: {
-                ...props.roomData.textCmds[txtCommandIndex].commandInput,
-                recipe: updatedRecipeList,
-            },
-        } as TextCommandData;
-
-        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
-    }
-
-    function handleAddNewIngredient(txtCommandIndex: number) {
-        let updatedRecipeList = [
-            ...props.roomData.textCmds[txtCommandIndex].commandInput.recipe,
-        ];
-        updatedRecipeList.push("");
-
-        updateRecipeList(updatedRecipeList, txtCommandIndex);
-    }
-
-    function handleDeleteIngredient(
-        txtCommandIndex: number,
-        ingredientIndex: number
-    ) {
-        let updatedRecipeList = [
-            ...props.roomData.textCmds[txtCommandIndex].commandInput.recipe,
-        ];
-
-        updatedRecipeList.splice(ingredientIndex, 1);
-
-        updateRecipeList(updatedRecipeList, txtCommandIndex);
-    }
-
-    //update command hashkey
-    function handleUpdateCommandChoice(
-        event: ChangeEvent<HTMLSelectElement>,
-        txtCommandIndex: number
-    ) {
-        let updatedCommand = {
-            ...props.roomData.textCmds[txtCommandIndex].commandInput,
-        };
-        updatedCommand.commandKey = Number(event.target.value);
-
-        let updatedTextCmd = {
-            ...props.roomData.textCmds[txtCommandIndex],
-            commandInput: updatedCommand,
+            commandInput: updatedCommandInput,
         };
 
-        updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
+        updateRoomTextCommandList(updatedTextCommand, txtCommandIndex);
     }
 
     //update room's textCommandData List with an update textCommandData obj
@@ -320,70 +265,6 @@ export const TextCommandsComponent = (props: Props) => {
         updateRoomTextCommandList(updatedTextCmd, txtCommandIndex);
     }
 
-    //render command its choices, and the recipe inputs for the command
-    function renderCommand(
-        commandInput: { commandKey: number; recipe: string[] },
-        txtCmdIndex: number
-    ) {
-        return (
-            <Flex direction="column">
-                <Button onClick={() => handleAddNewIngredient(txtCmdIndex)}>
-                    {" "}
-                    Add ingredient
-                </Button>
-                <Flex direction="row">
-                    {
-                        <HashMapToSelectComponent
-                            hashmap={ctx.state.commands}
-                            currValue={commandInput.commandKey}
-                            onSelected={(event) =>
-                                handleUpdateCommandChoice(event, txtCmdIndex)
-                            }
-                        />
-                    }
-                    {
-                        //render all the recipe input for this command
-                        renderRecipeInputs(commandInput.recipe, txtCmdIndex)
-                    }
-                </Flex>
-            </Flex>
-        );
-    }
-
-    //render recipe inputs for command
-    function renderRecipeInputs(recipe: string[], txtCmdIndex: number) {
-        return (
-            <Flex direction={"column"} key={txtCmdIndex}>
-                {recipe.map((ingredient, index) => {
-                    return (
-                        <Flex direction={"row"}>
-                            <Input
-                                value={ingredient}
-                                placeholder="ingredient"
-                                size="xs"
-                                key={index}
-                                onChange={(event) =>
-                                    handleUpdateRecipe(
-                                        event,
-                                        txtCmdIndex,
-                                        index
-                                    )
-                                }
-                            />
-                            <Button
-                                onClick={() =>
-                                    handleDeleteIngredient(txtCmdIndex, index)
-                                }
-                            >
-                                -
-                            </Button>
-                        </Flex>
-                    );
-                })}
-            </Flex>
-        );
-    }
-
     //render choices for modifying flags
     function renderFlagChoice(
         modifyFlags: {
@@ -527,7 +408,15 @@ export const TextCommandsComponent = (props: Props) => {
     ) {
         return (
             <Flex direction={"row"} key={index}>
-                {renderCommand(textCommandData.commandInput, index)}
+                <CommandInputComponent
+                    commandInputData={textCommandData.commandInput}
+                    onUpdateCommandInput={(updatedCommandInput: {
+                        commandKey: number;
+                        recipe: string[];
+                    }) =>
+                        handleUpdateCommandInputData(index, updatedCommandInput)
+                    }
+                />
                 {renderInventoryChoice(textCommandData.modifyInventory, index)}
                 {renderFlagChoice(textCommandData.modifyFlags, index)}
             </Flex>
