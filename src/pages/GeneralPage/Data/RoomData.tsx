@@ -31,6 +31,12 @@ export class ContentData {
     }
 }
 
+export const InventoryAction = {
+    NONE: -1,
+    REMOVE_ITEM: 0,
+    ADD_ITEM: 1,
+};
+
 export class TextCommandData {
     command: {
         commandKey: number;
@@ -38,12 +44,12 @@ export class TextCommandData {
     };
 
     modifyInventory: {
-        itemName: number;
-        itemState: boolean; //either remove or add
+        itemKey: number;
+        itemState: number; //either remove or add
     }[];
 
     modifyFlags: {
-        flagName: number;
+        flagKey: number;
         flagState: boolean;
     }[];
 
@@ -53,14 +59,14 @@ export class TextCommandData {
         this.command = { commandKey: -1, recipe: [""] };
         this.modifyInventory = [
             {
-                itemName: -1,
-                itemState: true, //either remove or add
+                itemKey: -1,
+                itemState: InventoryAction.NONE, //either remove or add
             },
         ];
 
         this.modifyFlags = [
             {
-                flagName: -1,
+                flagKey: -1,
                 flagState: false,
             },
         ];

@@ -1,7 +1,7 @@
 import { Button, Flex, Input, Select, Text } from "@chakra-ui/react";
 import { ChangeEvent } from "react";
 import { useRoot } from "../../../hooks/useRoot";
-import { RoomData, TextCommandData } from "../Data/RoomData";
+import { InventoryAction, RoomData, TextCommandData } from "../Data/RoomData";
 import { updateCurrRoom } from "../GeneralHelperFuncs";
 
 interface Props {
@@ -11,26 +11,6 @@ interface Props {
 
 export const TextCommandsComponent = (props: Props) => {
     const ctx = useRoot();
-
-    function renderFlagChoice(
-        modifyFlags: {
-            flagName: number;
-            flagState: boolean;
-        }[],
-        index: number
-    ) {
-        return <Flex></Flex>;
-    }
-
-    function renderInventoryChoice(
-        modifyInventory: {
-            itemName: number;
-            itemState: boolean;
-        }[],
-        index: number
-    ) {
-        return <Flex></Flex>;
-    }
 
     function handleUpdateRecipe(
         event: ChangeEvent<HTMLInputElement>,
@@ -93,9 +73,62 @@ export const TextCommandsComponent = (props: Props) => {
         updateCurrRoom(updatedRoom, ctx);
     }
 
-    function renderRecipeChoices(recipe: string[], recipeIndex: number) {
+    function hashmapToSelectRender(
+        hashmap: { [key: number]: string },
+        keyValue: number,
+        updateSelectOption: (
+            event: ChangeEvent<HTMLSelectElement>,
+            txtCmdIndex: number
+        ) => void,
+        txtCmdIndex: number
+    ) {
         return (
-            <Flex direction={"column"} key={recipeIndex}>
+            <Select
+                placeholder="INPUT CHOICE"
+                size="xs"
+                errorBorderColor="tomato"
+                value={keyValue}
+                onChange={(event) => updateSelectOption(event, txtCmdIndex)}
+            >
+                {Object.keys(hashmap).map((mapKey, index) => {
+                    return (
+                        <option value={mapKey} key={index}>
+                            {hashmap[Number(mapKey)]}
+                        </option>
+                    );
+                })}
+            </Select>
+        );
+    }
+
+    //render command its choices, and the recipe inputs for the command
+    function renderCommand(
+        command: { commandKey: number; recipe: string[] },
+        txtCmdIndex: number
+    ) {
+        return (
+            <Flex direction="row">
+                {
+                    //render the command and the possible options for it
+                    hashmapToSelectRender(
+                        ctx.state.commands,
+                        command.commandKey,
+                        handleUpdateCommand,
+                        txtCmdIndex
+                    )
+                }
+                {
+                    //render all the recipe input for this command
+                    renderRecipeInputs(command.recipe, txtCmdIndex)
+                }
+            </Flex>
+        );
+    }
+
+    //render recipe inputs for command
+    function renderRecipeInputs(recipe: string[], txtCmdIndex: number) {
+        return (
+            <Flex direction={"column"} key={txtCmdIndex}>
                 {recipe.map((ingredient, index) => {
                     return (
                         <Input
@@ -104,7 +137,7 @@ export const TextCommandsComponent = (props: Props) => {
                             size="xs"
                             key={index}
                             onChange={(event) =>
-                                handleUpdateRecipe(event, recipeIndex, index)
+                                handleUpdateRecipe(event, txtCmdIndex, index)
                             }
                         />
                     );
@@ -113,23 +146,97 @@ export const TextCommandsComponent = (props: Props) => {
         );
     }
 
-    function renderCommandChoice(commandKey: number, index: number) {
+    //render choices for modifying flags
+    function renderFlagChoice(
+        modifyFlags: {
+            flagKey: number;
+            flagState: boolean;
+        }[],
+        txtCmdIndex: number
+    ) {
         return (
-            <Select
-                placeholder="Command"
-                size="xs"
-                errorBorderColor="tomato"
-                value={commandKey}
-                onChange={(event) => handleUpdateCommand(event, index)}
-            >
-                {Object.keys(ctx.state.commands).map((mapKey, index) => {
+            <Flex direction="column">
+                {modifyFlags.map((flag) => {
                     return (
-                        <option value={mapKey} key={index}>
-                            {ctx.state.commands[Number(mapKey)]}
-                        </option>
+                        <Flex direction="row">
+                            {
+                                //render the possible flag choices the user can use
+                                hashmapToSelectRender(
+                                    ctx.state.gameFlags,
+                                    flag.flagKey,
+                                    handleUpdateCommand,
+                                    txtCmdIndex
+                                )
+                            }
+
+                            {/* select to set the flag to be true or false */}
+                            <Select
+                                defaultValue={1}
+                                size="xs"
+                                errorBorderColor="tomato"
+                                value={Number(flag.flagState)}
+                                // onChange={(event) =>
+                                //     handleUpdateCommand(event, index)
+                                // }
+                            >
+                                <option value={1} key={txtCmdIndex}>
+                                    True
+                                </option>
+                                <option value={0} key={txtCmdIndex}>
+                                    False
+                                </option>
+                            </Select>
+                        </Flex>
                     );
                 })}
-            </Select>
+            </Flex>
+        );
+    }
+
+    function renderInventoryChoice(
+        modifyInventory: {
+            itemKey: number;
+            itemState: number;
+        }[],
+        txtCmdIndex: number
+    ) {
+        return (
+            <Flex direction="column">
+                {modifyInventory.map((item) => {
+                    return (
+                        <Flex direction="row">
+                            {
+                                //render the possible flag choices the user can use
+                                hashmapToSelectRender(
+                                    ctx.state.objectNames,
+                                    item.itemKey,
+                                    handleUpdateCommand,
+                                    txtCmdIndex
+                                )
+                            }
+                            <Select
+                                defaultValue={-1}
+                                size="xs"
+                                errorBorderColor="tomato"
+                                value={Number(item.itemState)}
+                            >
+                                <option
+                                    value={InventoryAction.REMOVE_ITEM}
+                                    key={txtCmdIndex}
+                                >
+                                    Remove
+                                </option>
+                                <option
+                                    value={InventoryAction.ADD_ITEM}
+                                    key={txtCmdIndex}
+                                >
+                                    Add
+                                </option>
+                            </Select>
+                        </Flex>
+                    );
+                })}
+            </Flex>
         );
     }
 
@@ -139,11 +246,9 @@ export const TextCommandsComponent = (props: Props) => {
     ) {
         return (
             <Flex direction={"row"} key={index}>
-                ewfjewijfj
-                {renderCommandChoice(textCommandData.command.commandKey, index)}
-                {renderRecipeChoices(textCommandData.command.recipe, index)}
-                {renderFlagChoice(textCommandData.modifyFlags, index)}
+                {renderCommand(textCommandData.command, index)}
                 {renderInventoryChoice(textCommandData.modifyInventory, index)}
+                {renderFlagChoice(textCommandData.modifyFlags, index)}
             </Flex>
         );
     }
