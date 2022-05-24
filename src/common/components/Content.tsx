@@ -8,13 +8,12 @@ import {
   Input,
   InputGroup,
   InputRightElement,
-  Icon,
   Flex,
   Center
 } from '@chakra-ui/react'
 import { SearchIcon } from '@chakra-ui/icons'
 
-export const App = () => (
+export const Content = () => (
     <ChakraProvider resetCSS>
       <Flex>
         <Box width="50%">
