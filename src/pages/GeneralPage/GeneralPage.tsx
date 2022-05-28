@@ -251,8 +251,8 @@ export const GeneralPage = () => {
     }
 
     return (
-        <Flex direction={"row"}>
-            <Flex direction={"column"}>
+        <Flex direction={"row"} height={"100%"}>
+            <Flex direction={"column"} width={"20%"}>
                 <ContentNavigationComponent
                     title="Rooms"
                     contents={ctx.state.rooms.map((room) => room.content)}
@@ -269,7 +269,7 @@ export const GeneralPage = () => {
                 />
             </Flex>
             {renderContent()}
-            <Flex direction={"column"}>
+            <Flex direction={"column"} width={"20%"}>
                 <ListHashMapComponent
                     hashmap={ctx.state.commands}
                     title="Commands"

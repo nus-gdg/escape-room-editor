@@ -73,14 +73,13 @@ export const ContentPage = () => {
     return (
         <ChakraProvider resetCSS>
             <Stack spacing={2}>
-                <Toolbar/>
                 <Flex>
                     <Box width="50%">
-                        <EmojiMenu onEmojiSelected={handleEmojiSelected} />
+                        {/*<EmojiMenu onEmojiSelected={handleEmojiSelected} />*/}
                         <FormControl>
                             <FormLabel>Title</FormLabel>
                             <Input value={ctx.state.title}
-                                   ref={titleForm}
+                                   // ref={titleForm}
                                    onChange={handleTitleChange} />
                             <FormLabel>Description</FormLabel>
                             <Textarea value={ctx.state.description.join(separator)}
@@ -106,7 +105,7 @@ export const ContentPage = () => {
                                 <Text color={"#FFFFFF"} marginTop={"20px"} marginBottom={"20px"} fontSize='sm' font-family={"sans-serif"} >
                                     {/*<div dangerouslySetInnerHTML={{__html: emoji.replace_colons(ctx.state.description[0])}} />*/}
                                 </Text>
-                                <Image src={ctx.state.image} maxHeight={"360px"} border-collapse={"separate"} borderRadius={"5px"} objectFit={"scale-down"}/>
+                                <Image src={ctx.state.image} maxHeight={"240px"} border-collapse={"separate"} borderRadius={"5px"} objectFit={"scale-down"}/>
                             </Box>
                         </Box>
                     </Box>
