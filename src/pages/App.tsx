@@ -1,6 +1,7 @@
 import React from 'react'
 import { extendTheme, ChakraProvider, Box } from '@chakra-ui/react'
 import {RootProvider} from "../common/containers/Root";
+import {ContentObject} from "../common/components/ContentObject";
 
 export const App = () => {
     const hamsterImg = "https://i.pinimg.com/originals/40/87/a6/4087a632b7855c85c66294e76e1ed81d.jpg";
@@ -15,6 +16,9 @@ export const App = () => {
                 <RootProvider>
                     {/*<Toolbar />*/}
                     <Box width={"100%"} height={"100%"} padding={"30px"}>
+                        <ContentObject title={"carrot"}
+                                       description={"Potatoes :potato: are *delicious*"}
+                                       imageUrl={birdImg} />
                     </Box>
                     {/*<EmojiMenu />*/}
                     {/*<GeneralPage />*/}
