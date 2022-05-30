@@ -1,0 +1,53 @@
+.emoji-mart-emoji {
+    vertical-align: middle;
+    line-height: 0;
+    font-size: 0;
+    color: #FFFFFF;
+}
+
+.content {
+    display: flex;
+    border-radius: 5px;
+    background-color: #aaaaaa;
+}
+
+.content-line {
+    width: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #bd7ef9;
+}
+
+.content-body {
+    height: 100%;
+    max-width: calc(70% - 10px);
+    padding-top: 8px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: #2F3136;
+}
+
+.content-title {
+    vertical-align: middle;
+    font-size: medium;
+    font-family: sans-serif;
+    color: #FFFFFF;
+}
+
+.content-description {
+    margin-top: 10px;
+    vertical-align: middle;
+    font-size: small;
+    font-family: sans-serif;
+    color: #FFFFFF;
+}
+
+.content-image {
+    max-height: 300px;
+    margin-top: 15px;
+    border-radius: 5px;
+    object-fit: scale-down;
+}
