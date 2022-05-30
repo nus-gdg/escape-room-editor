@@ -13,18 +13,16 @@
 
 .content-line {
     width: 5px;
+    max-height: 100%;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
     background-color: #bd7ef9;
 }
 
 .content-body {
-    height: 100%;
-    max-width: calc(70% - 10px);
-    padding-top: 8px;
-    padding-bottom: 10px;
-    padding-left: 10px;
-    padding-right: 10px;
+    max-width: calc(100% - 5px);
+    max-height: 100%;
+    padding: 8px 10px 10px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
     background-color: #2F3136;

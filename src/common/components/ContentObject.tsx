@@ -34,9 +34,9 @@ export const ContentObject = ({title = "Title",
             <div className={"content-body"}>
                 <div className={"content-title"}
                      dangerouslySetInnerHTML={{__html: toDiscordHTML(title)}} />
-                <div className={"content-description"}
-                     dangerouslySetInnerHTML={{__html: toDiscordHTML(description)}} />
-                <img className={"content-image"} src={imageUrl} alt={"Missing Image"}/>
+                {description && <div className={"content-description"}
+                     dangerouslySetInnerHTML={{__html: toDiscordHTML(description)}} />}
+                {imageUrl && <img className={"content-image"} src={imageUrl} alt={""}/>}
             </div>
         </div>
     )
