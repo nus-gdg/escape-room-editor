@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 import {Button} from '@chakra-ui/react'
-
 import 'emoji-mart/css/emoji-mart.css';
-import {BaseEmoji, EmojiData, Picker,} from 'emoji-mart';
+import {BaseEmoji, EmojiData, NimblePicker,} from 'emoji-mart';
+import emojiDatas from 'emoji-mart/data/twitter.json';
 
 interface EmojiMenuProps {
     label?: string
@@ -36,16 +36,17 @@ export const EmojiMenu = ({
             <Button onClick={toggleShowPicker}>
                 {label}
             </Button>
-            <Picker set='twitter'
-                    showSkinTones={false}
-                    onSelect={handleEmojiSelected}
-                    style={{
-                        position: "absolute",
-                        top: "50%",
-                        zIndex: 1,
-                        visibility: (showPicker) ? "visible" : "hidden",
-                        opacity: (showPicker) ? 1 : 0,
-                        transition: "opacity 0.2s, visibility 0.2s"}} />
+            <NimblePicker set='twitter'
+                          data={emojiDatas}
+                          showSkinTones={false}
+                          onSelect={handleEmojiSelected}
+                          style={{
+                              position: "absolute",
+                              top: "50%",
+                              zIndex: 1,
+                              visibility: (showPicker) ? "visible" : "hidden",
+                              opacity: (showPicker) ? 1 : 0,
+                              transition: "opacity 0.2s, visibility 0.2s"}} />
         </>
     );
 }
