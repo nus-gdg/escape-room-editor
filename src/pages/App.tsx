@@ -4,7 +4,7 @@ import {RootProvider} from "../common/containers/Root";
 import {ContentObject} from "../common/components/ContentObject";
 
 export const App = () => {
-    const title = "Carrots GET!"
+    const title = "Carrots GET! :carrot::carrot::carrot:"
 
     const hamsterImg = "https://i.pinimg.com/originals/40/87/a6/4087a632b7855c85c66294e76e1ed81d.jpg";
     const birdImg = "https://i.pinimg.com/736x/5e/2b/74/5e2b74b9ba6e196d5837ef586eb70794.jpg";
