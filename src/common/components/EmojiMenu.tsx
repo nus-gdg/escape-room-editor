@@ -1,6 +1,6 @@
-import React, {useState} from 'react'
-import {Button} from '@chakra-ui/react'
+import React, {useEffect, useState} from 'react'
 import 'emoji-mart/css/emoji-mart.css';
+import './EmojiMenu.css';
 import {BaseEmoji, EmojiData, NimblePicker,} from 'emoji-mart';
 import emojiDatas from 'emoji-mart/data/twitter.json';
 
@@ -31,22 +31,44 @@ export const EmojiMenu = ({
         setShowPicker(!showPicker);
     }
 
+    // useEffect(() => {
+    //     document.addEventListener("keyup", handleEscapeKeyUp, false);
+    // });
+    //
+    // const handleEscapeKeyUp = (event: KeyboardEvent) => {
+    //     setShowPicker(false);
+    // }
+
+    // const handleDocumentClick = (event: MouseEvent) => {
+    //     let isEmojiClassFound = false;
+    //
+    //     event &&
+    //     event.path &&
+    //     event.path.forEach(elem => {
+    //         if (elem && elem.classList) {
+    //             const data = elem.classList.value;
+    //             if (data.includes("emoji")) {
+    //                 isEmojiClassFound = true;
+    //             }
+    //         }
+    //     }); // end
+    //     if (!isEmojiClassFound && event.target.id !== "emojis-btn"){
+    //         setShowPicker(false);
+    //     }
+    // };
+
     return (
-        <>
-            <Button onClick={toggleShowPicker}>
-                {label}
-            </Button>
-            <NimblePicker set='twitter'
-                          data={emojiDatas}
-                          showSkinTones={false}
-                          onSelect={handleEmojiSelected}
-                          style={{
-                              position: "absolute",
-                              top: "50%",
-                              zIndex: 1,
-                              visibility: (showPicker) ? "visible" : "hidden",
-                              opacity: (showPicker) ? 1 : 0,
-                              transition: "opacity 0.2s, visibility 0.2s"}} />
-        </>
+        <div className={"emoji-menu"} >
+            <button className={"emoji-menu-button"} onClick={toggleShowPicker}>{label}</button>
+            <div className={(showPicker) ? "emoji-menu-picker visible" : "emoji-menu-picker hidden"} >
+                <NimblePicker set='twitter'
+                              data={emojiDatas}
+                              showSkinTones={false}
+                              // showPreview={false}
+                              onSelect={handleEmojiSelected}
+                              theme={"dark"}
+                />
+            </div>
+        </div>
     );
 }
