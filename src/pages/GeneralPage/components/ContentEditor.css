@@ -1,20 +1,17 @@
 .content-editor {
     width: 100%;
-    max-width: 100%;
-    background-color: #454545;
+    background-color: var(--background-light);
 }
 
 .content-editor-label {
     width: 100%;
     padding: 12px 10px 12px 10px;
-    vertical-align: center;
-    font-family: sans-serif;
-    font-weight: bold;
-    color: white;
     -webkit-box-shadow: 0 4px 6px -6px #222222;
     -moz-box-shadow: 0 4px 6px -6px #222222;
-    box-shadow: 0 7px 6px -6px #222222;
-    background-color: #454545;
+    box-shadow: 0 4px 6px -6px #222222;
+    background-color: var(--background-dark);
+    font-weight: bold;
+    color: white;
 }
 
 .content-editor-body {
@@ -29,66 +26,47 @@
     padding-bottom: 8px;
     padding-left: 10px;
     flex-direction: column;
-    color: white;
-    /*background-color: #bd7ef9;*/
 }
 
 .content-editor-title {
-    display: block;
-    width: calc(100% - 2px);
-    padding: 2px 6px 2px 6px;
+    display: flex;
+    width: 100%;
+    position: relative;
     margin-bottom: 10px;
-    /*border: 1px solid lightblue;*/
-    border-radius: 5px;
-    background-color: #535353;
+}
+
+.content-editor-title-input {
+    width: 100%;
+    padding: 2px 50px 2px 6px;
+    color: var(--font-chat);
 }
 
 .content-editor-description {
-    display: block;
-    width: calc(100% - 2px);
+    width: 100%;
     padding: 2px 6px 2px 6px;
     margin-top: 10px;
     margin-bottom: 10px;
-    /*border: 1px solid lightblue;*/
-    border-radius: 5px;
-    color: white;
-    background-color: #535353;
+    color: var(--font-chat);
 }
 
 .content-editor-image-url {
-    display: block;
-    width: calc(100% - 2px);
+    width: 100%;
     padding: 2px 6px 2px 6px;
     margin-top: 10px;
-    /*border: 1px solid lightblue;*/
-    border-radius: 5px;
-    background-color: #535353;
+    color: var(--font-chat);
 }
 
-.content-editor-body > .content {
+.content {
     width: 50%;
     height: 100%;
     padding: 8px 10px 8px 10px;
     background-color: transparent;
 }
 
-/*input:focus, textarea:focus {*/
-/*    outline: none !important;*/
-/*    box-shadow: 0 0 2px 2px lightblue;*/
-/*}*/
-
-input::placeholder, textarea::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-    font-family: sans-serif;
-    color: #aaaaaa;
-    opacity: 1; /* Firefox */
+.emoji-menu {
+    right: 0;
 }
 
-input:-ms-input-placeholder, textarea::-ms-input-placeholder { /* Internet Explorer 10-11 */
-    font-family: sans-serif;
-    color: #dddddd;
-}
-
-input::-ms-input-placeholder textarea::-ms-input-placeholder { /* Microsoft Edge */
-    font-family: sans-serif;
-    color: #dddddd;
+.emoji-menu-button {
+    background-color: transparent;
 }

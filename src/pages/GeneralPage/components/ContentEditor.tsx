@@ -28,17 +28,19 @@ export const ContentEditor = (props: ContentEditorProps) => {
             <div className={"content-editor-label"} ># Room Editor</div>
             <div className={"content-editor-body"}>
                 <div className={"content-editor-form"}>
-                    <input className={"content-editor-title"}
-                           value={props.content.title}
-                           placeholder="Name"
-                           onChange={(event) => onChangeContentData(event.currentTarget.value, "title")}
-                    />
+                    <div className={"content-editor-title"}>
+                        <textarea className={"content-editor-title-input"}
+                               value={props.content.title}
+                               placeholder="Name"
+                               onChange={(event) => onChangeContentData(event.currentTarget.value, "title")}
+                        />
+                    </div>
                     <textarea className={"content-editor-description"}
                               value={props.content.description}
                               placeholder="Description"
                               onChange={(event) => onChangeContentData(event.currentTarget.value, "description")}
                     />
-                    <input className={"content-editor-image-url"}
+                    <textarea className={"content-editor-image-url"}
                            value={props.content.imageLink}
                            placeholder="Image url"
                            onChange={(event) => onChangeContentData(event.currentTarget.value, "imageLink")}
