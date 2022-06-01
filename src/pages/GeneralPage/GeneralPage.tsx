@@ -3,7 +3,6 @@ import React, { Component, useState } from "react";
 import { RoomData, ContentData, ButtonData } from "./Data/RoomData";
 import ContentNavigationComponent from "./components/ContentNavigationComponent";
 import { Flex } from "@chakra-ui/react";
-import { ContentComponent } from "./components/ContentComponent";
 import { ButtonReactionComponent } from "./components/ButtonReactionComponent";
 import { useRoot } from "../../hooks/useRoot";
 import { ContentAction } from "../../state/content/contentActions";
@@ -19,6 +18,7 @@ import {
     updateRoomList,
 } from "./GeneralHelperFuncs";
 import { TextCommandsComponent } from "./components/TextCommandComponent/TextCommandsComponent";
+import { ContentEditor } from "./components/ContentEditor";
 
 export const GeneralPage = () => {
     const ctx = useRoot();
@@ -219,8 +219,8 @@ export const GeneralPage = () => {
     //-----------for rendering------------------
     function renderRoomData() {
         return (
-            <Flex direction={"column"}>
-                <ContentComponent
+            <Flex direction={"column"} maxWidth={"100%"}>
+                <ContentEditor
                     content={ctx.state.currRoom.content}
                     onUpdateContent={handleUpdateRoomContent}
                 />
@@ -235,7 +235,7 @@ export const GeneralPage = () => {
 
     function renderObjectData() {
         return (
-            <ContentComponent
+            <ContentEditor
                 content={ctx.state.currObj}
                 onUpdateContent={handleUpdateObjectData}
             />
@@ -251,7 +251,7 @@ export const GeneralPage = () => {
     }
 
     return (
-        <Flex direction={"row"} height={"100%"}>
+        <Flex direction={"row"} width={"100%"} height={"100%"}>
             <Flex direction={"column"} width={"20%"}>
                 <ContentNavigationComponent
                     title="Rooms"
@@ -268,7 +268,9 @@ export const GeneralPage = () => {
                     onRemove={handleDeleteObject}
                 />
             </Flex>
-            {renderContent()}
+            <div style={{width: "60%"}}>
+                {renderContent()}
+            </div>
             <Flex direction={"column"} width={"20%"}>
                 <ListHashMapComponent
                     hashmap={ctx.state.commands}

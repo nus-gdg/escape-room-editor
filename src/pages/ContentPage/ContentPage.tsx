@@ -5,20 +5,16 @@ import {
     FormControl,
     FormLabel,
     Textarea,
-    Image,
     Input,
     Flex,
     Stack,
-    Text,
-    Heading,
 } from '@chakra-ui/react'
-import {Toolbar} from "../Toolbar/Toolbar";
 import {useRoot} from "../../hooks/useRoot";
 import {ContentAction} from "../../state/content/contentActions";
 
 import 'emoji-mart/css/emoji-mart.css';
-import {BaseEmoji, EmojiData, Picker,} from 'emoji-mart';
-import { EmojiMenu } from '../../common/components/EmojiMenu';
+import {BaseEmoji} from 'emoji-mart';
+import {ContentObject} from "../../common/components/ContentObject";
 
 export const ContentPage = () => {
     const ctx = useRoot();
@@ -95,19 +91,11 @@ export const ContentPage = () => {
                                       resize={"vertical"}/>
                         </FormControl>
                     </Box>
+
                     <Box width="50%" position="relative">
-                        <Box backgroundColor={"#2F3136"} maxWidth="100%" borderRadius={"5px"} position="absolute">
-                            <Box backgroundColor={"#bd7ef9"} width="5px" height="100%" borderLeftRadius={"5px"} position="absolute" />
-                            <Box paddingLeft={"20px"} padding={"20px"} height="100%">
-                                <Heading as='h1' color={"#FFFFFF"} width="50%" fontSize='md' font-family={"sans-serif"} >
-                                    {ctx.state.title}
-                                </Heading>
-                                <Text color={"#FFFFFF"} marginTop={"20px"} marginBottom={"20px"} fontSize='sm' font-family={"sans-serif"} >
-                                    {/*<div dangerouslySetInnerHTML={{__html: emoji.replace_colons(ctx.state.description[0])}} />*/}
-                                </Text>
-                                <Image src={ctx.state.image} maxHeight={"240px"} border-collapse={"separate"} borderRadius={"5px"} objectFit={"scale-down"}/>
-                            </Box>
-                        </Box>
+                        <ContentObject title={ctx.state.title}
+                                       description={ctx.state.description[0]}
+                                       imageUrl={ctx.state.image} />
                     </Box>
                 </Flex>
             </Stack>
