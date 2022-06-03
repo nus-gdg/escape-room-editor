@@ -1,0 +1,42 @@
+.markdown-textarea {
+    display: flex;
+    position: relative;
+}
+
+.markdown-textarea > textarea {
+    resize: none;
+    width: 100%;
+    padding: 2px 50px 2px 6px;
+    color: var(--font-chat);
+}
+
+.markdown-textarea > button {
+    position: absolute;
+    right: 20px;
+    padding: 4px 6px 0 6px;
+    justify-content: center;
+    align-items: center;
+    color: var(--icons-normal);
+    background-color: transparent;
+}
+
+.emoji-mart-dark {
+    position: absolute;
+    left: 100%;
+    z-index: 10;
+    color: #ffffff;
+    border-width: 1px;
+    border-color: var(--background-dark);
+    background-color: var(--background-medium);
+}
+
+.emoji-mart-dark .emoji-mart-search input {
+    color: var(--font-chat);
+    border-width: 0;
+    background-color: var(--background-x-dark);
+}
+
+.emoji-mart-dark .emoji-mart-category-label span {
+    color: var(--font-normal);
+    background-color: var(--background-medium);
+}
