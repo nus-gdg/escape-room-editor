@@ -8,25 +8,12 @@ interface ContentProps {
     imageUrl?: string
 }
 
-export const ContentObject = ({title = "Title",
+const ContentObject = ({title = "Title",
                                   description = "",
                                   imageUrl = "",
                               }: ContentProps) => {
-    const separator = "\n";
-    const htmlSeparator = "<br/>";
 
-    function test(text: string) {
-        const regex = /<b>(.*?)<\/b>/ig;
-        let match;
-
-        return text;
-    }
-
-    //Rich text
-
-    function createParagraph(text: string, index: number) {
-        return text ? <div key={index}>{text}</div> : <br/>;
-    }
+    console.log("ContentObject: Rendered");
 
     return (
         <div className={"content"}>
@@ -41,3 +28,5 @@ export const ContentObject = ({title = "Title",
         </div>
     )
 }
+
+export default React.memo(ContentObject);

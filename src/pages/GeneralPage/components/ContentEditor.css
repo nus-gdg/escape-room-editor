@@ -1,72 +1,47 @@
 .content-editor {
     width: 100%;
-    background-color: var(--background-light);
+    height: 100%;
+    --content-editor-margin: 10px;
 }
 
 .content-editor-label {
     width: 100%;
-    padding: 12px 10px 12px 10px;
+    line-height: var(--header-height);
+    vertical-align: middle;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
     -webkit-box-shadow: 0 4px 6px -6px #222222;
     -moz-box-shadow: 0 4px 6px -6px #222222;
     box-shadow: 0 4px 6px -6px #222222;
     background-color: var(--background-dark);
     font-weight: bold;
-    color: white;
+    color: var(--font-focused);
 }
 
 .content-editor-body {
-    width: 100%;
     display: flex;
     flex-direction: row;
+    width: 100%;
+    min-height: 100%;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+    background-color: var(--background-light);
 }
 
 .content-editor-form {
     width: 50%;
-    padding-top: 8px;
-    padding-bottom: 8px;
-    padding-left: 10px;
     flex-direction: column;
 }
 
-.content-editor-title {
-    display: flex;
-    width: 100%;
-    position: relative;
-    margin-bottom: 10px;
-}
-
-.content-editor-title-input {
-    width: 100%;
-    padding: 2px 50px 2px 6px;
-    color: var(--font-chat);
-}
-
-.content-editor-description {
-    width: 100%;
-    padding: 2px 6px 2px 6px;
-    margin-top: 10px;
-    margin-bottom: 10px;
-    color: var(--font-chat);
-}
-
-.content-editor-image-url {
-    width: 100%;
-    padding: 2px 6px 2px 6px;
-    margin-top: 10px;
-    color: var(--font-chat);
+.content-editor-form > .markdown-textarea {
+    margin-top: var(--content-editor-margin);
+    margin-bottom: var(--content-editor-margin);
 }
 
 .content {
     width: 50%;
     height: 100%;
-    padding: 8px 10px 8px 10px;
-    background-color: transparent;
-}
-
-.emoji-menu {
-    right: 0;
-}
-
-.emoji-menu-button {
-    background-color: transparent;
+    margin-top: var(--content-editor-margin);
+    margin-bottom: var(--content-editor-margin);
+    margin-left: var(--content-editor-margin);
 }

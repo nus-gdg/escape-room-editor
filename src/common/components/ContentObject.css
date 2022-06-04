@@ -1,52 +1,48 @@
-.emoji-mart-emoji {
-    vertical-align: middle;
-    line-height: 0;
-    font-size: 0;
-    color: #FFFFFF;
-}
-
 .content {
     display: flex;
-    border-radius: 5px;
-    background-color: #aaaaaa;
 }
 
 .content-line {
     width: 5px;
-    max-height: 100%;
     border-top-left-radius: 5px;
     border-bottom-left-radius: 5px;
-    background-color: #bd7ef9;
+    background-color: var(--message-color);
 }
 
 .content-body {
     max-width: calc(100% - 5px);
-    max-height: 100%;
-    padding: 8px 10px 10px;
+    padding-left: 10px;
+    padding-right: 10px;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
-    background-color: #2F3136;
+    background-color: var(--background-dark);
+}
+
+.content-body > div, .content-body > img {
+    margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .content-title {
-    vertical-align: middle;
     font-size: medium;
-    font-family: sans-serif;
     font-weight: bold;
-    color: #FFFFFF;
+    color: var(--font-focused);
 }
 
 .content-description {
-    margin-top: 10px;
-    vertical-align: middle;
     font-size: small;
-    font-family: sans-serif;
-    color: #FFFFFF;
+    color: var(--font-chat);
 }
 
 .content-image {
     max-height: 300px;
-    margin-top: 15px;
     border-radius: 5px;
     object-fit: scale-down;
+}
+
+.emoji-mart-emoji {
+    vertical-align: middle;
+    line-height: 0;
+    font-size: 0;
+    color: transparent;
 }

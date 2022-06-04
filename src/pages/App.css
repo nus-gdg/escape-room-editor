@@ -23,11 +23,17 @@
     --background-medium: var(--grey-700);
     --background-dark: var(--grey-800);
     --background-x-dark: var(--grey-900);
-    /*padding: 0;*/
-    /*margin: 0;*/
-    /*border-width: 0;*/
 
-    vertical-align: center;
+    --message-color: #bd7ef9;
+
+    --header-height: 40px;
+    --padding-top: 10px;
+    --padding-right: 10px;
+    --padding-bottom: 10px;
+    --padding-left: 10px;
+    --padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+
+    vertical-align: middle;
     font-family: sans-serif;
     color: var(--font-normal);
 }

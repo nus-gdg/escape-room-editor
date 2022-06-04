@@ -1,26 +1,28 @@
 import React from "react";
 import { ContentData } from "../Data/RoomData";
-import { ContentObject } from "../../../common/components/ContentObject";
-import { useRoot } from "../../../hooks/useRoot";
+import ContentObject from "../../../common/components/ContentObject";
 import "./ContentEditor.css"
+import MarkdownTextarea from "../../../common/components/MarkdownTextarea";
 
 interface ContentEditorProps {
-    content: ContentData;
-    onUpdateContent: (
-        updatedContent: ContentData,
-        varName: keyof ContentData
-    ) => void;
+    content: ContentData,
+    onContentChanged: (updatedContent: Partial<ContentData>) => void,
 }
 
-export const ContentEditor = (props: ContentEditorProps) => {
-    const ctx = useRoot();
+const ContentEditor = ({content, onContentChanged}: ContentEditorProps) => {
+    function updateStringProps(key: keyof ContentData, value: string) {
+        if (typeof content[key] != "string") {
+            throw new TypeError(`Selected prop is not a "string".`);
+        }
+        onContentChanged({
+            [key]: value,
+        })
+    }
 
-    //update the content of the currRoom
-    function onChangeContentData(newData: string, varName: keyof ContentData) {
-        let updateContent = { ...props.content };
-        updateContent[varName] = newData as never;
-
-        props.onUpdateContent(updateContent, varName);
+    function updateProps(key: keyof ContentData) {
+        return (updatedValue: string) => {
+            updateStringProps(key, updatedValue);
+        }
     }
 
     return (
@@ -28,28 +30,35 @@ export const ContentEditor = (props: ContentEditorProps) => {
             <div className={"content-editor-label"} ># Room Editor</div>
             <div className={"content-editor-body"}>
                 <div className={"content-editor-form"}>
-                    <div className={"content-editor-title"}>
-                        <textarea className={"content-editor-title-input"}
-                               value={props.content.title}
-                               placeholder="Name"
-                               onChange={(event) => onChangeContentData(event.currentTarget.value, "title")}
-                        />
-                    </div>
-                    <textarea className={"content-editor-description"}
-                              value={props.content.description}
-                              placeholder="Description"
-                              onChange={(event) => onChangeContentData(event.currentTarget.value, "description")}
+                    <MarkdownTextarea
+                        className={"content-editor-title"}
+                        value={content.title}
+                        placeholder={"Name"}
+                        maxRows={5}
+                        onChange={updateProps("title")}
                     />
-                    <textarea className={"content-editor-image-url"}
-                           value={props.content.imageLink}
-                           placeholder="Image url"
-                           onChange={(event) => onChangeContentData(event.currentTarget.value, "imageLink")}
+                    <MarkdownTextarea
+                        className={"content-editor-description"}
+                        value={content.description}
+                        placeholder={"Description"}
+                        maxRows={5}
+                        onChange={updateProps("description")}
+                    />
+                    <MarkdownTextarea
+                        className={"content-editor-imageLink"}
+                        value={content.imageLink}
+                        placeholder={"Image url"}
+                        maxRows={5}
+                        showEmojiMenu={false}
+                        onChange={updateProps("imageLink")}
                     />
                 </div>
-                <ContentObject title={props.content.title}
-                               description={props.content.description}
-                               imageUrl={props.content.imageLink} />
+                <ContentObject title={content.title}
+                               description={content.description}
+                               imageUrl={content.imageLink} />
             </div>
         </div>
     )
 };
+
+export default React.memo(ContentEditor);
