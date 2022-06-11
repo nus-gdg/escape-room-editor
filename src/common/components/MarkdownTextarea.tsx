@@ -5,7 +5,7 @@ import 'emoji-mart/css/emoji-mart.css';
 import "./MarkdownTextarea.css";
 
 interface MarkdownTextareaProps {
-    value: string,
+    value?: string,
     placeholder?: string,
     showEmojiMenu?: boolean,
     showEmojiMenuIcon?: string,
@@ -45,6 +45,7 @@ const MarkdownTextarea = (
     }, []);
 
     function autoResize(maxRows = 0) {
+        console.log(`MarkdownTextArea(${className}): Called autoResize`);
         const node = textareaRef.current;
         if (!node) {
             return;
@@ -80,6 +81,7 @@ const MarkdownTextarea = (
     const handleValueChanged = (event: ChangeEvent<HTMLTextAreaElement>) => {
         console.log(`MarkdownTextArea(${className}): Called handleValueChanged(${event.currentTarget.value})`);
         onChange(event.currentTarget.value);
+        autoResize(maxRows);
     };
 
     const handleEmojiButtonClicked = () => {
@@ -120,9 +122,8 @@ const MarkdownTextarea = (
     }
 
     useEffect(() => {
-        console.log(`MarkdownTextArea(${className}): Called autoResize`);
         autoResize(maxRows);
-    });
+    }, []);
 
     return (
         <div className={`markdown-textarea ${className}`} >
