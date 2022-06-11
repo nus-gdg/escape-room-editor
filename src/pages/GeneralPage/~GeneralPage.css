@@ -1,0 +1,65 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    width: 100%;
+    min-width: var(--resolution-width-small);
+    height: 100vh;
+    font-family: sans-serif;
+    color: var(--font-normal);
+    background-color: var(--background-light);
+    --resolution-width-small: 640px;
+    --header-height: 40px;
+    --view-height: calc(100% - var(--header-height));
+    --padding-left: 10px;
+    --padding-right: 10px;
+    --editor-width: 60%;
+    --sidebar-width: calc((100% - var(--editor-width)) / 2);
+    --sidebar-min-width: calc(var(--resolution-width-small) / 4);
+}
+
+.toolbar {
+    display: flex;
+    flex-direction: row;
+    height: var(--header-height);
+    line-height: var(--header-height);
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+    background-color: var(--background-x-dark);
+}
+
+.toolbar-label {
+    font-weight: bold;
+}
+
+.toolbar-right {
+    margin-left: auto;
+    margin-right: 0;
+    font-weight: bold;
+}
+
+.view {
+    display: flex;
+    height: var(--view-height);
+}
+
+.sidemenu {
+    overflow-y: scroll;
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-min-width);
+    height: 100%;
+    background-color: var(--background-medium);
+}
+
+.editor {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
+    width: var(--editor-width);
+    height: 100%;
+}
+
+.list-item-indicator {
+    visibility: hidden;
+}
