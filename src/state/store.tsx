@@ -1,7 +1,7 @@
-import Data from "./data/data";
+import Data, {testData} from "./data/data";
 import Editor from "./editor/editor";
 
 export default class Store {
-    data: Data = new Data();
+    data: Data = testData;
     editor: Editor = new Editor();
 }

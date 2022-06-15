@@ -1,5 +1,4 @@
-import { cloneDeep, set, unset } from "lodash";
-import Store from "./store";
+import { cloneDeep, setWith, unset } from "lodash";
 import Action from "./~actions";
 
 /**
@@ -7,16 +6,22 @@ import Action from "./~actions";
  * @param current The original version of the store
  * @param action Lists the changes to be made to the store.
  */
-export const reducer = (current: Store, action: Action) => {
+export function reducer<T extends object>(current: T, action: Action<T>) {
     if (!action.set && !action.unset) {
         return current;
     }
-    const next = cloneDeep(current);
+    const next: T = cloneDeep(current);
     for (const entry of action.unsets) {
         unset(next, entry.path);
     }
     for (const entry of action.sets) {
-        set(next, entry.path, entry.value);
+        setWith(next, entry.path, entry.value, concatArrays);
     }
     return next;
-};
+}
+
+function concatArrays(obj: any, src: any) {
+    if (Array.isArray(obj)) {
+        return obj.concat(src);
+    }
+}
