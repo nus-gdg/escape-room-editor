@@ -2,28 +2,27 @@ import {uniq} from "lodash";
 // import React, {useCallback, useContext, useMemo, useState} from "react";
 // import Root2 from "../../../common/containers/Root2";
 // import {addItem, addRoom, removeItem, removeRoom} from "../../../state/data/dataActions";
-// import {selectItem, selectRoom} from "../../../state/editor/editorActions";
 // import List from "../../../common/components/List";
 // import "./NavigationMenu.css";
 //
-// interface NavigationMenuState {
+// interface BreadcrumbState {
 //     showRooms: boolean,
 //     showItems: boolean,
 // }
 //
-// interface NavigationMenuProps {
+// interface BreadcrumbMenuProps {
 //     className?: string,
 // }
 //
-// const NavigationMenu = (
+// const BreadcrumbMenu = (
 //     {
 //         className = "",
-//     }: NavigationMenuProps) => {
-//     console.log("NavigationMenu: Rendered");
+//     }: BreadcrumbMenuProps) => {
+//     console.log("BreadcrumbMenu: Rendered");
 //
 //     const ctx = useContext(Root2);
 //
-//     const [state, setState] = useState<NavigationMenuState>({
+//     const [state, setState] = useState<BreadcrumbState>({
 //         showRooms: false,
 //         showItems: false,
 //     });
@@ -90,9 +89,9 @@ import {uniq} from "lodash";
 //     }, [ctx.store.data.inventory]);
 //
 //     return (
-//         <div className={`navigation-menu ${className}`}>
+//         <div className={`breadcrumb-menu ${className}`}>
 //             <List
-//                 title={"ROOMS"}
+//                 title={"BREADCRUMBS"}
 //                 items={rooms}
 //                 open={state.showRooms}
 //                 isSelected={isSelectedRoom}
@@ -100,17 +99,8 @@ import {uniq} from "lodash";
 //                 onAddListItem={handleAddedRoom}
 //                 onRemoveListItem={handleRemovedRoom}
 //                 onSelectListItem={handleSelectedRoom}/>
-//             <List
-//                 title={"ITEMS"}
-//                 items={items}
-//                 open={state.showItems}
-//                 isSelected={isSelectedItem}
-//                 onToggle={handleToggledItems}
-//                 onAddListItem={handleAddedItem}
-//                 onRemoveListItem={handleRemovedItem}
-//                 onSelectListItem={handleSelectedItem}/>
 //         </div>
 //     );
 // };
 //
-// export default React.memo(NavigationMenu);
+// export default React.memo(BreadcrumbMenu);

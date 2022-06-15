@@ -3,6 +3,8 @@
     display: flex;
     flex-direction: row-reverse;
     width: 100%;
+    height: 1em;
+    line-height: 1em;
     z-index: 1;
 }
 

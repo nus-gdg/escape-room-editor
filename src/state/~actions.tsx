@@ -7,21 +7,31 @@ interface ActionEntry {
     value: any,
 }
 
-export default class Action {
+export default class Action<T> {
     sets: ActionEntry[] = [];
     unsets: ActionEntry[] = [];
 
-    set(props: RecursivePartial<Store>) {
+    set(props: RecursivePartial<T>) {
         this.sets.push(...getLeafEntries(props));
         return this;
     }
 
-    unset(props: RecursivePartial<Store>) {
+    setEntry(path: PropertyName[], value: T) {
+        this.sets.push({ path: path, value: value });
+        return this;
+    }
+
+    unset(props: RecursivePartial<T>) {
         this.unsets.push(...getLeafEntries(props));
         return this;
     }
 
-    then(action: Action) {
+    unsetEntry(path: PropertyName[]) {
+        this.unsets.push({ path: path, value: undefined });
+        return this;
+    }
+
+    then(action: Action<T>) {
         for (const set of action.sets) {
             this.sets.push(set);
         }

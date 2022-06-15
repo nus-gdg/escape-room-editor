@@ -2,35 +2,85 @@
     display: flex;
     flex-direction: column;
     line-height: 1em;
-    padding: var(--padding);
     padding-left: 20px;
     padding-right: 20px;
+    --textbox-line-height: calc(1em + 16px);
 }
 
-input {
-    display: flex;
-    flex-direction: row;
-    flex-grow: 1;
-    min-height: 1em;
+.room-editor > * {
+    margin: 10px 0 10px 0;
 }
 
-textarea {
-    display: flex;
-    flex-grow: 1;
-    min-height: 1em;
+.room-editor-id {
+    margin-top: 0;
+}
+
+.room-editor-id.form {
+    width: 50%;
+}
+
+.room-editor-passages {
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+/*position: absolute;*/
+/*width: calc(100% - 1em);*/
+/*height: 100%;*/
+/*border-radius: 5px;*/
+/*z-index: -1;*/
+/*visibility: hidden;*/
+
+.form {
+    width: 100%;
+    min-height: 3em;
+    /*background-color: #bd7ef9;*/
+    /*display: flex;*/
+    /*flex-direction: column;*/
+    /*height: var(--textbox-line-height);*/
+}
+
+
+/*input {*/
+/*    !*display: flex;*!*/
+/*    !*flex-direction: row;*!*/
+/*    width: 100%;*/
+/*    min-height: var(--textbox-line-height);*/
+/*    line-height: var(--textbox-line-height);*/
+/*}*/
+
+/*textarea {*/
+/*    !*display: flex;*!*/
+/*    width: 100%;*/
+/*    min-height: var(--textbox-line-height);*/
+/*    line-height: var(--textbox-line-height);*/
+/*    padding-top: calc(var(--textbox-line-height));*/
+/*}*/
+
+.textbox {
+    width: 100%;
+    min-height: var(--textbox-line-height);
+    line-height: var(--textbox-line-height);
 }
 
 .label {
-    display: block;
-}
-
-.room-editor-header-form {
-    display: grid;
-    grid-template: auto auto / 10% auto;
-    background-color: green;
+    line-height: var(--textbox-line-height);
+    font-weight: bold;
+    /*align-self: flex-end;*/
 }
 
 .room-editor-preview {
     height: 150px;
     background-color: #bd7ef9;
+}
+
+.room-editor-passages .list-title {
+    border-radius: 5px;
+    background-color: var(--background-x-dark);
+}
+
+.room-editor-passages .list-item {
+    border-radius: 0;
+    margin: 0;
+    background-color: var(--background-medium);
 }

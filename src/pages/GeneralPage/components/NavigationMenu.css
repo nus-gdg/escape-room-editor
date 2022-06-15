@@ -1,3 +1,3 @@
-.navigation-menu > .list {
-    padding-right: 20px;
+.navigation-menu .list-title {
+    background-color: var(--background-dark);
 }
