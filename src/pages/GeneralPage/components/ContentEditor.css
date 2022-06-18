@@ -1,0 +1,47 @@
+.content-editor {
+    width: 100%;
+    height: 100%;
+    --content-editor-margin: 10px;
+}
+
+.content-editor-label {
+    width: 100%;
+    line-height: var(--header-height);
+    vertical-align: middle;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+    -webkit-box-shadow: 0 4px 6px -6px #222222;
+    -moz-box-shadow: 0 4px 6px -6px #222222;
+    box-shadow: 0 4px 6px -6px #222222;
+    background-color: var(--background-dark);
+    font-weight: bold;
+    color: var(--font-focused);
+}
+
+.content-editor-body {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    min-height: 100%;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+    background-color: var(--background-light);
+}
+
+.content-editor-form {
+    width: 50%;
+    flex-direction: column;
+}
+
+.content-editor-form > .markdown-textarea {
+    margin-top: var(--content-editor-margin);
+    margin-bottom: var(--content-editor-margin);
+}
+
+.content {
+    width: 50%;
+    height: 100%;
+    margin-top: var(--content-editor-margin);
+    margin-bottom: var(--content-editor-margin);
+    margin-left: var(--content-editor-margin);
+}

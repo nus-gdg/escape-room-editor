@@ -1,0 +1,48 @@
+.content {
+    display: flex;
+}
+
+.content-line {
+    width: 5px;
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: var(--message-color);
+}
+
+.content-body {
+    max-width: calc(100% - 5px);
+    padding-left: 10px;
+    padding-right: 10px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    background-color: var(--background-dark);
+}
+
+.content-body > div, .content-body > img {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.content-title {
+    font-size: medium;
+    font-weight: bold;
+    color: var(--font-focused);
+}
+
+.content-description {
+    font-size: small;
+    color: var(--font-chat);
+}
+
+.content-image {
+    max-height: 300px;
+    border-radius: 5px;
+    object-fit: scale-down;
+}
+
+.emoji-mart-emoji {
+    vertical-align: middle;
+    line-height: 0;
+    font-size: 0;
+    color: transparent;
+}

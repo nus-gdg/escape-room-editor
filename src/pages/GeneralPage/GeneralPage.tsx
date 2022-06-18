@@ -1,9 +1,7 @@
-import { Toolbar } from "../Toolbar/Toolbar";
-import React, { Component, useState } from "react";
-import { RoomData, ContentData, ButtonData } from "./Data/RoomData";
+import React, { useState } from "react";
+import { RoomData, ContentData } from "./Data/RoomData";
 import ContentNavigationComponent from "./components/ContentNavigationComponent";
 import { Flex } from "@chakra-ui/react";
-import { ContentComponent } from "./components/ContentComponent";
 import { ButtonReactionComponent } from "./components/ButtonReactionComponent";
 import { useRoot } from "../../hooks/useRoot";
 import { ContentAction } from "../../state/content/contentActions";
@@ -19,6 +17,7 @@ import {
     updateRoomList,
 } from "./GeneralHelperFuncs";
 import { TextCommandsComponent } from "./components/TextCommandComponent/TextCommandsComponent";
+import ContentEditor from "./components/ContentEditor";
 
 export const GeneralPage = () => {
     const ctx = useRoot();
@@ -76,19 +75,20 @@ export const GeneralPage = () => {
         );
     }
 
-    function handleUpdateRoomContent(
-        updatedContent: ContentData,
-        varName: keyof ContentData
-    ) {
+    function handleUpdateRoomContent(updatedContent: Partial<ContentData>) {
+        let currentRoom = ctx.state.currRoom;
         let updatedRoom = {
-            ...ctx.state.currRoom,
-            content: updatedContent,
+            ...currentRoom,
+            content: {
+                ...currentRoom.content,
+                updatedContent
+            },
         };
 
         updateCurrRoom(updatedRoom, ctx);
 
         //if room name has been updated, update the unique value hashmap
-        if (varName === "title") {
+        if (updatedContent.hasOwnProperty("title")) {
             updateHashMap(
                 updatedRoom.id,
                 updatedRoom.content.title,
@@ -197,17 +197,20 @@ export const GeneralPage = () => {
         );
     }
 
-    function handleUpdateObjectData(
-        updatedContent: ContentData,
-        varName: keyof ContentData
-    ) {
-        updateCurrObject(updatedContent, ctx);
+    function handleUpdateObjectData(updatedContent: Partial<ContentData>) {
+        let currentObj = ctx.state.currObj;
+        let updatedObj: ContentData = {
+            ...currentObj,
+            ...updatedContent,
+        };
+
+        updateCurrObject(updatedObj, ctx);
 
         //if room name has been updated, update the unique value hashmap
-        if (varName === "title") {
+        if (updatedContent.hasOwnProperty("title")) {
             updateHashMap(
-                updatedContent.id,
-                updatedContent.title,
+                updatedObj.id,
+                updatedObj.title,
                 ctx.state.objectNames,
                 ContentAction.UPDATE_OBJECT_NAMES,
                 "objectNames",
@@ -219,10 +222,10 @@ export const GeneralPage = () => {
     //-----------for rendering------------------
     function renderRoomData() {
         return (
-            <Flex direction={"column"}>
-                <ContentComponent
+            <Flex direction={"column"} maxWidth={"100%"}>
+                <ContentEditor
                     content={ctx.state.currRoom.content}
-                    onUpdateContent={handleUpdateRoomContent}
+                    onContentChanged={handleUpdateRoomContent}
                 />
                 <ButtonReactionComponent
                     roomData={ctx.state.currRoom}
@@ -235,10 +238,9 @@ export const GeneralPage = () => {
 
     function renderObjectData() {
         return (
-            <ContentComponent
+            <ContentEditor
                 content={ctx.state.currObj}
-                onUpdateContent={handleUpdateObjectData}
-            />
+                onContentChanged={handleUpdateObjectData} />
         );
     }
 
@@ -251,8 +253,8 @@ export const GeneralPage = () => {
     }
 
     return (
-        <Flex direction={"row"}>
-            <Flex direction={"column"}>
+        <Flex direction={"row"} width={"100%"} height={"100%"}>
+            <Flex direction={"column"} width={"20%"}>
                 <ContentNavigationComponent
                     title="Rooms"
                     contents={ctx.state.rooms.map((room) => room.content)}
@@ -268,8 +270,10 @@ export const GeneralPage = () => {
                     onRemove={handleDeleteObject}
                 />
             </Flex>
-            {renderContent()}
-            <Flex direction={"column"}>
+            <div style={{width: "60%"}}>
+                {renderContent()}
+            </div>
+            <Flex direction={"column"} width={"20%"}>
                 <ListHashMapComponent
                     hashmap={ctx.state.commands}
                     title="Commands"

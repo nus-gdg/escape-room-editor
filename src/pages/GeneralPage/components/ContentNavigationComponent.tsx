@@ -1,4 +1,4 @@
-import { Button, Flex, Text } from "@chakra-ui/react";
+import {Box, Button, Flex, Text } from "@chakra-ui/react";
 import { useRoot } from "../../../hooks/useRoot";
 import { ContentData } from "../Data/RoomData";
 
@@ -36,15 +36,22 @@ export const ContentNavigationComponent = (props: Props) => {
 
     return (
         <Flex
-            shrink={"0"}
             direction={"column"}
             bg={"gray"}
             style={{
                 overflowY: "scroll",
             }}
+            height={"100%"}
         >
-            <Text fontSize="2xl"> {props.title} </Text>
-            <Button onClick={() => props.onAdd()}>+</Button>
+            <Flex bg={"gray"} >
+                <Text fontSize="2xl"> {props.title} </Text>
+                <Button
+                    justify="flex-end"
+                    onClick={() => props.onAdd()}
+                >
+                    +
+                </Button>
+            </Flex>
             {renderPropButton()}
         </Flex>
     );
