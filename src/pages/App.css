@@ -11,7 +11,7 @@
     --grey-900: #202225; /* Server Menu, Search Bar Background */
 
     --font-focused: var(--grey-50);
-    --font-chat: var(--grey-100);
+    --font-bright: var(--grey-100);
     --font-normal: var(--grey-300);
     --font-dim: var(--grey-400);
 
@@ -38,18 +38,11 @@
     color: var(--font-normal);
 }
 
-#root {
-    display: flex;
-    width: 100%;
-    height: 100vh;
-    font-family: sans-serif;
-    color: var(--font-normal);
-}
-
 button {
     padding: 0;
     margin: 0;
     border-width: 0;
+    line-height: 1em;
 }
 
 input, textarea {
@@ -59,8 +52,7 @@ input, textarea {
     border-radius: 5px;
     border-width: 0;
     background-color: var(--background-x-light);
-    color: var(--font-chat);
-    /*border: 1px solid lightblue;*/
+    color: var(--font-bright);
 }
 
 input::placeholder, textarea::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */

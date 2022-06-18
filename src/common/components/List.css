@@ -1,0 +1,16 @@
+.list {
+    overflow: scroll;
+    min-width: 200px;
+    background-color: var(--background-medium);
+    --list-line-height: calc(1em + 16px);
+}
+
+.list > * {
+    margin: 2px 0 2px 0;
+    height: var(--list-line-height);
+    line-height: var(--list-line-height);
+}
+
+.list.hide > .list-item {
+    display: none;
+}

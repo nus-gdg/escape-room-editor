@@ -7,7 +7,7 @@
     resize: none;
     width: 100%;
     padding: 2px 50px 2px 6px;
-    color: var(--font-chat);
+    color: var(--font-bright);
 }
 
 .markdown-textarea > button {
@@ -31,7 +31,7 @@
 }
 
 .emoji-mart-dark .emoji-mart-search input {
-    color: var(--font-chat);
+    color: var(--font-bright);
     border-width: 0;
     background-color: var(--background-x-dark);
 }
