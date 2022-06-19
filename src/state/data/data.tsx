@@ -13,7 +13,7 @@ export class Flag {
 export type ItemId = string;
 export class Item {
     id: ItemId = "";
-    passage: Passage = new Passage();
+    passage: Passage = new Passage("info");
 }
 
 export class Modifier { // Stores any modifications to state, TBC
@@ -70,13 +70,21 @@ export class Passage {
     reactionOptions: ReactionOption[] = [];
     textOptions: TextOption[] = [];
     modify: Modifier = new Modifier();
+
+    constructor(id: string) {
+        this.id = id;
+    }
 }
 
 export type RoomId = string;
 export class Room {
-    id: RoomId = "";
+    id: RoomId;
     title: string = "";
     passages: Passage[] = [];
+
+    constructor(id: string) {
+        this.id = id;
+    }
 }
 
 export default class Data {
@@ -91,28 +99,27 @@ export default class Data {
 }
 
 export const testData: Data = new Data();
-testData.rooms = [new Room(), new Room(), new Room()];
-
-testData.rooms[0].id = "r0";
+testData.rooms = [
+    new Room("r0"),
+    new Room("r1"),
+    new Room("r2"),
+]
 testData.rooms[0].title = "ROOM 0";
-
-testData.rooms[1].id = "r1";
 testData.rooms[1].title = "ROOM 1";
-
-testData.rooms[2].id = "r2";
 testData.rooms[2].title = "ROOM 2";
 
-testData.rooms[0].passages = [new Passage(), new Passage(), new Passage()];
+testData.rooms[0].passages = [
+    new Passage("r0p0"),
+    new Passage("r0p1"),
+    new Passage("r0p2")
+];
 
-testData.rooms[0].passages[0].id = "r0p0"
 testData.rooms[0].passages[0].reactionOptions = [new ReactionOption(), new ReactionOption(), new ReactionOption()];
 testData.rooms[0].passages[0].textOptions = [new TextOption(), new TextOption(), new TextOption()];
 
-testData.rooms[0].passages[1].id = "r0p1"
 testData.rooms[0].passages[1].reactionOptions = [new ReactionOption(), new ReactionOption(), new ReactionOption()];
 testData.rooms[0].passages[1].textOptions = [new TextOption(), new TextOption(), new TextOption()];
 
-testData.rooms[0].passages[2].id = "r0p2"
 testData.rooms[0].passages[2].reactionOptions = [new ReactionOption(), new ReactionOption(), new ReactionOption()];
 testData.rooms[0].passages[2].textOptions = [new TextOption(), new TextOption(), new TextOption()];
 

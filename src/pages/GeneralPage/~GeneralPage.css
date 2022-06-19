@@ -77,16 +77,16 @@
     background-color: var(--background-dark);
 }
 
-.toolbar {
-    display: flex;
-    flex-direction: row;
-    height: var(--toolbar-height);
-    line-height: var(--toolbar-height);
-    background-color: var(--background-dark);
-    border-width: 1px;
-    border-color: var(--background-x-dark);
-    font-size: 12px;
-}
+/*.toolbar {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    height: var(--toolbar-height);*/
+/*    line-height: var(--toolbar-height);*/
+/*    background-color: var(--background-dark);*/
+/*    border-width: 1px;*/
+/*    border-color: var(--background-x-dark);*/
+/*    font-size: 12px;*/
+/*}*/
 
 /*.sidemenu {*/
 /*    overflow-y: scroll;*/

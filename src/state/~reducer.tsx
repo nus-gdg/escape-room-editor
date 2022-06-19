@@ -1,4 +1,4 @@
-import { cloneDeep, setWith, unset } from "lodash";
+import { cloneDeep, setWith, set, unset } from "lodash";
 import Action from "./~actions";
 
 /**
@@ -15,7 +15,7 @@ export function reducer<T extends object>(current: T, action: Action<T>) {
         unset(next, entry.path);
     }
     for (const entry of action.sets) {
-        setWith(next, entry.path, entry.value, concatArrays);
+        set(next, entry.path, entry.value);//, concatArrays);
     }
     return next;
 }

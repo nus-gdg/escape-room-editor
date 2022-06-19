@@ -16,7 +16,7 @@ export default class Action<T> {
         return this;
     }
 
-    setEntry(path: PropertyName[], value: T) {
+    setEntry<U>(path: PropertyName[], value: U) {
         this.sets.push({ path: path, value: value });
         return this;
     }

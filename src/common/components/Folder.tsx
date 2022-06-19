@@ -1,4 +1,4 @@
-import React, {useCallback, useState} from "react";
+import React, {RefObject, useCallback, useRef, useState} from "react";
 import Symbols from "../../constants/Symbols";
 import "./Folder.css";
 

@@ -15,9 +15,9 @@
     margin-top: 0;
 }
 
-.room-editor-id.form {
-    width: 50%;
-}
+/*.room-editor-id.form {*/
+/*    width: 100%;*/
+/*}*/
 
 .room-editor-passages {
     margin-top: 20px;
