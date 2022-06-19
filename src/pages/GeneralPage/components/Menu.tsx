@@ -1,53 +1,113 @@
-import React, {ReactNode, useCallback, useContext, useMemo, useState} from "react";
-import Data, {Flag, Item, Passage, ReactionOption, Room, TextOption} from "../../../state/data/data";
-import "./Menu.css";
+import React, {useCallback} from "react";
 import Folder from "../../../common/components/Folder";
+import OptionsBar from "../../../common/components/OptionsBar";
 import Symbols from "../../../constants/Symbols";
 import FolderPath from "../../../constants/FolderPath";
+import {useRoot2} from "../../../hooks/useRoot2";
+import {Flag, Item, Passage, ReactionOption, Room, TextOption} from "../../../state/data/data";
+import {EditorType} from "../../../state/editor/editor";
+import {openEditor, openFolder} from "../../../state/editor/editorActions";
+import "./Menu.css";
+import {addPassage, addRoom} from "../../../state/data/dataActions";
+import {createUuid} from "../../../constants/uuids";
+import { get } from "lodash";
 
 interface MenuProps {
     className?: string,
-    data: Data,
 }
 
 const Menu = (
     {
         className = "",
-        data = new Data(),
     }: MenuProps) => {
     console.log("Menu: Rendered");
+    const ctx = useRoot2();
+
+    const selectFolder = useCallback((path: FolderPath, type: EditorType) => {
+        ctx.dispatch(openFolder(path).then(openEditor(type)));
+    }, [ctx.dispatch])
+
+    const handleAdd = () => {
+        switch (ctx.store.editor.type) {
+            case "CATEGORY":
+                handleAddCategory();
+                break;
+            case "ROOM":
+                ctx.dispatch(addPassage(getNewRoomPassagePath(), new Passage(createUuid())));
+                break;
+            default:
+                break;
+        }
+    }
+
+    const handleAddCategory = () => {
+        switch (getCategory()) {
+            case "rooms":
+                ctx.dispatch(addRoom(getNewRoomPath(), new Room(createUuid())));
+                break;
+            default:
+                break;
+        }
+    }
+
+    function getNewRoomPath() {
+        return new FolderPath(ctx.store.editor.path.folders.concat(String(ctx.store.data.rooms.length)));
+    }
+
+    function getNewRoomPassagePath() {
+        const room: Room = get(ctx.store, ctx.store.editor.path.folders);
+        return new FolderPath(ctx.store.editor.path.folders.concat(`passages`, `${room.passages.length}`));
+    }
+
+    function getCategory() {
+        return ctx.store.editor.path.folders[ctx.store.editor.path.folders.length - 1];
+    }
 
     return (
         <div className={`menu ${className}`}>
-            <div className={`toolbar`}>
-                <div className={`toolbar-label`}>Menu</div>
-                <button className={`toolbar-up toolbar-option`}>{Symbols.upArrow2}</button>
-                <button className={`toolbar-down toolbar-option`}>{Symbols.downArrow2}</button>
-                <button className={`toolbar-remove toolbar-option`}>{Symbols.minus}</button>
-                <button className={`toolbar-add toolbar-option`}>{Symbols.plus}</button>
-            </div>
+            <OptionsBar title={"Menu"} >
+                <button className={`menu-up`}>{Symbols.upArrow2}</button>
+                <button className={`menu-down`}>{Symbols.downArrow2}</button>
+                <button className={`menu-remove`}>{Symbols.minus}</button>
+                <button className={`menu-add`} onClick={handleAdd}>{Symbols.plus}</button>
+            </OptionsBar>
             <div className={`menu-contents`}>
                 <div className={`menu-folders`}>
+                    {/*{CategoryFolder({*/}
+                    {/*    id: `rooms`,*/}
+                    {/*    title: "ROOMS",*/}
+                    {/*    objects: ctx.store.data.rooms,*/}
+                    {/*    path: new FolderPath([`data`, `rooms`]),*/}
+                    {/*    dispatch: selectFolder,*/}
+                    {/*    createSubfolder: RoomFolder,})}*/}
                     <CategoryFolder
-                        objects={data.rooms}
-                        createSubfolder={createRoomFolder}
                         id={`rooms`}
-                        title={"ROOMS"}/>
-                    <CategoryFolder
-                        objects={data.inventory}
-                        createSubfolder={createItemFolder}
-                        id={`inventory`}
-                        title={"ITEMS"}/>
-                    <CategoryFolder
-                        objects={data.flags}
-                        createSubfolder={createFlagFolder}
-                        id={`flags`}
-                        title={"FLAGS"}/>
-                    <CategoryFolder
-                        objects={data.globalTextOptions}
-                        createSubfolder={createTextOptionFolder}
-                        id={`globalTextOptions`}
-                        title={"GLOBALS"}/>
+                        title={"ROOMS"}
+                        objects={ctx.store.data.rooms}
+                        path={new FolderPath([`data`, `rooms`])}
+                        dispatch={selectFolder}
+                        createSubfolder={RoomFolder}/>
+                    {/*{CategoryFolder({*/}
+                    {/*    id: `inventory`,*/}
+                    {/*    title: "ITEMS",*/}
+                    {/*    objects: ctx.store.data.inventory,*/}
+                    {/*    path: new FolderPath([`data`, `inventory`]),*/}
+                    {/*    dispatch: selectFolder,*/}
+                    {/*    createSubfolder: ItemFolder,})}*/}
+                    {/*{CategoryFolder({*/}
+                    {/*    id: `flags`,*/}
+                    {/*    title: "FLAG",*/}
+                    {/*    objects: ctx.store.data.flags,*/}
+                    {/*    path: new FolderPath([`data`, `flags`]),*/}
+                    {/*    dispatch: selectFolder,*/}
+                    {/*    createSubfolder: FlagFolder,})}*/}
+                    {/*{CategoryFolder({*/}
+                    {/*    id: `globalTextOptions`,*/}
+                    {/*    title: "GLOBALS",*/}
+                    {/*    objects: ctx.store.data.globalTextOptions,*/}
+                    {/*    path: new FolderPath([`data`, `globalTextOptions`]),*/}
+                    {/*    dispatch: selectFolder,*/}
+                    {/*    createSubfolder: TextOptionFolder,})}*/}
                     <div className={"menu-contents-padding"}/>
                 </div>
             </div>
@@ -58,97 +118,140 @@ const Menu = (
 export default React.memo(Menu);
 
 interface CategoryFolderProps<T extends {id: string}> {
-    objects: T[],
-    createSubfolder: (props: SubfolderProps<T>) => React.ReactNode,
     id: string,
-    path?: FolderPath,
     title?: string,
     icon?: string,
-    selected?: boolean,
-    onSelect?: () => void,
+    objects: T[],
+    path?: FolderPath,
+    dispatch?: (path: FolderPath, type: EditorType) => void,
+    createSubfolder: (props: SubfolderProps<T>) => React.ReactNode,
 }
 
 function CategoryFolder<T extends {id: string}>(
     {
-        objects,
-        createSubfolder,
         id,
-        path = new FolderPath([`data`]),
         title = "TITLE",
         icon = Symbols.circle,
-        selected = false,
-        onSelect,
+        objects,
+        path = new FolderPath(),
+        dispatch,
+        createSubfolder,
     }: CategoryFolderProps<T>) {
     const hasItems = objects && objects.length > 0;
+    const selectFolder = useCallback(() => {
+        if (!dispatch) {
+            return;
+        }
+        dispatch(path, `CATEGORY`);
+    }, [dispatch, path]);
     return (
         <Folder
             className={id}
             key={id}
             title={title}
             icon={icon}
-            selected={selected}
-            onSelect={onSelect}>
-            {hasItems && objects.map((obj, index) => createSubfolder({obj: obj, depth: 1, path: path?.open(id, index),}))}
+            onSelect={selectFolder}>
+            {hasItems && objects.map((obj, index) => createSubfolder({obj: obj, depth: 1, path: path?.open(index), dispatch: dispatch}))}
         </Folder>
-    );// [`rooms`, index.toString()]
+    );
 }
 
 interface SubfolderProps<T extends {id: string}> {
     obj: T,
     depth?: number,
     path?: FolderPath,
-    selected?: boolean,
-    onSelect?: () => void;
+    dispatch?: (path: FolderPath, type: EditorType) => void,
 }
 
-function createItemFolder({obj, depth = 0, path, selected, onSelect,}: SubfolderProps<Item>) {
+function ItemFolder({obj, depth = 0, path = new FolderPath(), dispatch,}: SubfolderProps<Item>) {
+    const selectFolder = useCallback(() => {
+        if (!dispatch) {
+            return;
+        }
+        dispatch(path, `ITEM`);
+    }, [dispatch, path]);
     return (
-        <Folder className={`item`} key={obj.id} depth={depth} title={obj.id} selected={selected} onSelect={onSelect}>
-            {createPassageFolder({obj: obj.passage, depth: depth + 1, path: path?.open(`passage`),})}
+        <Folder className={`item`} key={obj.id} depth={depth} title={obj.id} onSelect={selectFolder}>
+            {PassageFolder({obj: obj.passage, depth: depth + 1, path: path?.open(`passage`), dispatch: dispatch})}
         </Folder>
     );
 }
 
-function createFlagFolder({obj, depth = 0, path, selected, onSelect,}: SubfolderProps<Flag>) {
+function FlagFolder({obj, depth = 0, path = new FolderPath(), dispatch,}: SubfolderProps<Flag>) {
+    const selectFolder = useCallback(() => {
+        if (!dispatch) {
+            return;
+        }
+        dispatch(path, `FLAG`);
+    }, [dispatch, path]);
     return (
-        <Folder className={`flag`} key={obj.id} depth={depth} title={obj.id} selected={selected}/>
+        <Folder className={`flag`} key={obj.id} depth={depth} title={obj.id} onSelect={selectFolder}/>
     );
 }
 
-function createTextOptionFolder({obj, depth = 0, path, selected, onSelect,}: SubfolderProps<TextOption>) {
+function TextOptionFolder({obj, depth = 0, path = new FolderPath(), dispatch,}: SubfolderProps<TextOption>) {
     const hasPassages = obj.prepend.length > 0;
+    const selectFolder = useCallback(() => {
+        if (!dispatch) {
+            return;
+        }
+        dispatch(path, `TEXT_OPTION`);
+    }, [dispatch, path]);
     return (
-        <Folder className={`text-option`} key={`t~${obj.id}`} depth={depth} title={obj.id} selected={selected} onSelect={onSelect}>
-            {hasPassages && obj.prepend.map(passage => createPassageFolder({obj: passage, depth: depth + 1,}))}
+        <Folder className={`text-option`} key={`t~${obj.id}`} depth={depth} title={obj.id} onSelect={selectFolder}>
+            {hasPassages && obj.prepend.map((passage, index) =>
+                PassageFolder({obj: passage, depth: depth + 1, path: path?.open(`prepend`, index), dispatch: dispatch}))}
         </Folder>
     );
 }
 
-function createReactionOptionFolder({obj, depth = 0, path, selected, onSelect,}: SubfolderProps<ReactionOption>) {
+function ReactionOptionFolder({obj, depth = 0, path = new FolderPath(), dispatch,}: SubfolderProps<ReactionOption>) {
     const hasPassages = obj.prepend.length > 0;
+    const selectFolder = useCallback(() => {
+        if (!dispatch) {
+            return;
+        }
+        dispatch(path, `REACTION_OPTION`);
+    }, [dispatch, path]);
     return (
-        <Folder className={`reaction-option`} key={`r~${obj.id}`} depth={depth} title={obj.id} selected={selected} onSelect={onSelect}>
-            {hasPassages && obj.prepend.map(passage => createPassageFolder({obj: passage, depth: depth + 1,}))}
+        <Folder className={`reaction-option`} key={`r~${obj.id}`} depth={depth} title={obj.id} onSelect={selectFolder}>
+            {hasPassages && obj.prepend.map((passage, index) =>
+                PassageFolder({obj: passage, depth: depth + 1, path: path?.open(`prepend`, index), dispatch: dispatch}))}
         </Folder>
     );
 }
 
-function createPassageFolder({obj, depth = 0, path, selected, onSelect,}: SubfolderProps<Passage>) {
+function PassageFolder({obj, depth = 0, path = new FolderPath(), dispatch,}: SubfolderProps<Passage>) {
     const hasReactionOptions = obj.reactionOptions.length > 0;
     const hasTextOptions = obj.textOptions.length > 0;
+    // const selectFolder = useCallback(() => {
+    //     if (!dispatch) {
+    //         return;
+    //     }
+    //     dispatch(path, `PASSAGE`);
+    // }, [dispatch, path]);
     return (
-        <Folder className={`passage`} key={obj.id} depth={depth} title={obj.id} selected={selected} onSelect={onSelect}>
-            {hasReactionOptions && obj.reactionOptions.map(option => createReactionOptionFolder({obj: option, depth: depth + 1,}))}
-            {hasTextOptions && obj.textOptions.map(option => createTextOptionFolder({obj: option, depth: depth + 1,}))}
+        <Folder className={`passage`} key={obj.id} depth={depth} title={obj.id} onSelect={() => dispatch ? dispatch(path, `PASSAGE`) : undefined}>
+            {hasReactionOptions && obj.reactionOptions.map((option, index) =>
+                ReactionOptionFolder({obj: option, depth: depth + 1, path: path?.open(`reactionOptions`, index), dispatch: dispatch}))}
+            {hasTextOptions && obj.textOptions.map((option, index) =>
+                TextOptionFolder({obj: option, depth: depth + 1, path: path?.open(`textOptions`, index), dispatch: dispatch}))}
         </Folder>
     );
 }
 
-function createRoomFolder({obj, depth = 0, path, selected, onSelect,}: SubfolderProps<Room>) {
+function RoomFolder({obj, depth = 0, path = new FolderPath(), dispatch,}: SubfolderProps<Room>) {
     const hasPassages = obj.passages.length > 0;
+    // const selectFolder = useCallback(() => {
+    //     if (!dispatch) {
+    //         return;
+    //     }
+    //     dispatch(path, `ROOM`);
+    // }, [dispatch, path]);
     return (
-        <Folder className={`room`} key={obj.id} depth={depth} title={obj.id} selected={selected} onSelect={onSelect}>
-            {hasPassages && obj.passages.map(passage => createPassageFolder({obj: passage, depth: depth + 1,}))}
+        <Folder className={`room`} key={obj.id} depth={depth} title={obj.id} onSelect={() => dispatch ? dispatch(path, `ROOM`) : undefined}>
+            {hasPassages && obj.passages.map((passage, index) =>
+                PassageFolder({obj: passage, depth: depth + 1, path: path?.open(`passages`, index), dispatch: dispatch}))}
         </Folder>
     );
 }

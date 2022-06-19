@@ -7,29 +7,47 @@ import Data, {
     RoomId
 } from "./data";
 import Action from "../~actions";
+import FolderPath from "../../constants/FolderPath";
+import Store from "../store";
 
-export function addRoom(id: RoomId, room: Room = new Room()): Action<Data> {
-    return new Action().set({data: {rooms: {[id]: room}}});
+export function addRoom(path: FolderPath, room: Room): Action<Store> {
+    return new Action<Store>().setEntry(path.folders, room);
 }
 
-export function removeRoom(id: RoomId): Action<Data> {
-    return new Action().unset({data: {rooms: {[id]: undefined}}});
+export function removeRoom(path: FolderPath): Action<Store> {
+    return new Action<Store>().unsetEntry(path.folders);
 }
 
-export function setRoomTitle(id: RoomId, title: string): Action<Data> {
-    return new Action().set({data: {rooms: {[id]: {title: title}}}});
+export function addPassage(path: FolderPath, passage: Passage): Action<Store> {
+    return new Action<Store>().setEntry(path.folders, passage);
 }
 
-export function addRoomPassage(id: RoomId, passageId: PassageId, passage = new Passage()): Action<Data> {
-    return new Action()
-        .set({data: {rooms: {[id]: {passage: [passageId]}}}})
-        .set({data: {passages: {[passageId]: passage}}});
+export function setId(path: FolderPath, id: string): Action<Store> {
+    return new Action<Store>().setEntry(path.folders.concat(`id`), id);
 }
 
-export function addItem(id: ItemId, item: Item = new Item()): Action<Data> {
-    return new Action().set({data: {inventory: {[id]: item}}});
+export function setRoomTitle(path: FolderPath, title: string): Action<Store> {
+    return new Action<Store>().setEntry(path.folders.concat(`title`), title);
 }
 
-export function removeItem(id: ItemId): Action<Data> {
-    return new Action().unset({data: {inventory: {[id]: undefined}}});
+export function setPassageText(path: FolderPath, text: string): Action<Store> {
+    return new Action<Store>().setEntry(path.folders.concat(`text`, `0`), text);
 }
+
+export function setPassageImage(path: FolderPath, image: string): Action<Store> {
+    return new Action<Store>().setEntry(path.folders.concat(`image`, `0`), image);
+}
+
+// export function addRoomPassage(id: RoomId, passageId: PassageId, passage = new Passage()): Action<Data> {
+//     return new Action()
+//         .set({data: {rooms: {[id]: {passage: [passageId]}}}})
+//         .set({data: {passages: {[passageId]: passage}}});
+// }
+//
+// export function addItem(id: ItemId, item: Item = new Item()): Action<Data> {
+//     return new Action().set({data: {inventory: {[id]: item}}});
+// }
+//
+// export function removeItem(id: ItemId): Action<Data> {
+//     return new Action().unset({data: {inventory: {[id]: undefined}}});
+// }

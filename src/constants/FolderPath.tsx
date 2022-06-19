@@ -10,6 +10,6 @@ export default class FolderPath {
     }
 
     close(): FolderPath {
-        return new FolderPath(this.folders.slice(0, -2));
+        return new FolderPath(this.folders.slice(0, -1));
     }
 }
