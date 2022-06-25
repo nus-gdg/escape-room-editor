@@ -1,12 +1,17 @@
 .list {
     overflow: scroll;
     min-width: 200px;
-    background-color: var(--background-medium);
-    --list-line-height: calc(1em + 16px);
+    --list-line-height: 1em;
 }
 
-.list > * {
+.list > .list-item {
     margin: 2px 0 2px 0;
+    height: var(--list-line-height);
+    line-height: var(--list-line-height);
+}
+
+.list > .list-title {
+    padding: 2px 0 2px 0;
     height: var(--list-line-height);
     line-height: var(--list-line-height);
 }

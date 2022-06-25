@@ -1,0 +1,25 @@
+.options {
+    display: flex;
+    flex-direction: row;
+    height: var(--toolbar-height);
+    line-height: var(--toolbar-height);
+    background-color: var(--background-dark);
+    border-width: 1px;
+    border-color: var(--background-x-dark);
+    font-size: 12px;
+}
+
+.options-label {
+    flex-grow: 1;
+    padding-left: var(--padding-left);
+}
+
+.options > *:not(.options-label) {
+    flex-shrink: 0;
+    width: 2em;
+    font-weight: bolder;
+}
+
+.options > *:not(.options-label):hover {
+    color: var(--font-bright);
+}

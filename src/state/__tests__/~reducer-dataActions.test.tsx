@@ -9,7 +9,7 @@ test("addRoom", () => {
 
     // Step 1: Room "kitchen" added to rooms
     const roomId: RoomId = "kitchen";
-    expected.data.rooms[roomId] = new Room();
+    expected.data.rooms[0] = new Room(roomId);
 
     const store = new Store();
     const step1 = reducer(store, addRoom(roomId));

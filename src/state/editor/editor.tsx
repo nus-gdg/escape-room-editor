@@ -1,10 +1,16 @@
-export class EditorState {
-    id: number = 0;
-    type?: "PASSAGE" | "REACTION_OPTION" | "TEXT_OPTION";
-}
+import FolderPath from "../../constants/FolderPath";
+
+export type EditorType = "NONE"
+    | "SETTINGS"
+    | "CATEGORY"
+    | "ITEM"
+    | "FLAG"
+    | "TEXT_OPTION"
+    | "REACTION_OPTION"
+    | "PASSAGE"
+    | "ROOM";
 
 export default class Editor {
-    id: string = "";
-    type?: "SETTINGS" | "ROOM" | "ITEM";
-    history: EditorState[] = [];
+    path: FolderPath = new FolderPath();
+    type: EditorType = "NONE";
 }

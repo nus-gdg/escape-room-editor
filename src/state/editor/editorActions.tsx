@@ -1,13 +1,15 @@
-import {
-    ItemId,
-    RoomId
-} from "../data/data";
 import Action from "../~actions";
+import {EditorType} from "./editor";
+import FolderPath from "../../constants/FolderPath";
+import Store from "../store";
 
-export function selectRoom(id: RoomId): Action {
-    return new Action().set({editor: {id: id, type: "ROOM"}});
+export function openFolder(path: FolderPath): Action<Store> {
+    return new Action<Store>()
+        .unset({editor: {path: undefined}})
+        .set({editor: {path: path}});
 }
 
-export function selectItem(id: ItemId): Action {
-    return new Action().set({editor: {id: id, type: "ITEM"}});
+export function openEditor(editorType: EditorType): Action<Store> {
+    return new Action<Store>()
+        .set({editor: {type: editorType}});
 }

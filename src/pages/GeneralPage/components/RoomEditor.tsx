@@ -1,14 +1,14 @@
-import {uniq} from "lodash";
-import React, {ChangeEvent, useCallback, useContext, useMemo, useState} from "react";
-import Root2 from "../../../common/containers/Root2";
-import {addRoom, removeRoom, setRoomTitle} from "../../../state/data/dataActions";
-import {selectRoom} from "../../../state/editor/editorActions";
-import List from "../../../common/components/List";
+import {get} from "lodash";
+import React, {ChangeEvent} from "react";
+import {addRoom, setId, setRoomTitle} from "../../../state/data/dataActions";
 import "./RoomEditor.css";
+import {Room} from "../../../state/data/data";
+import {useRoot2} from "../../../hooks/useRoot2";
+import FolderPath from "../../../constants/FolderPath";
 
-interface RoomEditorState {
-    showPassages: boolean,
-}
+// interface RoomEditorState {
+//     showPassages: boolean,
+// }
 
 interface RoomEditorProps {
     className?: string,
@@ -19,59 +19,61 @@ const RoomEditor = (
         className = "",
     }: RoomEditorProps) => {
 
-    const ctx = useContext(Root2);
+    const ctx = useRoot2();
+    //
+    // const [state, setState] = useState<RoomEditorState>({
+    //     showPassages: false,
+    // });
+    //
+    // const defaultIds = {
+    //     passage: "~passage" as PassageId,
+    // };
+    //
+    // const handleToggledPassages = useCallback(() => {
+    //     setState(state => ({
+    //         ...state,
+    //         ...{showPassages: !state.showPassages}
+    //     }));
+    // }, []);
+    //
+    const path = ctx.store.editor.path;
+    const room: Room = get(ctx.store, path.folders);
 
-    const [state, setState] = useState<RoomEditorState>({
-        showPassages: false,
-    });
-
-    const handleToggledPassages = useCallback(() => {
-        setState(state => ({
-            ...state,
-            ...{showPassages: !state.showPassages}
-        }));
-    }, []);
-
-    const roomId = ctx.store.editor.id;
-    const room = ctx.store.data.rooms[roomId];
+    // const handleChangedId = (e: ChangeEvent<HTMLInputElement>) => {
+    //     const newPath = path.folders.slice(0, -1).concat(e.currentTarget.value);
+    //     console.log(newPath)
+    //     console.log(path)
+    //     ctx.dispatch(addRoom(path, room));
+    //         // .then(openFolder(newId))
+    //         // .then(removeRoom(roomId)));
+    // }
 
     const handleChangedId = (e: ChangeEvent<HTMLInputElement>) => {
-        const newId = e.currentTarget.value;
-        ctx.dispatch(addRoom(newId, ctx.store.data.rooms[roomId])
-            .then(selectRoom(newId))
-            .then(removeRoom(roomId)));
+        ctx.dispatch(setId(path, e.currentTarget.value));
     }
 
     const handleChangedTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        const newTitle = e.currentTarget.value;
-        ctx.dispatch(setRoomTitle(roomId, newTitle));
+        // ctx.dispatch(addRoom(getNewRoomPath()));
+        ctx.dispatch(setRoomTitle(path, e.currentTarget.value));
     }
-
-    const passages = useMemo(() => {
-        return uniq(Object.keys(room.passage));
-    }, [room.passage]);
+    // const handleAddedPassage = () => {
+    //     ctx.dispatch(addPassage(defaultIds.passage)
+    //         .then(setRoomPassages(roomId, room.passages.concat(defaultIds.passage))));
+    // }
+    //
+    // const passages = useMemo(() => {
+    //     return uniq(Object.keys(room.passages));
+    // }, [room.passages]);
 
     return (
-        <div className={`room-editor ${className}`} >
-            <div className={"room-editor-id"}>
-                <div className={"label"}>ID</div>
-                <input className={"textbox"} value={roomId} onChange={handleChangedId} placeholder={"ID"}/>
+        <div className={`room-editor editor ${className}`} >
+            <div className={"room-editor-id form"}>
+                <div className={"label"}>ROOM ID</div>
+                <input className={"textbox"} value={room.id} onChange={handleChangedId} placeholder={"ID"}/>
             </div>
-            <div className={"room-editor-title"}>
+            <div className={"room-editor-title form"}>
                 <div className={"label"}>TITLE</div>
                 <textarea className={"textbox"} value={room.title} onChange={handleChangedTitle} placeholder={"Title"} rows={1}/>
-            </div>
-            <div className={"room-editor-title"}>
-                <List
-                    title={"PASSAGES"}
-                    items={passages}
-                    open={state.showPassages}
-                    // isSelected={isSelectedRoom}
-                    onToggle={handleToggledPassages}
-                    // onAddListItem={handleAddedRoom}
-                    // onRemoveListItem={handleRemovedRoom}
-                    // onSelectListItem={handleSelectedRoom}
-                />
             </div>
         </div>
     )
