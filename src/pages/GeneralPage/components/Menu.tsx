@@ -11,7 +11,7 @@ import "./Menu.css";
 import {addPassage, addRoom} from "../../../state/data/dataActions";
 import {createUuid} from "../../../constants/uuids";
 import { get } from "lodash";
-
+import CategoryFolder from "./CategoryFolder";
 interface MenuProps {
     className?: string,
 }
@@ -81,12 +81,17 @@ const Menu = (
                     {/*    dispatch: selectFolder,*/}
                     {/*    createSubfolder: RoomFolder,})}*/}
                     <CategoryFolder
-                        id={`rooms`}
-                        title={"ROOMS"}
-                        objects={ctx.store.data.rooms}
-                        path={new FolderPath([`data`, `rooms`])}
-                        dispatch={selectFolder}
-                        createSubfolder={RoomFolder}/>
+                        type={`ITEM`}
+                        title={`ITEMS`}
+                        objects={ctx.store.data.inventory}
+                        path={new FolderPath([`data`, `inventory`])}
+                        selectFolder={selectFolder} />
+                        {/*id={`rooms`}*/}
+                        {/*title={"ROOMS"}*/}
+                        {/*objects={ctx.store.data.rooms}*/}
+                        {/*path={new FolderPath([`data`, `rooms`])}*/}
+                        {/*dispatch={selectFolder}*/}
+                        {/*createSubfolder={RoomFolder}/>*/}
                     {/*{CategoryFolder({*/}
                     {/*    id: `inventory`,*/}
                     {/*    title: "ITEMS",*/}
@@ -127,34 +132,34 @@ interface CategoryFolderProps<T extends {id: string}> {
     createSubfolder: (props: SubfolderProps<T>) => React.ReactNode,
 }
 
-function CategoryFolder<T extends {id: string}>(
-    {
-        id,
-        title = "TITLE",
-        icon = Symbols.circle,
-        objects,
-        path = new FolderPath(),
-        dispatch,
-        createSubfolder,
-    }: CategoryFolderProps<T>) {
-    const hasItems = objects && objects.length > 0;
-    const selectFolder = useCallback(() => {
-        if (!dispatch) {
-            return;
-        }
-        dispatch(path, `CATEGORY`);
-    }, [dispatch, path]);
-    return (
-        <Folder
-            className={id}
-            key={id}
-            title={title}
-            icon={icon}
-            onSelect={selectFolder}>
-            {hasItems && objects.map((obj, index) => createSubfolder({obj: obj, depth: 1, path: path?.open(index), dispatch: dispatch}))}
-        </Folder>
-    );
-}
+// function CategoryFolder<T extends {id: string}>(
+//     {
+//         id,
+//         title = "TITLE",
+//         icon = Symbols.circle,
+//         objects,
+//         path = new FolderPath(),
+//         dispatch,
+//         createSubfolder,
+//     }: CategoryFolderProps<T>) {
+//     const hasItems = objects && objects.length > 0;
+//     const selectFolder = useCallback(() => {
+//         if (!dispatch) {
+//             return;
+//         }
+//         dispatch(path, `CATEGORY`);
+//     }, [dispatch, path]);
+//     return (
+//         <Folder
+//             className={id}
+//             key={id}
+//             title={title}
+//             icon={icon}
+//             onSelect={selectFolder}>
+//             {hasItems && objects.map((obj, index) => createSubfolder({obj: obj, depth: 1, path: path?.open(index), dispatch: dispatch}))}
+//         </Folder>
+//     );
+// }
 
 interface SubfolderProps<T extends {id: string}> {
     obj: T,
