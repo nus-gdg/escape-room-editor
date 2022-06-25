@@ -12,8 +12,12 @@ export class Flag {
 
 export type ItemId = string;
 export class Item {
-    id: ItemId = "";
+    id: ItemId;
     passage: Passage = new Passage("info");
+
+    constructor(id: string) {
+        this.id = id;
+    }
 }
 
 export class Modifier { // Stores any modifications to state, TBC
@@ -143,3 +147,9 @@ testData.rooms[0].passages[2].reactionOptions[2].id = "r0p2e2"
 testData.rooms[0].passages[2].textOptions[0].id = "r0p2t0"
 testData.rooms[0].passages[2].textOptions[1].id = "r0p2t1"
 testData.rooms[0].passages[2].textOptions[2].id = "r0p2t2"
+
+testData.inventory = [
+    new Item("i0"),
+    new Item("i1"),
+    new Item("i2")
+];
