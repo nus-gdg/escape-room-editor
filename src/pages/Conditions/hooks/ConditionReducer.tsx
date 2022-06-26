@@ -9,7 +9,7 @@ export enum ConditionActionTypes {
 
 export interface ConditionState {
     conditions: Record<ConditionId, Condition>;
-    conditionNames: Record<ConditionId, string>;
+    order: Array<ConditionId>;
     mainCondition?: Condition;
 }
 
@@ -48,13 +48,41 @@ const initConditions = (
         return;
     }
 
+    const queue: Array<Condition> = [];
+    queue.unshift(mainCondition);
+
+    const conditionOrder: Array<Condition> = []; //stack
+    while (queue.length !== 0) {
+        const currCondition: Condition | undefined = queue.shift();
+        if (!currCondition) {
+            continue;
+        }
+
+        if (currCondition.value instanceof Condition) {
+            queue.unshift(currCondition.value);
+        }
+
+        if (currCondition.value2 instanceof Condition) {
+            queue.unshift(currCondition.value2);
+        }
+
+        conditionOrder.push(currCondition);
+    }
+
+    //put in order
     const conditions: Record<ConditionId, Condition> = {};
-    const conditionNames: Record<ConditionId, string> = {};
+    const order: Array<ConditionId> = [];
+    for (let i = 0; i < conditionOrder.length; ++i) {
+        const currCondition = conditionOrder.pop();
+        if (currCondition === undefined) {
+            continue;
+        }
 
-    //slowly look through the mainCondition and put into a stack
-    //then stack pop the stack and initialise into conditions and conditionNames
+        conditions[currCondition.label] = currCondition;
+        order.push(currCondition.label);
+    }
 
-    return { conditions, conditionNames, mainCondition };
+    return { conditions, order, mainCondition };
 };
 
 const addCondition = (state: ConditionState) => {

@@ -1,6 +1,8 @@
-import React, { useContext, useState, useReducer } from "react";
+import React, { useContext, useReducer, useEffect } from "react";
+import { Condition } from "../../../state/data/data";
 import ConditionReducer, {
     ConditionAction,
+    ConditionActionTypes,
     ConditionState,
 } from "./ConditionReducer";
 
@@ -10,22 +12,34 @@ interface ConditionContextInfo extends ConditionState {
 
 const ConditionContext = React.createContext<ConditionContextInfo | null>(null);
 
-export const useConditions = () => {
+export const useConditionsContext = () => {
     return useContext(ConditionContext);
 };
 
-export const ConditionProvider = (children: React.ReactNode) => {
+interface Props {
+    initialCondition: Condition;
+    children: React.ReactNode;
+}
+
+export const ConditionProvider = ({ initialCondition, children }: Props) => {
     const [state, dispatcher] = useReducer(ConditionReducer, {
         conditions: {},
-        conditionNames: {},
+        order: [],
         mainCondition: undefined,
     });
+
+    useEffect(() => {
+        dispatcher({
+            type: ConditionActionTypes.INIT,
+            payload: { initialCondition: initialCondition },
+        });
+    }, [initialCondition]);
 
     return (
         <ConditionContext.Provider
             value={{
                 conditions: state.conditions,
-                conditionNames: state.conditionNames,
+                order: state.order,
                 mainCondition: state.mainCondition,
                 dispatcher,
             }}
