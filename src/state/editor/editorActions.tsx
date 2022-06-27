@@ -5,7 +5,7 @@ import Store from "../store";
 
 export function openFolder(path: FolderPath): Action<Store> {
     return new Action<Store>()
-        .unset({editor: {path: undefined}})
+        // .unset({editor: {path: undefined}})
         .set({editor: {path: path}});
 }
 

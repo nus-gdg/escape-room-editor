@@ -5,8 +5,7 @@ export type EditorType = "NONE"
     | "CATEGORY"
     | "ITEM"
     | "FLAG"
-    | "TEXT_OPTION"
-    | "REACTION_OPTION"
+    | "OPTION"
     | "PASSAGE"
     | "ROOM";
 

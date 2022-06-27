@@ -1,12 +1,12 @@
 import React, {useMemo} from "react";
-import {useRoot2} from "../../hooks/useRoot2";
-import "./~GeneralPage.css"
-import Menu from "./components/Menu";
+import {useRootStore} from "../../hooks"
+import Menu from "./components/Menu/Menu";
 import RoomEditor from "./components/RoomEditor";
 import PassageEditor from "./components/PassageEditor";
+import "./~GeneralPage.css"
 
 export const GeneralPage = () => {
-    const ctx = useRoot2();
+    const store = useRootStore();
 
     function renderTitlebar() {
         return (
@@ -22,14 +22,14 @@ export const GeneralPage = () => {
     }
 
     const memoEditor = useMemo(() => {
-        switch (ctx.store.editor.type) {
+        switch (store.editor.type) {
             case `ROOM`:
                 return <RoomEditor/>;
             case `PASSAGE`:
                 return <PassageEditor/>;
             default:
                 return;
-        }}, [ctx.store.editor.type]);
+        }}, [store.editor.type]);
 
     function renderPreview() {
         return (

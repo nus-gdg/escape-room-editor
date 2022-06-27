@@ -1,18 +1,20 @@
-import React, {RefObject, useCallback, useRef, useState} from "react";
-import Symbols from "../../constants/Symbols";
+import React, {useCallback} from "react";
+import {Symbols} from "../../constants/";
 import "./Folder.css";
 
 interface FolderProps {
     className?: string,
     children?: React.ReactNode,
-    depth?: number,
     title?: string,
-    icon?: string,
-    showToggleIcon?: string,
-    hideToggleIcon?: string,
+    depth?: number,
+    folderIcon?: string,
+    toggleIcon?: string,
     selected?: boolean,
     onSelect?: () => void,
+    onToggle?: () => void,
 }
+
+const nullFunction = () => {};
 
 const Folder = (
     {
@@ -20,18 +22,19 @@ const Folder = (
         children,
         depth = 0,
         title = "Title",
-        icon = Symbols.circle,
-        showToggleIcon = Symbols.downArrow,
-        hideToggleIcon = Symbols.rightArrow,
+        folderIcon = Symbols.circle,
+        toggleIcon = Symbols.space,
         selected = false,
-        onSelect,
+        onToggle = nullFunction,
+        onSelect = nullFunction,
     }: FolderProps) => {
     // console.log(`Folder: Rendered: ${title}`);
-    const [showContents, setShowContents] = useState(false);
-
-    const toggleContents = useCallback(() => {
-        setShowContents(showContents => !showContents);
-    }, []);
+    // const [showContents, setShowContents] = useState(false);
+    //
+    // const toggleContents = useCallback(() => {
+    //     setShowContents(showContents => !showContents);
+    // }, []);
+    // const {open, toggle} = useToggle();
 
     const addSpacing = useCallback((node: HTMLButtonElement) => {
         if (!node) {
@@ -41,27 +44,23 @@ const Folder = (
         node.style.width = `${parseInt(getComputedStyle(node).width) * depth}px`;
     }, [depth]);
 
-    const handleSelected = useCallback(() => {
-        onSelect?.();
-    }, [onSelect]);
-
     return (
         <div className={`folder ${className}`}>
             <div className={`folder-label ${(selected) ? "selected" : ""}`}>
-                <button className={"folder-spacing icon"} ref={addSpacing} onClick={handleSelected} onDoubleClick={toggleContents}/>
-                <button className={"folder-toggle icon"} onClick={toggleContents}>
-                    {(showContents) ? showToggleIcon : hideToggleIcon}
+                <button className={"folder-spacing icon"} ref={addSpacing} onClick={onSelect} onDoubleClick={onToggle}/>
+                <button className={"folder-toggle icon"} onClick={onToggle}>
+                    {toggleIcon}
                 </button>
-                <button className={"folder-icon icon"} onClick={handleSelected} onDoubleClick={toggleContents}>
-                    {icon}
+                <button className={"folder-icon icon"} onClick={onSelect} onDoubleClick={onToggle}>
+                    {folderIcon}
                 </button>
-                <button className={"folder-name"} onClick={handleSelected} onDoubleClick={toggleContents}>
+                <button className={"folder-name"} onClick={onSelect} onDoubleClick={onToggle}>
                     {title}
                 </button>
-                <button className={"folder-scrollbar-padding"} onClick={handleSelected} onDoubleClick={toggleContents}/>
+                <button className={"folder-scrollbar-padding"} onClick={onSelect} onDoubleClick={onToggle}/>
             </div>
-            <div className={`folder-contents ${(showContents) ? "" : "hide"}`}>
-                {showContents && children}
+            <div className={`folder-contents`}>
+                {children}
             </div>
         </div>
     );

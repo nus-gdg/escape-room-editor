@@ -1,9 +1,8 @@
 import {get} from "lodash";
 import React, {ChangeEvent} from "react";
 import "./RoomEditor.css";
-import {Condition, Modifier, Passage, PassageId, ReactionOption, TextOption} from "../../../state/data/data";
-import {useRoot2} from "../../../hooks/useRoot2";
-import FolderPath from "../../../constants/FolderPath";
+import {Passage} from "../../../state/data/data";
+import {useRootDispatch, useRootStore} from "../../../hooks"
 import {setId, setPassageImage, setPassageText} from "../../../state/data/dataActions";
 
 // interface PassageEditorState {
@@ -19,10 +18,11 @@ const PassageEditor = (
         className = "",
     }: PassageEditorProps) => {
 
-    const ctx = useRoot2();
+    const store = useRootStore();
+    const dispatch = useRootDispatch();
 
-    const path = ctx.store.editor.path;
-    const passage: Passage = get(ctx.store, path.folders);
+    const path = store.editor.path;
+    const passage: Passage = get(store, path.folders);
 
     // export class Passage {
     //     id: PassageId = "";
@@ -35,19 +35,19 @@ const PassageEditor = (
     // }
 
     const handleChangedId = (e: ChangeEvent<HTMLInputElement>) => {
-        ctx.dispatch(setId(path, e.currentTarget.value));
+        dispatch(setId(path, e.currentTarget.value));
     }
 
     const handleChangedText = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        ctx.dispatch(setPassageText(path, e.currentTarget.value));
+        dispatch(setPassageText(path, e.currentTarget.value));
     }
 
     const handleChangedImage = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        ctx.dispatch(setPassageImage(path, e.currentTarget.value));
+        dispatch(setPassageImage(path, e.currentTarget.value));
     }
 
     // const handleChangedModify = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    //     ctx.dispatch(setPassageModify(path, e.currentTarget.value));
+    //     dispatch(setPassageModify(path, e.currentTarget.value));
     // }
 
     return (

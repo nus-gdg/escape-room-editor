@@ -1,27 +1,28 @@
-import { cloneDeep, setWith, set, unset } from "lodash";
+// import { cloneDeep, setWith, set, unset } from "lodash";
+import { set, unset } from "lodash/fp";
 import Action from "./~actions";
 
 /**
  * Updates the a store by deleting then adding keys.
- * @param current The original version of the store
+ * @param store The original version of the store
  * @param action Lists the changes to be made to the store.
  */
-export function reducer<T extends object>(current: T, action: Action<T>) {
+export function reducer<T extends object>(store: T, action: Action<T>) {
     if (!action.set && !action.unset) {
-        return current;
+        return store;
     }
-    const next: T = cloneDeep(current);
+    let next = store;
     for (const entry of action.unsets) {
-        unset(next, entry.path);
+        next = unset(entry.path, next);
     }
     for (const entry of action.sets) {
-        set(next, entry.path, entry.value);//, concatArrays);
+        next = set(entry.path, entry.value, next);//, concatArrays);
     }
     return next;
 }
 
-function concatArrays(obj: any, src: any) {
-    if (Array.isArray(obj)) {
-        return obj.concat(src);
-    }
-}
+// function concatArrays(obj: any, src: any) {
+//     if (Array.isArray(obj)) {
+//         return obj.concat(src);
+//     }
+// }

@@ -1,10 +1,9 @@
 import {get} from "lodash";
 import React, {ChangeEvent} from "react";
-import {addRoom, setId, setRoomTitle} from "../../../state/data/dataActions";
+import {setId, setRoomTitle} from "../../../state/data/dataActions";
 import "./RoomEditor.css";
 import {Room} from "../../../state/data/data";
-import {useRoot2} from "../../../hooks/useRoot2";
-import FolderPath from "../../../constants/FolderPath";
+import {useRootDispatch, useRootStore} from "../../../hooks"
 
 // interface RoomEditorState {
 //     showPassages: boolean,
@@ -19,7 +18,9 @@ const RoomEditor = (
         className = "",
     }: RoomEditorProps) => {
 
-    const ctx = useRoot2();
+    const store = useRootStore();
+    const dispatch = useRootDispatch();
+
     //
     // const [state, setState] = useState<RoomEditorState>({
     //     showPassages: false,
@@ -36,28 +37,28 @@ const RoomEditor = (
     //     }));
     // }, []);
     //
-    const path = ctx.store.editor.path;
-    const room: Room = get(ctx.store, path.folders);
+    const path = store.editor.path;
+    const room: Room = get(store, path.folders);
 
     // const handleChangedId = (e: ChangeEvent<HTMLInputElement>) => {
     //     const newPath = path.folders.slice(0, -1).concat(e.currentTarget.value);
     //     console.log(newPath)
     //     console.log(path)
-    //     ctx.dispatch(addRoom(path, room));
+    //     dispatch(addRoom(path, room));
     //         // .then(openFolder(newId))
     //         // .then(removeRoom(roomId)));
     // }
 
     const handleChangedId = (e: ChangeEvent<HTMLInputElement>) => {
-        ctx.dispatch(setId(path, e.currentTarget.value));
+        dispatch(setId(path, e.currentTarget.value));
     }
 
     const handleChangedTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
-        // ctx.dispatch(addRoom(getNewRoomPath()));
-        ctx.dispatch(setRoomTitle(path, e.currentTarget.value));
+        // dispatch(addRoom(getNewRoomPath()));
+        dispatch(setRoomTitle(path, e.currentTarget.value));
     }
     // const handleAddedPassage = () => {
-    //     ctx.dispatch(addPassage(defaultIds.passage)
+    //     dispatch(addPassage(defaultIds.passage)
     //         .then(setRoomPassages(roomId, room.passages.concat(defaultIds.passage))));
     // }
     //

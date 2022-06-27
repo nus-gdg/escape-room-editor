@@ -1,10 +1,6 @@
-import Data, {
-    Item,
-    ItemId,
+import {
     Passage,
-    PassageId,
     Room,
-    RoomId
 } from "./data";
 import Action from "../~actions";
 import FolderPath from "../../constants/FolderPath";
