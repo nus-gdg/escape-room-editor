@@ -3,6 +3,7 @@ import { Box, Text } from "@chakra-ui/react";
 
 import { Condition } from "../../state/data/data";
 import { useConditionsContext } from "./hooks/ConditionContext";
+import { ConditionSetting } from "./components";
 
 export interface ConditionsUIProps {
     conditionTitle: string;
@@ -16,6 +17,7 @@ const ConditionsUI = (props: ConditionsUIProps) => {
             <Text fontSize="6xl" color="black">
                 {props.conditionTitle}
             </Text>
+            <ConditionSetting />
         </Box>
     );
 };
