@@ -1,1 +1,1 @@
-export { default as ConditionSetting } from "./ConditionStatement";
+export { default as ConditionStatement } from "./ConditionStatement";
