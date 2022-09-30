@@ -1,9 +1,9 @@
 import {get} from "lodash";
 import React, {ChangeEvent} from "react";
 import "./RoomEditor.css";
-import {Passage} from "../../../state/data/data";
-import {useRootDispatch, useRootStore} from "../../../hooks"
-import {setId, setPassageImage, setPassageText} from "../../../state/data/dataActions";
+import {Passage} from "../../../../../state/data/data";
+import {useRootDispatch, useRootStore} from "../../../../../hooks"
+import {setId, setPassageImage, setPassageText} from "../../../../../state/data/dataActions";
 
 // interface PassageEditorState {
 //     showPassages: boolean,
@@ -51,7 +51,7 @@ const PassageEditor = (
     // }
 
     return (
-        <div className={`passage-editor editor ${className}`} >
+        <div className={`passage-editor ${className}`} >
             <div className={"passage-editor-id form"}>
                 <div className={"label"}>PASSAGE ID</div>
                 <input className={"textbox"} value={passage.id} onChange={handleChangedId} placeholder={"ID"}/>

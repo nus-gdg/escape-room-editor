@@ -1,13 +1,9 @@
-import React, {useMemo} from "react";
-import {useRootStore} from "../../hooks"
+import React from "react";
+import Editor from "./components/Editor/Editor";
 import Menu from "./components/Menu/Menu";
-import RoomEditor from "./components/RoomEditor";
-import PassageEditor from "./components/PassageEditor";
 import "./~GeneralPage.css"
 
 export const GeneralPage = () => {
-    const store = useRootStore();
-
     function renderTitlebar() {
         return (
             <div className={"titlebar"}>
@@ -20,16 +16,6 @@ export const GeneralPage = () => {
             </div>
         );
     }
-
-    const memoEditor = useMemo(() => {
-        switch (store.editor.type) {
-            case `ROOM`:
-                return <RoomEditor/>;
-            case `PASSAGE`:
-                return <PassageEditor/>;
-            default:
-                return;
-        }}, [store.editor.type]);
 
     function renderPreview() {
         return (
@@ -50,7 +36,7 @@ export const GeneralPage = () => {
             </div>
             <div className={"body"}>
                 <Menu/>
-                {memoEditor}
+                <Editor/>
                 {renderPreview()}
             </div>
             <div className={"footer"}>

@@ -1,10 +1,18 @@
 import {
+    Entity,
     Passage,
     Room,
 } from "./data";
 import Action from "../~actions";
 import FolderPath from "../../constants/FolderPath";
 import Store from "../store";
+import {EditorType} from "../editor/editor";
+import {openEditor, openFolder} from "../editor/editorActions";
+
+export function addEntity<T extends Entity>(path: FolderPath, objects: T[], createEntity: () => T) {
+    const newObjects = objects.concat(createEntity());
+    return new Action<Store>().setEntry(path.folders, newObjects);
+}
 
 export function addRoom(path: FolderPath, room: Room): Action<Store> {
     return new Action<Store>().setEntry(path.folders, room);

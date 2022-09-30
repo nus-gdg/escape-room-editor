@@ -1,9 +1,9 @@
 import {get} from "lodash";
 import React, {ChangeEvent} from "react";
-import {setId, setRoomTitle} from "../../../state/data/dataActions";
+import {setId, setRoomTitle} from "../../../../../state/data/dataActions";
 import "./RoomEditor.css";
-import {Room} from "../../../state/data/data";
-import {useRootDispatch, useRootStore} from "../../../hooks"
+import {Room} from "../../../../../state/data/data";
+import {useRootDispatch, useRootStore} from "../../../../../hooks"
 
 // interface RoomEditorState {
 //     showPassages: boolean,
@@ -67,7 +67,8 @@ const RoomEditor = (
     // }, [room.passages]);
 
     return (
-        <div className={`room-editor editor ${className}`} >
+        <div className={`room-editor ${className}`} >
+            <audio src={'https://static.bandlab.com/soundbanks/previews/new-wave-kit.ogg'} controls/>
             <div className={"room-editor-id form"}>
                 <div className={"label"}>ROOM ID</div>
                 <input className={"textbox"} value={room.id} onChange={handleChangedId} placeholder={"ID"}/>

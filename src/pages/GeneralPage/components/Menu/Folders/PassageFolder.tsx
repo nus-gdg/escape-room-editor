@@ -11,7 +11,7 @@ const PassageFolder = (
         obj,
         subfolders,
         depth = 0,
-        path = new FolderPath(),
+         path = new FolderPath(),
         selectFolder,
     }: MenuFolderProps<Passage>) => {
     console.log(`Rendered: PassageFolder (${obj.id})` );

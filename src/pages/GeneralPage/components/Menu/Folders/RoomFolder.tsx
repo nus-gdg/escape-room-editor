@@ -40,8 +40,11 @@ const RoomFolder = (
             onToggle={toggle}
             onSelect={() => selectFolder(path, `ROOM`)}>
             {open && obj.passages.map(createPassageFolder)}
+            {/*<button onClick={clicky}/>*/}
         </Folder>
     );
 }
-
+function clicky() {
+    console.log("CLICKY!");
+}
 export default React.memo(RoomFolder, isEqual);
