@@ -1,7 +1,7 @@
 import React from "react";
-import Editor from "./components/Editor/Editor";
-import Menu from "./components/Menu/Menu";
-import "./~GeneralPage.css"
+import Editor from "../../pages/GeneralPage/components/Editor/Editor";
+import Menu from "../../pages/GeneralPage/components/Menu/Menu";
+import "./GeneralPage.css"
 
 export const GeneralPage = () => {
     function renderTitlebar() {
