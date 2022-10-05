@@ -1,11 +1,11 @@
-import {Room, RoomData} from "../rooms";
-import {Folder} from "../folder";
 import React from "react";
-import {useDispatch, useStore} from "../app";
 import {setNavigation} from "./actions";
-import {Passage, PassageData} from "../passages";
+import {useDispatch, useStore} from "../app";
 import {uuid} from "../constants";
 import {EntityType} from "../entity";
+import {Folder} from "../folder";
+import {Passage, PassageData} from "../passages";
+import {Room, RoomData} from "../rooms";
 
 export interface NavigationProps {
 
@@ -17,30 +17,30 @@ export const Navigation = () => {
 
     // const [expanded, setExpanded] = useState();
 
-    function setNavigationWithLogging(folderType: EntityType, index: number) {
-        console.log(`Clicked: ${folderType.valueOf()} ${index}`);
-        dispatch(setNavigation(folderType, index));
+    function setNavigationWithLogging(folderType: EntityType, id: uuid) {
+        console.log(`Clicked: ${folderType.valueOf()} ${id}`);
+        dispatch(setNavigation(folderType, id));
     }
 
-    function createRoomFolder(data: RoomData, index: number) {
+    function createRoomFolder(data: RoomData) {
         return (
             <Folder
-                key={index}
+                key={data.id}
                 renderContents={() => <Room data={data}/>}
                 renderChildren={() => expandPassages(data.id)}
-                onClick={() => setNavigationWithLogging(EntityType.ROOM, index)}
+                onClick={() => setNavigationWithLogging(EntityType.ROOM, data.id)}
                 onExpand={() => console.log(`Expanded: ROOM ${data.id}`)}
             />
         );
     }
 
-    function createPassageFolder(data: PassageData, index: number) {
+    function createPassageFolder(data: PassageData) {
         return (
             <Folder
-                key={index}
+                key={data.id}
                 renderContents={() => <Passage data={data}/>}
-                onClick={() => setNavigationWithLogging(EntityType.PASSAGE, index)}
-                onExpand={() => console.log(`Expanded: PASSAGE ${index}`)}
+                onClick={() => setNavigationWithLogging(EntityType.PASSAGE, data.id)}
+                onExpand={() => console.log(`Expanded: PASSAGE ${data.id}`)}
             />
         );
     }

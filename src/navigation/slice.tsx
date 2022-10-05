@@ -1,11 +1,12 @@
 import {NavigationAction, NavigationActionId} from "./actions";
 import {Entity, EntityType} from "../entity";
+import {defaultUuid} from "../constants";
 
 export type NavigationState = Entity;
 
 export const initialNavigation: NavigationState = {
     type: EntityType.NONE,
-    index: 0,
+    id: defaultUuid,
 }
 
 export const navigationReducer = (state = initialNavigation, action: NavigationAction) : NavigationState => {

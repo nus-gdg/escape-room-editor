@@ -1,4 +1,4 @@
-import {Action} from "../constants";
+import {Action, uuid} from "../constants";
 import {Entity, EntityType} from "../entity";
 
 export enum NavigationActionId {
@@ -19,11 +19,11 @@ export interface ClearNavigationAction extends Action<NavigationActionId.CLEAR> 
     // payload: {};
 }
 
-export const setNavigation = (type: EntityType, index: number): SetNavigationAction => {
+export const setNavigation = (type: EntityType, id: uuid): SetNavigationAction => {
     return {
         // slice: "action",
         type: NavigationActionId.SET,
-        payload: {type: type, index: index},
+        payload: {type: type, id: id},
     }
 };
 

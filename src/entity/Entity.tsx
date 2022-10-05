@@ -1,3 +1,5 @@
+import {uuid} from "../constants";
+
 export enum EntityType {
     NONE = "NONE",
     ROOM = 'ROOM',
@@ -6,5 +8,5 @@ export enum EntityType {
 
 export interface Entity {
     type: EntityType,
-    index: number,
+    id: uuid,
 }

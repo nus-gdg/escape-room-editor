@@ -1,4 +1,4 @@
-import React from "react";
+import React, {ReactNode} from "react";
 // import Editor from "../../pages/GeneralPage/components/Editor/Editor";
 // import Menu from "../../pages/GeneralPage/components/Menu/Menu";
 import {useDispatch, useStore} from "../app";
@@ -8,6 +8,8 @@ import {setNavigation} from "../navigation/actions";
 import {Folder} from "../folder";
 import {Room} from "../rooms";
 import {Navigation} from "../navigation";
+import {RoomEditor} from "../rooms/RoomEditor";
+import {EntityType} from "../entity";
 
 export const GeneralPage = () => {
     const store = useStore();
@@ -38,12 +40,14 @@ export const GeneralPage = () => {
         );
     }
 
-    // function cool(index: number) {
-    //     return () => {
-    //         console.log(index);
-    //         dispatch(setNavigation());
-    //     }
-    // }
+    function renderEditor(): ReactNode {
+        switch (store.navigation.type) {
+            case EntityType.ROOM:
+                return <RoomEditor data={store.rooms[store.navigation.id]}/>;
+            default:
+                return;
+        }
+    }
 
     return (
         <div className={"page"}>
@@ -55,6 +59,7 @@ export const GeneralPage = () => {
                 {/*<Editor/>*/}
                 {renderPreview()}
                 <Navigation/>
+                {renderEditor()}
                 {/*<RoomButton data={store.rooms[0]} onClick={cool(0)}/>*/}
             </div>
             <div className={"footer"}>
