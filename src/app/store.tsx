@@ -1,21 +1,22 @@
-import React, {createContext, Dispatch, useReducer} from "react";
-import {initialState, State} from "../state/state";
-import {ActionType} from "../state/actions";
-import {reducers} from "./reducers";
+import {initialRooms, roomsReducer, RoomsState} from "../rooms/slice";
+import {initialNavigation, navigationReducer, NavigationState} from "../navigation/slice";
+import {RoomsAction} from "../rooms/actions";
+import {NavigationAction} from "../navigation/actions";
+import {Action} from "../constants";
 
-export interface AppStore {
-    state: State;
-    dispatch: Dispatch<ActionType>;
+export interface Store {
+    rooms: RoomsState,
+    navigation: NavigationState,
 }
 
-export const Store = createContext<AppStore>({} as AppStore);
+export const initialStore = {
+    rooms: initialRooms,
+    navigation: initialNavigation,
+}
 
-export const StoreProvider: React.FC = ({ children }) => {
-    const [state, dispatch] = useReducer<React.Reducer<State, ActionType>>(
-        reducers,
-        initialState
-    );
-
-    const value = { state, dispatch };
-    return <Store.Provider value={value}>{children}</Store.Provider>;
+export const reducers = (store: Store, action: Action) : Store => {
+    return {
+        rooms: roomsReducer(store.rooms, action as RoomsAction),
+        navigation: navigationReducer(store.navigation, action as NavigationAction),
+    }
 }
