@@ -1,19 +1,23 @@
 import {RoomData} from "./RoomData";
 import {RoomsAction} from "./actions";
+import {uuid} from "../constants";
 
-export type RoomsState = RoomData[];
+export type RoomsState = Record<uuid, RoomData>;
 
-export const initialRooms: RoomsState = [
-    {
+export const initialRooms: RoomsState = {
+    "280e4a95-9f9d-4aa0-8339-08cb7a82d10e": {
+        id: "280e4a95-9f9d-4aa0-8339-08cb7a82d10e",
         title: "POTATO",
     },
-    {
+    "78dac654-8bd1-4d51-8b69-2adfeec185e8": {
+        id: "78dac654-8bd1-4d51-8b69-2adfeec185e8",
         title: "MILO",
     },
-    {
+    "ad65f642-325a-4b4e-9221-d276a1fca597": {
+        id: "ad65f642-325a-4b4e-9221-d276a1fca597",
         title: "TOMATO",
     },
-];
+};
 
 export const roomsReducer = (state = initialRooms, action: RoomsAction) : RoomsState => {
     // return state.concat({

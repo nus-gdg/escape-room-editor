@@ -1,6 +1,6 @@
 import {uuid} from "../constants";
 
-export interface RoomData {
+export interface PassageData {
     id: uuid,
-    title: string,
+    parentId: uuid,
 }

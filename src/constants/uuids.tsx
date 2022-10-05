@@ -1,16 +1,16 @@
-const { v4: uuidv4 } = require('uuid');
+const { v4: uuidv4, validate } = require('uuid');
 
-export type uuid = `~${string}`;
-export const defaultUuid: uuid = `~`;
+export type uuid = string;
+export const defaultUuid: uuid = `00000000-0000-0000-0000-000000000000`;
 
 export function createUuid(): uuid {
-    return `~${uuidv4()}`;
+    return `${uuidv4()}`;
 }
 
-export function isUuid(source: string | undefined | null) {
-    return !!source && source[0] === `~`;
+export function isValidUuid(uuid: any): boolean {
+    return validate(uuid);
 }
 
-export function isDefaultUuid(source: string | undefined | null) {
-    return defaultUuid === source;
+export function isDefaultUuid(uuid: any) {
+    return defaultUuid === uuid;
 }

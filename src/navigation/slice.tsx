@@ -1,10 +1,10 @@
 import {NavigationAction, NavigationActionId} from "./actions";
-import {NavigationData, NavigationFolderType} from "./NavigationData";
+import {Entity, EntityType} from "../entity";
 
-export type NavigationState = NavigationData;
+export type NavigationState = Entity;
 
 export const initialNavigation: NavigationState = {
-    type: NavigationFolderType.NONE,
+    type: EntityType.NONE,
     index: 0,
 }
 

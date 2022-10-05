@@ -1,5 +1,5 @@
 import {Action} from "../constants";
-import {NavigationData, NavigationFolderType} from "./NavigationData";
+import {Entity, EntityType} from "../entity";
 
 export enum NavigationActionId {
     SET = "navigation/set",
@@ -11,7 +11,7 @@ export type NavigationAction =
     | ClearNavigationAction;
 
 export interface SetNavigationAction extends Action<NavigationActionId.SET> {
-    payload: NavigationData;
+    payload: Entity;
 }
 
 export interface ClearNavigationAction extends Action<NavigationActionId.CLEAR> {
@@ -19,7 +19,7 @@ export interface ClearNavigationAction extends Action<NavigationActionId.CLEAR> 
     // payload: {};
 }
 
-export const setNavigation = (type: NavigationFolderType, index: number): SetNavigationAction => {
+export const setNavigation = (type: EntityType, index: number): SetNavigationAction => {
     return {
         // slice: "action",
         type: NavigationActionId.SET,
