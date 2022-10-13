@@ -7,15 +7,15 @@ export type RoomsState = Record<uuid, RoomData>;
 export const initialRooms: RoomsState = {
     "280e4a95-9f9d-4aa0-8339-08cb7a82d10e": {
         id: "280e4a95-9f9d-4aa0-8339-08cb7a82d10e",
-        title: "POTATO",
+        title: "HALL",
     },
     "78dac654-8bd1-4d51-8b69-2adfeec185e8": {
         id: "78dac654-8bd1-4d51-8b69-2adfeec185e8",
-        title: "MILO",
+        title: "KITCHEN",
     },
     "ad65f642-325a-4b4e-9221-d276a1fca597": {
         id: "ad65f642-325a-4b4e-9221-d276a1fca597",
-        title: "TOMATO",
+        title: "BEDROOM",
     },
 };
 

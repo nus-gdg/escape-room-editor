@@ -8,8 +8,9 @@ import {setNavigation} from "../navigation/actions";
 import {Folder} from "../folder";
 import {Room} from "../rooms";
 import {Navigation} from "../navigation";
-import {RoomEditor} from "../rooms/RoomEditor";
-import {EntityType} from "../entity";
+import {RoomEditor} from "../editor/RoomEditor";
+import {Entity, EntityType} from "../entity";
+import {ItemEditor} from "../editor/ItemEditor";
 
 export const GeneralPage = () => {
     const store = useStore();
@@ -40,10 +41,16 @@ export const GeneralPage = () => {
         );
     }
 
+    function selectPassages(entity: Entity) {
+        return Object.values(store.passages).filter(passage => passage.parent === entity);
+    }
+
     function renderEditor(): ReactNode {
         switch (store.navigation.type) {
             case EntityType.ROOM:
                 return <RoomEditor data={store.rooms[store.navigation.id]}/>;
+            case EntityType.ITEM:
+                return <ItemEditor data={store.items[store.navigation.id]} passages={selectPassages(store.navigation)}/>;
             default:
                 return;
         }
@@ -57,7 +64,7 @@ export const GeneralPage = () => {
             <div className={"body"}>
                 {/*<Menu/>*/}
                 {/*<Editor/>*/}
-                {renderPreview()}
+                {/*{renderPreview()}*/}
                 <Navigation/>
                 {renderEditor()}
                 {/*<RoomButton data={store.rooms[0]} onClick={cool(0)}/>*/}
