@@ -1,5 +1,5 @@
 import {RoomData} from "./RoomData";
-import {RoomsAction} from "./actions";
+import {RoomsAction, RoomsActionId} from "./actions";
 import {uuid} from "../constants";
 
 export type RoomsState = Record<uuid, RoomData>;
@@ -25,8 +25,8 @@ export const roomsReducer = (state = initialRooms, action: RoomsAction) : RoomsS
     // })
     // return state.map(room => ({...room, name: room.name + '!'}));
     switch (action.type) {
-    //     case RoomsActionId.SET:
-    //         return { ...state, action };
+        case RoomsActionId.ADD:
+            return { ...state, [action.payload.id]: action.payload };
     //     case RoomsActionId.CLEAR:
     //         return { ...state, action };
         default:

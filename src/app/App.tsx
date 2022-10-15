@@ -27,7 +27,6 @@ export const App = () => {
             {/*<ChakraProvider resetCSS>*/}
             <AppDispatch.Provider value={dispatch}>
                 <AppStore.Provider value={state}>
-                    {testUuids()}
                     <GeneralPage />
                 </AppStore.Provider>
             </AppDispatch.Provider>

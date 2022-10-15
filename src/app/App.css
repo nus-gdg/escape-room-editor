@@ -38,6 +38,11 @@
     color: var(--font-normal);
 }
 
+#app {
+    min-height: 100vh;
+    height: 0;
+}
+
 button {
     padding: 0;
     margin: 0;
