@@ -1,26 +1,37 @@
 import {RoomData} from "../rooms";
 import {
     AppBar,
-    Checkbox, Divider,
+    Checkbox,
+    Divider,
     IconButton,
     List,
     ListItem,
     ListItemButton,
-    ListItemIcon,
-    ListItemText, Tab, Tabs,
-    Toolbar, Tooltip,
-    Typography
+    ListItemText,
+    Tab,
+    Tabs,
+    Toolbar,
+    Tooltip,
 } from "@mui/material";
 import { RoomsState } from "../rooms/slice";
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import FlagIcon from '@mui/icons-material/Flag';
-import HandymanIcon from '@mui/icons-material/Handyman';
+// import HandymanIcon from '@mui/icons-material/Handyman';
 import OtherHousesIcon from '@mui/icons-material/OtherHouses';
 import PublicIcon from '@mui/icons-material/Public';
 import SettingsIcon from "@mui/icons-material/Settings";
 import SportsBaseballIcon from '@mui/icons-material/SportsBaseball';
+// import MenuBookIcon from '@mui/icons-material/MenuBook';
+// import AutoStoriesIcon from '@mui/icons-material/AutoStories';
+// import TextFieldsIcon from '@mui/icons-material/TextFields';
+// import ChatIcon from '@mui/icons-material/Chat';
+
+import LibraryAddIcon from '@mui/icons-material/LibraryAdd';
+import AddReactionIcon from '@mui/icons-material/AddReaction';
+import AddCommentIcon from '@mui/icons-material/AddComment';
+
 import React, {ReactElement, ReactNode, useCallback} from "react";
 import {createUuid} from "../constants";
 import { addRoom } from "../rooms/actions";
@@ -34,7 +45,7 @@ import ReactFlow, {
     useNodesState,
     useEdgesState } from "reactflow";
 
-import "reactflow/dist/style.css";
+import Flow from "../flow/Flow";
 
 export interface RoomsMenuProps {
     data: RoomsState,
@@ -209,7 +220,8 @@ export const RoomsMenu = ({data}: RoomsMenuProps) => {
             <div style={{display: "flex", flexDirection: "row", flexGrow: 1}}>
                 {renderTabs()}
                 {renderList()}
-                {renderFlow()}
+                {/*{renderFlow()}*/}
+                <Flow />
             </div>
         </div>
     )

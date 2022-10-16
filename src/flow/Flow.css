@@ -1,0 +1,51 @@
+.controls {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 4;
+    font-size: 12px;
+}
+
+.controls button {
+    margin-left: 5px;
+}
+
+/*Node Shape*/
+.react-flow__node {
+    /*font-size: 10px;*/
+    width: 400px;
+    border-radius: 10px;
+    /*--node-passage__header-height: 1.2em;*/
+}
+
+/*Node Header Color*/
+.react-flow__node .MuiAccordion-root {
+    background-color: #4f4f4f;
+}
+
+/*Node Body Color*/
+.react-flow__node .MuiAccordionDetails-root {
+    background-color: #7c7c7c;
+}
+
+/*Handle Shape*/
+.react-flow__handle {
+    --react-flow__handle__diameter: 14px;
+    width: var(--react-flow__handle__diameter);
+    height: var(--react-flow__handle__diameter);
+    border-radius: calc(var(--react-flow__handle__diameter) / 2);
+    background-color: #778899;
+}
+
+/*Handle Colors*/
+[data-handleid="passage"] {
+    background-color: #c2524c;
+}
+
+[data-handleid="reaction-option"] {
+    background-color: #58c24c;
+}
+
+[data-handleid="text-option"] {
+    background-color: #6f77b3;
+}

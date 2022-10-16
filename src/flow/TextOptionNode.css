@@ -1,0 +1,11 @@
+.react-flow__node-text-option [data-handleid="text-option"] {
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+
+.react-flow__node-text-option [data-handleid="passage"] {
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%);
+}
