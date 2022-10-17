@@ -16,25 +16,17 @@ const nodeTypes = {
     [NodeType.TextOption]: TextOptionNode,
 }
 
-// const nodeFactories = {
-//     [NodeType.Root]: () => ,
-//     [NodeType.Passage]: PassageNode,
-//     [NodeType.ReactionOption]: ReactionOptionNode,
-//     [NodeType.TextOption]: TextOptionNode,
-// }
+export interface FlowProps {
+    nodes: Node[],
+    edges: Edge[],
+}
 
-const initialNodes: Node[] = [
-    {id: "0", type: NodeType.Root, data: {}, position: {x: 0, y: 0}, deletable: false, draggable: false}
-];
-
-const initialEdges: Edge[] = [];
-
-const Flow = () => {
+const Flow = (props: FlowProps) => {
     const connectionRef = useRef<OnConnectStartParams | null>(null);
     const flowViewportRef = useRef<HTMLDivElement>(null);
     const [flow, setFlow] = useState<ReactFlowInstance | null>(null);
-    const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+    const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges);
 
     const isCreatingNode = useCallback((event: MouseEvent): boolean => {
         // Check if mouse is clicking on empty canvas space
@@ -139,7 +131,6 @@ const Flow = () => {
             >
                 <div className="controls">
                     <button onClick={() => console.log(nodes)}>debug</button>
-                {/*    <button onClick={onAdd}>add</button>*/}
                 </div>
                 <Background />
             </ReactFlow>
