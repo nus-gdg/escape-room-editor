@@ -45,7 +45,13 @@ import ReactFlow, {
     useNodesState,
     useEdgesState } from "reactflow";
 
-import Flow from "../flow/Flow";
+import Flow, {FlowProps} from "../flow/Flow";
+import {NodeType} from "../flow/utils";
+
+const data2: FlowProps = {
+    nodes: [{id: "0", type: NodeType.Root, data: {}, position: {x: 0, y: 0}, deletable: false, draggable: false}],
+    edges: [],
+}
 
 export interface RoomsMenuProps {
     data: RoomsState,
@@ -221,7 +227,7 @@ export const RoomsMenu = ({data}: RoomsMenuProps) => {
                 {renderTabs()}
                 {renderList()}
                 {/*{renderFlow()}*/}
-                <Flow />
+                <Flow nodes={data2.nodes} edges={data2.edges} />
             </div>
         </div>
     )

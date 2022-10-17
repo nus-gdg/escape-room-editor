@@ -1,0 +1,19 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.page__body {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+}
+
+.page__navigation, .page__navigation .MuiButtonBase-root {
+    min-width: 56px;
+}
+
+.page__drawer {
+    width: 350px;
+}

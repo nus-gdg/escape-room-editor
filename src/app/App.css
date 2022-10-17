@@ -44,6 +44,14 @@
     height: 0;
 }
 
+.page__navigation {
+    background-color: #4f545c;
+}
+
+.page__drawer {
+    background-color: #35383c;
+}
+
 button {
     padding: 0;
     margin: 0;

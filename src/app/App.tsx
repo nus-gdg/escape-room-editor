@@ -1,8 +1,9 @@
 import React, {createContext, Dispatch, useReducer} from 'react'
 import {GeneralPage} from "../pages";
 import {initialStore, reducers, Store} from "./store";
-import './App.css';
 import {Action, createUuid} from "../constants";
+import './App.css';
+import {MainPage} from "../pages/MainPage";
 
 export const AppStore = createContext<Store>({} as Store);
 export const AppDispatch = createContext<Dispatch<Action>>(() => {});
@@ -27,7 +28,7 @@ export const App = () => {
             {/*<ChakraProvider resetCSS>*/}
             <AppDispatch.Provider value={dispatch}>
                 <AppStore.Provider value={state}>
-                    <GeneralPage />
+                    <MainPage />
                 </AppStore.Provider>
             </AppDispatch.Provider>
             {/*</ChakraProvider>*/}
