@@ -1,12 +1,13 @@
-import React, {memo, useCallback, useState} from "react";
-import ReactFlow, {addEdge, Background, Connection, Edge, Node, ReactFlowInstance, useEdgesState, useNodesState} from "reactflow";
+import React, {memo, useCallback, useRef, useState} from "react";
+import ReactFlow, {addEdge, Background, Connection, Edge, Node, ReactFlowInstance, useEdgesState, useNodesState, XYPosition} from "reactflow";
+import RootNode from "./RootNode";
 import PassageNode from "./PassageNode";
 import ReactionOptionNode from "./ReactionOptionNode";
 import TextOptionNode from "./TextOptionNode";
 import {NodeType} from "./utils";
+import {OnConnectStartParams} from "@reactflow/core/dist/esm/types/general";
 import "reactflow/dist/base.css";
 import "./Flow.css";
-import RootNode from "./RootNode";
 
 const nodeTypes = {
     [NodeType.Root]: RootNode,
@@ -15,66 +16,134 @@ const nodeTypes = {
     [NodeType.TextOption]: TextOptionNode,
 }
 
-const getNodeId = () => `${new Date()}`;
+// const nodeFactories = {
+//     [NodeType.Root]: () => ,
+//     [NodeType.Passage]: PassageNode,
+//     [NodeType.ReactionOption]: ReactionOptionNode,
+//     [NodeType.TextOption]: TextOptionNode,
+// }
+
+const initialNodes: Node[] = [
+    {id: "0", type: NodeType.Root, data: {}, position: {x: 0, y: 0}, deletable: false, draggable: false}
+];
+
+const initialEdges: Edge[] = [];
 
 const Flow = () => {
-    const initialNodes: Node[] = [
-        {
-            id: "1",
-            type: "input",
-            data: {label: "Node 1"},
-            position: {x: 250, y: 5}
-        },
-        {id: "2", data: {label: "Node 2"}, position: {x: 100, y: 100}},
-        {id: "3", data: {label: "Node 3"}, position: {x: 400, y: 100}},
-        {id: "4", type: NodeType.Passage, data: {label: "Node 4"}, position: {x: 400, y: 200}},
-        {id: "5", type: NodeType.ReactionOption, data: {label: "Node 5"}, position: {x: 500, y: 200}},
-        {id: "6", type: NodeType.TextOption, data: {label: "Node 6"}, position: {x: 600, y: 200}}
-    ];
-
-    const initialEdges: Edge[] = [
-        {id: "e1-2", source: "1", target: "2", animated: true},
-        {id: "e1-3", source: "1", target: "3"}
-    ];
-
+    const connectionRef = useRef<OnConnectStartParams | null>(null);
+    const flowViewportRef = useRef<HTMLDivElement>(null);
     const [flow, setFlow] = useState<ReactFlowInstance | null>(null);
     const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
-    const onConnect = useCallback(
-        (params: Edge | Connection) => setEdges((savedEdges) => addEdge(params, savedEdges)),
-        [setEdges]
-    );
 
-    const onAdd = useCallback(() => {
-        const newNode = {
-            id: getNodeId(),
-            data: { label: 'Added node' },
-            position: {
-                x: Math.random() * window.innerWidth - 100,
-                y: Math.random() * window.innerHeight,
-            },
+    const isCreatingNode = useCallback((event: MouseEvent): boolean => {
+        // Check if mouse is clicking on empty canvas space
+        const element = event.target as Element;
+        return element && element.classList.contains('react-flow__pane');
+    }, []);
+
+    const getMousePosition = useCallback((event: MouseEvent): XYPosition => {
+        const flowViewport = flowViewportRef.current;
+        if (!flow || !flowViewport) {
+            return { x: 0, y: 0 };
+        }
+        // we need to remove the wrapper bounds, in order to get the correct position
+        const { top, left } = flowViewport.getBoundingClientRect();
+        return flow.project({ x: event.clientX - left, y: event.clientY - top });
+    }, [flow]);
+
+    const createNodeId = useCallback((): string => {
+        let id = 0;
+        for (let node of nodes) {
+            const nodeId = parseInt(node.id);
+            if (id < nodeId) {
+                id = nodeId;
+            }
+        }
+        return `${id + 1}`;
+    }, [nodes]);
+
+    const createNode = useCallback((connection: OnConnectStartParams, position: XYPosition): Node => {
+        return {
+            id: createNodeId(),
+            position: position,
+            type: connection.handleId ?? "",
+            data: {}
         };
-        setNodes((nds) => nds.concat(newNode));
-    }, [setNodes]);
+    }, [createNodeId]);
+
+    const createEdgeId = useCallback((sourceId: string, targetId: string): string => {
+        return `${sourceId}-${targetId}`;
+    }, []);
+
+    const createEdge = useCallback((connection: OnConnectStartParams, node: Node): Edge => {
+        const connectionNodeId = connection.nodeId ?? "";
+        switch (connection.handleType) {
+            case "target":
+                return {
+                    id: createEdgeId(node.id, connectionNodeId),
+                    source: node.id,
+                    sourceHandle: connection.handleId,
+                    target: connectionNodeId,
+                    targetHandle: connection.handleId,
+                };
+            case "source":
+            default:
+                return {
+                    id: createEdgeId(connectionNodeId, node.id),
+                    source: connectionNodeId,
+                    sourceHandle: connection.handleId,
+                    target: node.id,
+                    targetHandle: connection.handleId,
+                };
+        }
+    }, [createEdgeId]);
+
+    const onConnect = useCallback((params: Edge | Connection) => {
+        setEdges((eds) => addEdge(params, eds))
+    }, [setEdges]);
+
+    const onConnectStart = useCallback((_: any, params: OnConnectStartParams) => {
+        connectionRef.current = params;
+    },[]);
+
+    const onConnectEnd = useCallback((event: MouseEvent) => {
+            if (!isCreatingNode(event)) {
+                return;
+            }
+            const connection = connectionRef.current;
+            if (!connection) {
+                return;
+            }
+            const newNode = createNode(connection, getMousePosition(event));
+            const newEdge = createEdge(connection, newNode);
+
+            setNodes((nds) => nds.concat(newNode));
+            setEdges((eds) => eds.concat(newEdge));
+        }, [isCreatingNode, getMousePosition, createNode, createEdge, setNodes, setEdges]);
 
     return (
-        <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            onInit={setFlow}
-            fitView
-            minZoom={0.1}
-            nodeTypes={nodeTypes}
-        >
-            <div className="controls">
-                <button onClick={() => console.log(flow?.toObject())}>debug</button>
-                <button onClick={onAdd}>add</button>
-            </div>
-            <Background />
-        </ReactFlow>
+        <div className={"viewport"} ref={flowViewportRef}>
+            <ReactFlow
+                nodes={nodes}
+                edges={edges}
+                onNodesChange={onNodesChange}
+                onEdgesChange={onEdgesChange}
+                onInit={setFlow}
+                onConnect={onConnect}
+                onConnectStart={onConnectStart}
+                onConnectEnd={onConnectEnd}
+                fitView
+                minZoom={0.1}
+                nodeTypes={nodeTypes}
+            >
+                <div className="controls">
+                    <button onClick={() => console.log(nodes)}>debug</button>
+                {/*    <button onClick={onAdd}>add</button>*/}
+                </div>
+                <Background />
+            </ReactFlow>
+        </div>
     )
 }
 
