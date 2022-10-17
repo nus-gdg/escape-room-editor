@@ -1,6 +1,6 @@
 import {memo} from "react";
 import {Handle, Position} from "reactflow";
-import {CustomNode, CustomNodeHeader, NodeType} from "./utils";
+import {NodeType} from "./utils";
 import "./RootNode.css";
 
 const RootNode = () => {
