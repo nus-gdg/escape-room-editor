@@ -6,8 +6,10 @@ import TextOptionNode from "./TextOptionNode";
 import {NodeType} from "./utils";
 import "reactflow/dist/base.css";
 import "./Flow.css";
+import RootNode from "./RootNode";
 
 const nodeTypes = {
+    [NodeType.Root]: RootNode,
     [NodeType.Passage]: PassageNode,
     [NodeType.ReactionOption]: ReactionOptionNode,
     [NodeType.TextOption]: TextOptionNode,

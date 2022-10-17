@@ -5,6 +5,7 @@ import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/Accord
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 export enum NodeType {
+    Root = "root",
     Passage = "passage",
     TextOption = "text-option",
     ReactionOption = "reaction-option",

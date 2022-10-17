@@ -1,0 +1,5 @@
+.react-flow__node-root [data-handleid="passage"] {
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%);
+}
