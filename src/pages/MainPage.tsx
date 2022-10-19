@@ -1,35 +1,81 @@
 import React, {memo, ReactElement, ReactNode, useCallback, useState} from "react";
-import {Tab, Tabs, Tooltip} from "@mui/material";
+import {Button, Tab, Tabs, Tooltip} from "@mui/material";
+import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import FlagIcon from "@mui/icons-material/Flag";
-import OtherHousesIcon from "@mui/icons-material/OtherHouses";
+import HomeIcon from '@mui/icons-material/Home';
+import InfoIcon from '@mui/icons-material/Info';
+import PublicIcon from "@mui/icons-material/Public";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
 import Banner from "./Banner";
 import Flow, {FlowProps} from "../flow/Flow";
 import {NodeType} from "../flow/utils";
 import "./MainPage.css"
+import RoomDialog from "./RoomDialog";
+import NavigationMenu from "./NavigationMenu";
 
 const data: FlowProps = {
     nodes: [{id: "0", type: NodeType.Root, data: {}, position: {x: 0, y: 0}, deletable: false, draggable: false}],
     edges: [],
 }
 
-function renderTab(title: string, icon: ReactElement) {
+interface TabProps {
+    title: string,
+    icon: ReactElement,
+    renderPanel: () => ReactNode,
+}
+
+const tabs: TabProps[] = [
+    {
+        title: "Info",
+        icon: <InfoIcon />,
+        renderPanel: () => <strong>INFO</strong>
+    },
+    {
+        title: "Rooms",
+        icon: <HomeIcon />,
+        renderPanel: () => <NavigationMenu label={"Rooms"} items={["a", "b", "c",]} />
+    },
+    {
+        title: "Items",
+        icon: <SportsBaseballIcon />,
+        renderPanel: () => <strong>ITEMS</strong>
+    },
+    {
+        title: "Flags",
+        icon: <FlagIcon />,
+        renderPanel: () => <strong>FLAGS</strong>
+    },
+    {
+        title: "Globals",
+        icon: <PublicIcon />,
+        renderPanel: () => <strong>GLOBALS</strong>
+    },
+]
+
+function renderTab(tab: TabProps) {
     return (
-        <Tab label={
-            <Tooltip placement={"right"} title={title}>
-                {icon}
-            </Tooltip>
-        }/>
+        <Tab
+            key={tab.title}
+            label={
+                <Tooltip placement={"right"} title={tab.title}>
+                    {tab.icon}
+                </Tooltip>
+            }
+        />
     )
 }
 
-function renderTabPanel(index: number, value: number, children: ReactNode) {
-    return (<>{value === index && children}</>)
+function renderTabPanel(index: number) {
+    if (index < 0 || index >= tabs.length) {
+        return;
+    }
+    return tabs[index].renderPanel();
 }
 
 export const MainPage = () => {
     const [value, setValue] = useState(0);
+    const [openDialog, setOpenDialog] = useState(false);
 
     const handleChangeTab = useCallback((_: any, newValue: number) => {
         setValue(newValue);
@@ -40,17 +86,13 @@ export const MainPage = () => {
             <Banner className={"page__header"}/>
             <div className={"page__body"}>
                 <Tabs className={"page__navigation"} value={value} onChange={handleChangeTab} orientation="vertical">
-                    {renderTab("Rooms", <OtherHousesIcon/>)}
-                    {renderTab("Items", <SportsBaseballIcon/>)}
-                    {renderTab("Flags", <FlagIcon/>)}
-                    {renderTab("Settings", <SettingsIcon/>)}
+                    {tabs.map(renderTab)}
                 </Tabs>
                 <div className={"page__drawer"}>
-                    {renderTabPanel(0, value, <strong>ROOMS</strong>)}
-                    {renderTabPanel(1, value, <strong>ITEMS</strong>)}
-                    {renderTabPanel(2, value, <strong>FLAGS</strong>)}
-                    {renderTabPanel(3, value, <strong>SETTINGS</strong>)}
+                    {renderTabPanel(value)}
                 </div>
+                {/*<Button onClick={() => setOpenDialog(true)}>PP</Button>*/}
+                {/*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*/}
                 <Flow {...data}/>
             </div>
         </div>
