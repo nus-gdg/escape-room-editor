@@ -1,101 +1,126 @@
 import React, {memo, useCallback, useEffect, useState} from "react";
-import {Checkbox, Divider, IconButton, List, ListItem, ListItemButton, ListItemText} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import {Divider, List} from "@mui/material";
 import NavMenuHeader from "./NavMenuHeader";
 import NavMenuItem from "./NavMenuItem";
-import RoomDialog from "./RoomDialog";
+import RoomDialog, {OnCloseParams as OnCloseRoomDialogParams} from "./RoomDialog";
 import NavMenuDivider from "./NavMenuDivider";
 import {RoomData} from "../rooms";
+import DeleteDialog from "./DeleteDialog";
+import {DialogState} from "./utils";
 
 interface RoomsMenuProps {
-    // label: string,
-    // items: string[],
-    // onAddRequest?: () => void,
-    // onEditRequest?: () => void,
-    // onAdd?: () => void,
-    // onEdit?: () => void,
-    // onDelete?: () => void,
-    // // onClickItem?: (id: string) => void,
-
-    rooms: RoomData[],
+    rooms: Record<string, RoomData>,
+    onClickItem?: () => void,
+    onAddItem?: () => void,
+    onEditItem?: () => void,
+    onDeleteItems?: () => void,
 }
 
 const RoomsMenu = (
     {
-
+        rooms,
+        onClickItem = () => console.log("click"),
+        onAddItem = () => console.log("add"),
+        onEditItem = () => console.log("edit"),
+        onDeleteItems = () => console.log("delete"),
     }: RoomsMenuProps) => {
-    const [openDialog, setOpenDialog] = useState(false);
-    const [selected, setSelected] = useState<Set<string>>(new Set());
+    const [selected, setSelected] = useState(new Set<string>());
+    const [dialogState, setDialogState] = useState<DialogState<RoomData> | null>(null);
 
-    useEffect(() => {
-        console.log("RENDERED");
-        console.log(selected);
-    });
-
-    const handleClick = useCallback((id: string) => {
-        setOpenDialog(true);
+    const clickItem = useCallback((room: RoomData) => {
+        onClickItem?.();
     }, []);
 
-    const handleSelect = useCallback((id: string) => {
-        setSelected(set => new Set(set).add(id));
+    const selectItem = useCallback((room: RoomData, checked: boolean) => {
+        setSelected(set => {
+            const nextSet = new Set(set);
+            if (checked) {
+                nextSet.add(room.id);
+            } else {
+                nextSet.delete(room.id);
+            }
+            return nextSet;
+        });
     }, []);
 
-    function handleSelectAll(event: React.MouseEvent<HTMLElement>) {
-        event.stopPropagation();
-        console.log("select");
-    }
-
-    const closeEditDialog = useCallback((id?: string) => {
-        setOpenDialog(false);
-        if (id) {
-
+    const selectItems = useCallback((checked: boolean) => {
+        if (checked) {
+            setSelected(new Set(Object.keys(rooms)));
+        } else {
+            setSelected(new Set());
         }
+    }, [rooms]);
+
+    const openAddDialog = useCallback(() => {
+        setDialogState({type: "add", open: true});
     }, []);
 
-    const handleAddRequest = useCallback(() => {
-        setOpenDialog(true);
+    const openDeleteDialog = useCallback(() => {
+        setDialogState({type: "delete", open: true});
     }, []);
 
-    function handleEditRequest(event: React.MouseEvent<HTMLElement>) {
-        event.stopPropagation();
-        onEditRequest?.();
-    }
+    const openEditDialog = useCallback((data: RoomData) => {
+        setDialogState({type: "edit", open: true, data: data});
+    }, []);
 
-    function handleAdd(event: React.MouseEvent<HTMLElement>) {
-        event.stopPropagation();
-        onAdd?.();
-    }
+    const closeAddDialog = useCallback(({dst}: OnCloseRoomDialogParams) => {
+        if (dst) {
+            onAddItem?.();
+        }
+        setDialogState(null);
+    }, []);
 
-    function handleEdit(event: React.MouseEvent<HTMLElement>) {
-        event.stopPropagation();
-        onEdit?.();
-    }
+    const closeDeleteDialog = useCallback((confirmed = false) => {
+        if (confirmed) {
+            onDeleteItems?.();
+        }
+        setDialogState(null);
+    }, [selected]);
 
-    function handleDelete(event: React.MouseEvent<HTMLElement>) {
-        event.stopPropagation();
-        onDelete?.();
-    }
+    const closeEditDialog = useCallback(({src, dst}: OnCloseRoomDialogParams) => {
+        if (dst) {
+            onEditItem?.();
+        }
+        setDialogState(null);
+    }, []);
 
     function renderItem(item: string) {
         return (
             <NavMenuItem
                 key={item}
                 id={item}
-                onClick={handleClick}
-                onSelect={handleSelect}
+                onClick={clickItem}
+                onCheck={selectRoom}
+                onEditAction={openEditDialog}
             />
         );
     }
 
+    function renderDialog() {
+        if (!dialogState) {
+            return;
+        }
+        switch (dialogState.type) {
+            case "add":
+                return <RoomDialog open={true} onClose={closeAddDialog} label={"Add Room"} />;
+            case "edit":
+                return <RoomDialog open={true} onClose={closeEditDialog} label={"Edit Room"} data={dialogState.data} />;
+            case "delete":
+                return <DeleteDialog open={true} onClose={closeDeleteDialog}/>;
+        }
+    }
+
     return (
         <List dense>
-            {/*{renderHeader()}*/}
-            <NavMenuHeader label={label} onAddRequest={handleAddRequest}/>
+            <NavMenuHeader
+                label={"Rooms"}
+                // onCheck={selectRooms}
+                onAddAction={openAddDialog}
+                onDeleteAction={openDeleteDialog}
+            />
             <NavMenuDivider/>
-            {items.map(renderItem)}
-            <RoomDialog open={openDialog} onClose={closeEditDialog}/>
+            {Object.values(rooms).map(room => renderItem(room.id))}
+            {renderDialog()}
         </List>
     )
 }

@@ -1,35 +1,56 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
-import {memo} from "react";
+import React, {memo, useCallback, useEffect, useState} from "react";
 import {TextBox} from "../forms";
+import {RoomData} from "../rooms";
 import "./Dialog.css";
 
+const defaultRoom: RoomData = {
+    id: "ad",
+    title: "Room",
+}
+
+export interface OnCloseParams {
+    src?: RoomData,
+    dst?: RoomData,
+}
+
 interface RoomDialogProps {
-    open: boolean;
-    onClose?: (value?: string) => void;
+    open: boolean,
+    onClose?: (params: OnCloseParams) => void,
+    label?: string,
+    data?: RoomData,
 }
 
 const RoomDialog = (
     {
         open,
-        onClose = undefined,
+        onClose,
+        label = "Room",
+        data,
     }: RoomDialogProps) => {
-    function openDialog() {
+    const [newRoom, setNewRoom] = useState(data ?? defaultRoom);
 
-    }
+    useEffect(() => {
+        setNewRoom(data ?? defaultRoom)
+    }, [data]);
 
-    const handleCancel = () => {
-        onClose?.();
-    }
+    const handleCancel = useCallback(() => {
+        onClose?.({src: data});
+    }, []);
 
-    const handleOk = () => {
-        onClose?.();
-    }
+    const handleOk = useCallback(() => {
+        onClose?.({src: data, dst: newRoom});
+    }, []);
+
+    const editTitle = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        setNewRoom(newRoom => ({...newRoom, title: event.target.value}));
+    }, []);
 
     return (
         <Dialog open={open}>
             <DialogTitle>Room Settings</DialogTitle>
             <DialogContent>
-                <TextBox label={"Title"} />
+                <TextBox label={"Title"} value={newRoom.title} onChange={editTitle}/>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleCancel}>Cancel</Button>

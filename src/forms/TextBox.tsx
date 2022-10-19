@@ -1,19 +1,19 @@
 import {TextField} from "@mui/material";
-import {memo} from "react";
+import React, {memo} from "react";
 
 interface TextBoxProps {
     id?: string,
     label?: string,
     value?: string,
-    onChange?: (event: object) => void,
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
 const TextBox = (
     {
         id = "",
-        label = undefined,
-        value = undefined,
-        onChange = undefined,
+        label = "",
+        value,
+        onChange,
     }: TextBoxProps) => {
     return (
         <TextField
