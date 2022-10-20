@@ -106,7 +106,13 @@ const NavigationMenu = (
     return (
         <List dense>
             {/*{renderHeader()}*/}
-            <NavMenuHeader label={label} onAddRequest={handleAddRequest} showDelete={selected.size > 0}/>
+            <NavMenuHeader
+                label={label}
+                variant={"add"}
+                onCheck={}
+                onAddAction={handleAddRequest}
+                onDeleteAction={handleAddRequest}
+            />
             <NavMenuDivider/>
             {items.map(renderItem)}
             <RoomDialog open={openDialog} onClose={closeEditDialog}/>

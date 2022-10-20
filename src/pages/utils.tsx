@@ -1,24 +1,43 @@
-import React, {memo, useCallback, useState} from "react";
+import React, {memo, ReactElement, useCallback, useState} from "react";
+import {Checkbox, IconButton} from "@mui/material";
 
-interface BaseDialogState<T> {
-    type: string,
-    open: boolean,
-}
-
-export interface AddDialogState<T> extends BaseDialogState<T> {
-    type: "add",
-}
-
-export interface EditDialogState<T> extends BaseDialogState<T> {
-    type: "edit",
+export interface DialogState<T> {
+    type: "add" | "edit" | "delete",
     data?: T,
 }
 
-export interface DeleteDialogState<T> extends BaseDialogState<T> {
-    type: "delete",
+interface NavMenuButtonProps {
+    icon: ReactElement,
+    onClick?: () => void,
 }
 
-export type DialogState<T> =
-    | AddDialogState<T>
-    | EditDialogState<T>
-    | DeleteDialogState<T>;
+const NavMenuButton = memo(({icon, onClick}: NavMenuButtonProps) => {
+    function handleClick(event: React.MouseEvent) {
+        event.stopPropagation();
+        onClick?.();
+    }
+    return (
+        <IconButton onClick={handleClick}>
+            {icon}
+        </IconButton>
+    );
+});
+
+interface NavMenuCheckboxProps {
+    onChange?: (value: boolean) => void,
+}
+
+const NavMenuCheckbox = memo(({onChange,}: NavMenuCheckboxProps) => {
+    function handleClick(event: React.MouseEvent) {
+        event.stopPropagation();
+    }
+    function handleChange(event: React.ChangeEvent<HTMLInputElement>) {
+        event.stopPropagation();
+        onChange?.(event.target.checked);
+    }
+    return (
+        <Checkbox onClick={handleClick} onChange={handleChange} disableRipple/>
+    );
+});
+
+export { NavMenuButton, NavMenuCheckbox, };

@@ -52,15 +52,15 @@ const RoomsMenu = (
     }, [rooms]);
 
     const openAddDialog = useCallback(() => {
-        setDialogState({type: "add", open: true});
+        setDialogState({type: "add"});
     }, []);
 
     const openDeleteDialog = useCallback(() => {
-        setDialogState({type: "delete", open: true});
+        setDialogState({type: "delete"});
     }, []);
 
     const openEditDialog = useCallback((data: RoomData) => {
-        setDialogState({type: "edit", open: true, data: data});
+        setDialogState({type: "edit", data: data});
     }, []);
 
     const closeAddDialog = useCallback(({dst}: OnCloseRoomDialogParams) => {
@@ -90,37 +90,38 @@ const RoomsMenu = (
                 key={item}
                 id={item}
                 onClick={clickItem}
-                onCheck={selectRoom}
+                onCheck={selectItem}
                 onEditAction={openEditDialog}
             />
         );
-    }
-
-    function renderDialog() {
-        if (!dialogState) {
-            return;
-        }
-        switch (dialogState.type) {
-            case "add":
-                return <RoomDialog open={true} onClose={closeAddDialog} label={"Add Room"} />;
-            case "edit":
-                return <RoomDialog open={true} onClose={closeEditDialog} label={"Edit Room"} data={dialogState.data} />;
-            case "delete":
-                return <DeleteDialog open={true} onClose={closeDeleteDialog}/>;
-        }
     }
 
     return (
         <List dense>
             <NavMenuHeader
                 label={"Rooms"}
-                // onCheck={selectRooms}
+                variant={"add"}
+                onCheck={selectItems}
                 onAddAction={openAddDialog}
                 onDeleteAction={openDeleteDialog}
             />
             <NavMenuDivider/>
             {Object.values(rooms).map(room => renderItem(room.id))}
-            {renderDialog()}
+            <RoomDialog
+                open={dialogState?.type === "add"}
+                onClose={closeAddDialog}
+                label={"Add Room"}
+            />
+            <RoomDialog
+                open={dialogState?.type === "edit"}
+                onClose={closeEditDialog}
+                label={"Edit Room"}
+                data={dialogState?.data}
+            />
+            <DeleteDialog
+                open={dialogState?.type === "delete"}
+                onClose={closeDeleteDialog}
+            />
         </List>
     )
 }
