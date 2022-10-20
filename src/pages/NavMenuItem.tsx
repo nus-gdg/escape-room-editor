@@ -1,47 +1,40 @@
 import React, {memo, useCallback} from "react";
-import {Checkbox, IconButton, ListItemButton, ListItemText} from "@mui/material";
+import {ListItemButton, ListItemText} from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
+import {NavMenuButton, NavMenuCheckbox} from "./utils";
 
 interface NavMenuItemProps {
     id: string,
-    onSelect?: (id: string, checked: boolean) => void,
     onClick?: (id: string) => void,
-    onEditRequest?: (id: string) => void,
+    onCheck?: (id: string, checked: boolean) => void,
+    onEditAction?: (id: string) => void,
 }
 
 const NavMenuItem = (
     {
         id = "",
-        onSelect,
         onClick,
-        onEditRequest,
+        onCheck,
+        onEditAction,
     }: NavMenuItemProps) => {
-    const handleSelect = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        event.stopPropagation();
-        onSelect?.(id, event.target.checked);
-    }, [onSelect]);
-
-    const handleClickCheckbox = useCallback((event: React.MouseEvent) => {
-        event.stopPropagation();
-    }, []);
-
-    const handleClickButton = useCallback((event: React.MouseEvent) => {
+    const handleClick = useCallback((event: React.MouseEvent) => {
         event.stopPropagation();
         onClick?.(id);
     }, [onClick]);
 
-    const handleEditRequest = useCallback((event: React.MouseEvent) => {
-        event.stopPropagation();
-        onEditRequest?.(id);
-    }, [onEditRequest]);
+    const handleCheck = useCallback((checked: boolean) => {
+        onCheck?.(id, checked);
+    }, [onCheck]);
+
+    const handleEditAction = useCallback(() => {
+        onEditAction?.(id);
+    }, [onEditAction]);
 
     return (
-        <ListItemButton onClick={handleClickButton} disableRipple>
-            <Checkbox onClick={handleClickCheckbox} onChange={handleSelect} disableRipple/>
+        <ListItemButton onClick={handleClick} disableRipple>
+            <NavMenuCheckbox onChange={handleCheck}/>
             <ListItemText primary={id}/>
-            <IconButton onClick={handleEditRequest}>
-                <EditIcon/>
-            </IconButton>
+            <NavMenuButton icon={<EditIcon/>} onClick={handleEditAction}/>
         </ListItemButton>
     );
 }

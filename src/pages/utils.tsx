@@ -27,7 +27,7 @@ interface NavMenuCheckboxProps {
     onChange?: (value: boolean) => void,
 }
 
-const NavMenuCheckbox = memo(({onChange,}: NavMenuCheckboxProps) => {
+const NavMenuCheckbox = memo(({onChange}: NavMenuCheckboxProps) => {
     function handleClick(event: React.MouseEvent) {
         event.stopPropagation();
     }
