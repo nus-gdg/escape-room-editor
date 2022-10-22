@@ -1,9 +1,8 @@
-import React, {CSSProperties, memo, ReactElement, useCallback} from "react";
+import React, {CSSProperties, memo, ReactElement} from "react";
 import {
-    Button,
     Checkbox,
-    IconButton, PopperProps,
-    TableCell, Tooltip,
+    IconButton,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -18,28 +17,6 @@ export interface DialogState<T> {
 export const addIcon = <AddIcon/>
 export const deleteIcon = <DeleteIcon/>
 export const editIcon = <EditIcon/>
-
-interface TableCellButtonProps {
-    primary: string,
-    secondary?: string,
-    onClick?: () => void,
-}
-
-export const TableCellButton = memo((
-    {
-        primary,
-        secondary,
-        onClick,
-    }: TableCellButtonProps) => {
-    return (
-        <TableCell padding={"none"}>
-            <Button onClick={onClick} disableRipple>
-                {primary && <Typography>{primary}</Typography>}
-                {secondary && <Typography>{secondary}</Typography>}
-            </Button>
-        </TableCell>
-    );
-});
 
 interface SimpleCheckboxProps {
     className?: string,

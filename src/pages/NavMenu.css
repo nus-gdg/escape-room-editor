@@ -1,0 +1,9 @@
+.NavMenu-root {
+    width: 30%;
+    height: 100%;
+}
+
+.NavMenu-root > .NavMenu-list {
+    overflow-y: auto;
+    height: calc(100% - 41px);
+}

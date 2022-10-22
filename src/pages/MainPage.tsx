@@ -82,14 +82,8 @@ const MainPage = () => {
 
     return (
         <div className={"page"}>
-            <NavMenu label={"Rooms"} names={["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]}/>
-            {/*<NavMenuItem*/}
-            {/*    id={"POTATO2"}*/}
-            {/*    secondary={"DDASD"}*/}
-            {/*    checked={checked2}*/}
-            {/*    onCheck={handleCheck}*/}
-            {/*/>*/}
             {/*<Banner className={"page__header"}/>*/}
+            <NavMenu names={["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]}/>
             {/*<div className={"page__body"}>*/}
             {/*    <Tabs className={"page__navigation"} value={value} onChange={handleChangeTab} orientation="vertical">*/}
             {/*        {tabs.map(renderTab)}*/}

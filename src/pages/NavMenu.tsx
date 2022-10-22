@@ -1,9 +1,7 @@
 import React, {memo, useCallback, useState} from "react";
 import NavHeader from "./NavHeader";
 import NavItem from "./NavItem";
-import NavMenuToolbar from "./NavMenuToolbar";
-
-const columns = ["Name", "Edit"];
+import "./NavMenu.css";
 
 interface NavData {
     name: string,
@@ -11,7 +9,6 @@ interface NavData {
 }
 
 interface NavMenuProps {
-    label: string,
     names: string[],
     onCreate?: () => void,
     onRead?: (name: string) => void,
@@ -21,7 +18,6 @@ interface NavMenuProps {
 
 const NavMenu = (
     {
-        label = "",
         names = [],
         onCreate,
         onRead,
@@ -31,7 +27,7 @@ const NavMenu = (
     const [selected, setSelected] = useState(new Set<string>());
     console.log(selected);
 
-    const handleSelectId = useCallback((name: string, checked: boolean) => {
+    const handleSelect = useCallback((name: string, checked: boolean) => {
         setSelected(set => {
             const nextSet = new Set(set);
             if (checked) {
@@ -43,7 +39,7 @@ const NavMenu = (
         });
     }, []);
 
-    const handleSelectIds = useCallback((checked: boolean) => {
+    const handleSelectAll = useCallback((checked: boolean) => {
         if (checked) {
             setSelected(new Set(Object.values(names)));
         } else {
@@ -51,35 +47,30 @@ const NavMenu = (
         }
     }, [names]);
 
-    // const handleClick = useCallback((id: string) => {
-    //     onRead?.(id);
-    // }, [onCreate]);
-    //
-    // const handleEdit = useCallback((id: string) => {
-    //     onUpdate?.(id);
-    // }, [onUpdate]);
-
     const renderItem = useCallback((name: string) => {
         return (
             <NavItem
                 key={name}
                 name={name}
                 checked={selected.has(name)}
-                onCheck={handleSelectId}
+                onCheck={handleSelect}
+                onClick={onRead}
+                onEdit={onUpdate}
             />
         )
     }, [selected]);
 
     return (
-        <section style={{width: "30%", height: "100%"}}>
-            {/*<NavMenuToolbar label={"NAVIGATION"} selected={selected}/>*/}
+        <section className={"NavMenu-root"}>
             <NavHeader
                 checked={selected.size === names.length}
                 indeterminate={selected.size > 0 && selected.size < names.length}
                 selected={selected}
-                onCheck={handleSelectIds}
+                onCheck={handleSelectAll}
+                onAdd={onCreate}
+                onDelete={onDelete}
             />
-            <ul style={{overflowY: "auto", height: "calc(100% - 41px)"}}>
+            <ul className={"NavMenu-list"}>
                 {names.map(renderItem)}
             </ul>
         </section>
