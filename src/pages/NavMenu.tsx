@@ -9,6 +9,7 @@ interface NavData {
 }
 
 interface NavMenuProps {
+    label: string,
     names: string[],
     onCreate?: () => void,
     onRead?: (name: string) => void,
@@ -18,6 +19,7 @@ interface NavMenuProps {
 
 const NavMenu = (
     {
+        label,
         names = [],
         onCreate,
         onRead,
@@ -63,6 +65,7 @@ const NavMenu = (
     return (
         <section className={"NavMenu-root"}>
             <NavHeader
+                label={label}
                 checked={selected.size === names.length}
                 indeterminate={selected.size > 0 && selected.size < names.length}
                 selected={selected}

@@ -17,5 +17,5 @@
 .NavItem-root > .NavItem-button {
     background-color: transparent;
     text-align: left;
-    padding-left: 16px;
+    /*padding-left: 4px;*/
 }

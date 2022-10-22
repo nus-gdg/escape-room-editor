@@ -2,7 +2,7 @@ import React, {CSSProperties, memo, ReactElement} from "react";
 import {
     Checkbox,
     IconButton,
-    Tooltip,
+    Tooltip, TooltipProps,
     Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -12,6 +12,12 @@ import EditIcon from "@mui/icons-material/Edit";
 export interface DialogState<T> {
     type: "add" | "edit" | "delete",
     data?: T,
+}
+
+const tooltipProps: Partial<Omit<TooltipProps, "title">> = {
+    disableInteractive: true,
+    enterDelay: 1000,
+    enterNextDelay: 1000,
 }
 
 export const addIcon = <AddIcon/>
@@ -35,7 +41,7 @@ export const SimpleCheckbox = memo((
         onChange,
     }: SimpleCheckboxProps) => {
     return (
-        <Tooltip className={className} title={tooltip} disableInteractive>
+        <Tooltip className={className} title={tooltip} {...tooltipProps}>
             <Checkbox
                 checked={checked}
                 indeterminate={indeterminate}
@@ -60,7 +66,7 @@ export const SimpleIconButton = memo((
         onClick,
     }: SimpleIconButtonProps) => {
     return (
-        <Tooltip className={className} title={tooltip} disableInteractive>
+        <Tooltip className={className} title={tooltip} {...tooltipProps}>
             <IconButton onClick={onClick}>
                 {icon}
             </IconButton>

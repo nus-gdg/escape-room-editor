@@ -1,9 +1,24 @@
 .NavHeader-root {
-    display: inline-flex;
-    flex-direction: row;
     position: relative;
+    display: grid;
+    padding-right: 20px;
     align-items: center;
     user-select: none;
-    width: 100%;
     background-color: darkslategrey;
+}
+
+.NavHeader-root.add {
+    grid-template-columns: 40px auto 40px;
+}
+
+.NavHeader-root.delete {
+    grid-template-columns: 40px auto auto 40px;
+}
+
+.NavHeader-root > .NavHeader-label {
+    text-align: left;
+}
+
+.NavHeader-root > .NavHeader-deleteText {
+    text-align: right;
 }

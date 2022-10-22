@@ -2,7 +2,12 @@ import React, {memo, useCallback} from "react";
 import {addIcon, deleteIcon, SimpleCheckbox, SimpleIconButton, SimpleText} from "./utils";
 import "./NavHeader.css";
 
+const hasSelection = (selected?: Set<string>) => {
+    return selected && selected.size > 0;
+}
+
 interface NavHeaderProps {
+    label: string,
     checked?: boolean,
     indeterminate?: boolean,
     selected?: Set<string>,
@@ -13,6 +18,7 @@ interface NavHeaderProps {
 
 const NavHeader = (
     {
+        label,
         checked,
         indeterminate,
         selected,
@@ -31,16 +37,16 @@ const NavHeader = (
     }, [onDelete, selected]);
 
     const renderButtons = () => {
-        if (selected && selected.size > 0) {
+        if (hasSelection(selected)) {
             return (
                 <>
+                    <SimpleText className={"NavHeader-text NavHeader-deleteText"} value={`(${selected?.size})`}/>
                     <SimpleIconButton
                         className={"NavHeader-delete"}
                         icon={deleteIcon}
                         onClick={handleDelete}
                         tooltip={"Delete"}
                     />
-                    <SimpleText className={"NavHeader-text"} value={`(${selected.size})`}/>
                 </>
             );
         } else {
@@ -49,21 +55,22 @@ const NavHeader = (
                     className={"NavHeader-add"}
                     icon={addIcon}
                     onClick={onAdd}
-                    tooltip={"Create new"}
+                    tooltip={"Create"}
                 />
             )
         }
     }
 
     return (
-        <div className={"NavHeader-root"}>
+        <div className={"NavHeader-root" + (hasSelection(selected) ? " delete" : " add")}>
             <SimpleCheckbox
                 className={"NavHeader-checkbox"}
                 checked={checked}
                 indeterminate={indeterminate}
                 onChange={handleCheck}
-                tooltip={"Select"}
+                tooltip={"Select all"}
             />
+            <SimpleText className={"NavHeader-label"} value={label}/>
             {renderButtons()}
         </div>
     );

@@ -11,6 +11,7 @@ import Flow, {FlowProps} from "../flow/Flow";
 import {NodeType} from "../flow/utils";
 import "./MainPage.css"
 import NavMenu from "./NavMenu";
+import Banner from "./Banner";
 
 const data: FlowProps = {
     nodes: [{id: "0", type: NodeType.Root, data: {}, position: {x: 0, y: 0}, deletable: false, draggable: false}],
@@ -82,21 +83,17 @@ const MainPage = () => {
 
     return (
         <div className={"page"}>
-            {/*<Banner className={"page__header"}/>*/}
-            <NavMenu names={["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]}/>
-            {/*<div className={"page__body"}>*/}
-            {/*    <Tabs className={"page__navigation"} value={value} onChange={handleChangeTab} orientation="vertical">*/}
-            {/*        {tabs.map(renderTab)}*/}
-            {/*    </Tabs>*/}
-            {/*    <div className={"page__drawer"}>*/}
-            {/*        /!*{renderTabPanel(value)}*!/*/}
-            {/*        */}
-            {/*        /!*<NavMenu label={"Rooms"} ids={["a", "b", "c",]} />*!/*/}
-            {/*    </div>*/}
-            {/*    /!*<Button onClick={() => setOpenDialog(true)}>PP</Button>*!/*/}
-            {/*    /!*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*!/*/}
-            {/*    <Flow {...data}/>*/}
-            {/*</div>*/}
+            <Banner className={"page__header"}/>
+            <div className={"page__body"}>
+                <Tabs className={"page__navigation"} value={value} orientation="vertical">
+                    {tabs.map(renderTab)}
+                </Tabs>
+                <div className={"page__drawer"}>
+                    <NavMenu label={"Rooms"} names={["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]}/>
+                </div>
+                {/*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*/}
+                <Flow {...data}/>
+            </div>
         </div>
     );
 };
