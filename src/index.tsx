@@ -4,11 +4,29 @@ import ReactDOM from "react-dom"
 import { App } from "./app"
 import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+    components: {
+        MuiCheckbox: {
+            styleOverrides: {
+                root: {
+                    padding: "8px",
+                }
+            }
+        },
+    },
+});
 
 ReactDOM.render(
     <React.StrictMode>
-        <ColorModeScript />
-        <App />
+        <ThemeProvider theme={theme}>
+            <CssBaseline/>
+            <App/>
+        </ThemeProvider>
     </React.StrictMode>,
     document.getElementById("root"),
 )
