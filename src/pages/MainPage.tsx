@@ -82,7 +82,7 @@ const MainPage = () => {
 
     return (
         <div className={"page"}>
-            <NavMenu label={"Rooms"} ids={["a", "b", "c"]}/>
+            <NavMenu label={"Rooms"} names={["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]}/>
             {/*<NavMenuItem*/}
             {/*    id={"POTATO2"}*/}
             {/*    secondary={"DDASD"}*/}

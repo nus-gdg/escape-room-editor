@@ -1,26 +1,28 @@
-import React, {memo, useCallback, useMemo, useState} from "react";
-import NavMenuHeader from "./NavMenuHeader";
-import NavMenuItem from "./NavMenuItem";
-import NavMenuToolbar from "./NavMenuToolbar";
-import {Table, TableBody, TableHead} from "@mui/material";
-import {TableCellText} from "./utils";
+import React, {memo, useCallback, useState} from "react";
+import NavHeader from "./NavHeader";
 import NavItem from "./NavItem";
+import NavMenuToolbar from "./NavMenuToolbar";
 
-const columns = ["Id", "Edit"];
+const columns = ["Name", "Edit"];
+
+interface NavData {
+    name: string,
+    value: string,
+}
 
 interface NavMenuProps {
     label: string,
-    ids: string[],
+    names: string[],
     onCreate?: () => void,
-    onRead?: (id: string) => void,
-    onUpdate?: (id: string) => void,
-    onDelete?: (ids: string[]) => void,
+    onRead?: (name: string) => void,
+    onUpdate?: (name: string) => void,
+    onDelete?: (names: Set<string>) => void,
 }
 
 const NavMenu = (
     {
         label = "",
-        ids = [],
+        names = [],
         onCreate,
         onRead,
         onUpdate,
@@ -29,13 +31,13 @@ const NavMenu = (
     const [selected, setSelected] = useState(new Set<string>());
     console.log(selected);
 
-    const handleSelectId = useCallback((id: string, checked: boolean) => {
+    const handleSelectId = useCallback((name: string, checked: boolean) => {
         setSelected(set => {
             const nextSet = new Set(set);
             if (checked) {
-                nextSet.add(id);
+                nextSet.add(name);
             } else {
-                nextSet.delete(id);
+                nextSet.delete(name);
             }
             return nextSet;
         });
@@ -43,11 +45,11 @@ const NavMenu = (
 
     const handleSelectIds = useCallback((checked: boolean) => {
         if (checked) {
-            setSelected(new Set(Object.values(ids)));
+            setSelected(new Set(Object.values(names)));
         } else {
             setSelected(new Set());
         }
-    }, [ids]);
+    }, [names]);
 
     // const handleClick = useCallback((id: string) => {
     //     onRead?.(id);
@@ -57,44 +59,30 @@ const NavMenu = (
     //     onUpdate?.(id);
     // }, [onUpdate]);
 
-    const renderItem = useCallback((id: string) => {
+    const renderItem = useCallback((name: string) => {
         return (
-            <NavMenuItem
-                key={id}
-                id={id}
-                // secondary={"DDASD"}
-                checked={selected.has(id)}
+            <NavItem
+                key={name}
+                name={name}
+                checked={selected.has(name)}
                 onCheck={handleSelectId}
             />
         )
     }, [selected]);
 
     return (
-        <div>
-            <NavItem id={"POP"}/>
-            <NavItem id={"MOM"}/>
-            <NavItem id={"LOL"}/>
-            <NavMenuToolbar label={"NAVIGATION"} selected={selected}/>
-            <Table>
-                <TableHead>
-                    <NavMenuHeader
-                        columns={columns}
-                        checked={selected.size === ids.length}
-                        indeterminate={selected.size > 0 && selected.size < ids.length}
-                        onCheck={handleSelectIds}
-                    />
-                </TableHead>
-                <TableBody>
-                    {ids.map(renderItem)}
-                </TableBody>
-                {/*<NavMenuHeader*/}
-                {/*    primary={label}*/}
-                {/*    options={selected.size === 0 ? addButton : deleteButton}*/}
-                {/*    onCheck={handleSelectIds}*/}
-                {/*/>*/}
-                {/*{ids.map(renderMenuItem)}*/}
-            </Table>
-        </div>
+        <section style={{width: "30%", height: "100%"}}>
+            {/*<NavMenuToolbar label={"NAVIGATION"} selected={selected}/>*/}
+            <NavHeader
+                checked={selected.size === names.length}
+                indeterminate={selected.size > 0 && selected.size < names.length}
+                selected={selected}
+                onCheck={handleSelectIds}
+            />
+            <ul style={{overflowY: "auto", height: "calc(100% - 41px)"}}>
+                {names.map(renderItem)}
+            </ul>
+        </section>
     );
 }
 

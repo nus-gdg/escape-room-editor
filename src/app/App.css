@@ -53,10 +53,13 @@
 }
 
 button {
+    cursor: pointer;
     padding: 0;
     margin: 0;
     border-width: 0;
     line-height: 1em;
+    align-items: center;
+    color: inherit;
 }
 
 input, textarea {
@@ -83,4 +86,10 @@ input:-ms-input-placeholder, textarea::-ms-input-placeholder { /* Internet Explo
 input::-ms-input-placeholder, textarea::-ms-input-placeholder { /* Microsoft Edge */
     font-family: sans-serif;
     color: var(--font-normal);
+}
+
+ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }

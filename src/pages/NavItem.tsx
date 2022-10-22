@@ -1,84 +1,79 @@
 import React, {memo, useCallback, useRef} from "react";
-import {editIcon, ListCheckbox, TableCellButton, TableCellCheckbox, TableCellIconButton, TableCellText} from "./utils";
+import TouchRipple, {TouchRippleActions} from "@mui/material/ButtonBase/TouchRipple";
 import {
-    ButtonBase,
-    Checkbox, IconButton,
-    ListItem,
-    ListItemButton, ListItemIcon,
-    ListItemSecondaryAction,
-    ListItemText,
-    TableRow, Typography
-} from "@mui/material";
-import TouchRipple, {TouchRippleActions, TouchRippleProps} from "@mui/material/ButtonBase/TouchRipple";
+    editIcon,
+    SimpleCheckbox,
+    SimpleIconButton,
+    SimpleText,
+} from "./utils";
+import "./NavItem.css";
 
-interface NavMenuItemProps {
-    id: string,
-    secondary?: string,
+interface NavItemProps {
+    name: string,
+    value?: string,
     checked?: boolean,
-    onCheck?: (id: string, checked: boolean) => void,
-    onClick?: (id: string) => void,
-    onEdit?: (id: string) => void,
+    onCheck?: (name: string, checked: boolean) => void,
+    onClick?: (name: string) => void,
+    onEdit?: (name: string) => void,
 }
 
-const NavMenuItem = (
+const NavItem = (
     {
-        id = "",
-        secondary,
+        name = "",
+        value,
         checked,
         onCheck,
         onClick,
         onEdit,
-    }: NavMenuItemProps) => {
+    }: NavItemProps) => {
     const rippleRef = useRef<TouchRippleActions>(null);
 
-    const handleCheck = useCallback((checked: boolean) => {
-        onCheck?.(id, checked);
+    const handleCheck = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+        onCheck?.(name, event.target.checked);
     }, [onCheck]);
 
     const handleClick = useCallback(() => {
-        onClick?.(id);
+        onClick?.(name);
     }, [onClick]);
 
     const handleEdit = useCallback(() => {
-        onEdit?.(id);
+        onEdit?.(name);
     }, [onEdit]);
 
+    const handleMouseDown = useCallback((event: React.MouseEvent) => {
+        rippleRef.current?.start(event)
+    }, []);
+
+    const handleMouseUp = useCallback((event: React.MouseEvent) => {
+        rippleRef.current?.stop(event)
+    }, []);
+
     return (
-        <>
-            <li style={{display: "inline-flex", flexDirection: "row", position: "relative", userSelect: "none", width: "100%"}}>
-                <Checkbox checked={checked} onChange={handleCheck}/>
-                <button
-                    onClick={handleClick}
-                    onMouseDown={event => rippleRef.current?.start(event)}
-                    onMouseUp={event => rippleRef.current?.stop(event)}
-                    style={{display: "flex", flexDirection: "row", flexGrow: 1, cursor: "pointer", backgroundColor: "transparent"}}
-                >
-                    <Typography>{id}</Typography>
-                    <Typography>{id}</Typography>
-                </button>
-                <IconButton onClick={handleEdit}>
-                    {editIcon}
-                </IconButton>
-                <TouchRipple ref={rippleRef} center={false}/>
-            </li>
-            {/*<ListItem selected={checked} onClick={handleClick} disablePadding>*/}
-            {/*    <ListItemButton>*/}
-            {/*        id*/}
-            {/*    </ListItemButton>*/}
-            {/*    <ListItemSecondaryAction>*/}
-            {/*        <ListCheckbox checked={checked} onChange={handleCheck}/>*/}
-            {/*    </ListItemSecondaryAction>*/}
-            {/*</ListItem>*/}
-            {/*<ListItem button selected={checked} onClick={handleClick}>*/}
-            {/*<TableCellCheckbox checked={checked} onChange={handleCheck}/>*/}
-            {/*<TableCellText primary={id}/>*/}
-            {/*<TableCellText primary={id}/>*/}
-            {/*<TableCellButton primary={id} secondary={secondary} onClick={handleClick}/>*/}
-            {/*<TableCellButton primary={id} secondary={secondary} onClick={handleClick}/>*/}
-            {/*<TableCellIconButton icon={editIcon} onClick={handleEdit}/>*/}
-            {/*</ListItem>*/}
-        </>
+        <li className={checked ? "NavItem-root selected" : "NavItem-root"}>
+            <SimpleCheckbox
+                checked={checked}
+                onChange={handleCheck}
+                tooltip={"Select"}
+            />
+            <button
+                className={"NavItem-button"}
+                onClick={handleClick}
+                onMouseDown={handleMouseDown}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+            >
+                <SimpleText className={"NavItem-text NavItem-name"} value={name}/>
+                {value && <SimpleText className={"NavItem-text NavItem-value"} value={value}/>}
+            </button>
+            <SimpleIconButton
+                className={"NavItem-edit"}
+                icon={editIcon}
+                onClick={handleEdit}
+                tooltip={"Edit"}
+            />
+            <TouchRipple ref={rippleRef}/>
+        </li>
     );
 }
 
-export default memo(NavMenuItem);
+export default memo(NavItem);

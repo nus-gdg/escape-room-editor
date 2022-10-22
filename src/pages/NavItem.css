@@ -1,0 +1,21 @@
+.NavItem-root {
+    display: grid;
+    position: relative;
+    user-select: none;
+    grid-template-columns: 40px auto 40px;
+    padding-right: 20px;
+}
+
+.NavItem-root:hover, .NavItem-root.selected:hover {
+    background-color: rgba(75, 128, 128, 0.2);
+}
+
+.NavItem-root.selected {
+    background-color: rgba(75, 128, 128, 0.1);
+}
+
+.NavItem-root > .NavItem-button {
+    background-color: transparent;
+    text-align: left;
+    padding-left: 16px;
+}

@@ -1,5 +1,5 @@
 import React, {memo} from "react";
-import {addIcon, deleteIcon} from "./utils";
+import {addIcon, deleteIcon, editIcon, SimpleIconButton} from "./utils";
 import {IconButton, TableRow, Toolbar, Typography} from "@mui/material";
 
 const style = {pl: { sm: 2 }, pr: { xs: 1, sm: 1 }}
@@ -26,21 +26,21 @@ const NavMenuToolbar = (
 
     if (selected && selected.size > 0) {
         return (
-            <Toolbar sx={style}>
-                <Typography>{label}... ({selected.size} selected)</Typography>
+            <div style={{display: "flex", flexDirection: "row", alignItems: "center", paddingLeft: "11px", backgroundColor: "cornflowerblue"}}>
+                <Typography style={{flexGrow: 1}}>{label}... ({selected.size} selected)</Typography>
                 <IconButton onClick={handleDelete}>
                     {deleteIcon}
                 </IconButton>
-            </Toolbar>
+            </div>
         )
     } else {
         return (
-            <Toolbar sx={style}>
-                <Typography>{label}</Typography>
+            <div style={{display: "flex", flexDirection: "row", alignItems: "center", paddingLeft: "11px", backgroundColor: "darkslategrey",}}>
+                <Typography style={{flexGrow: 1}}>{label}</Typography>
                 <IconButton onClick={onAdd}>
                     {addIcon}
                 </IconButton>
-            </Toolbar>
+            </div>
         )
     }
 }

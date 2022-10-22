@@ -1,9 +1,9 @@
-import React, {memo, ReactElement, useCallback} from "react";
+import React, {CSSProperties, memo, ReactElement, useCallback} from "react";
 import {
-    Button, ButtonBase,
+    Button,
     Checkbox,
-    IconButton,
-    TableCell,
+    IconButton, PopperProps,
+    TableCell, Tooltip,
     Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
@@ -18,10 +18,6 @@ export interface DialogState<T> {
 export const addIcon = <AddIcon/>
 export const deleteIcon = <DeleteIcon/>
 export const editIcon = <EditIcon/>
-
-function disableMouseClick(event: React.MouseEvent) {
-    event.stopPropagation();
-}
 
 interface TableCellButtonProps {
     primary: string,
@@ -45,91 +41,69 @@ export const TableCellButton = memo((
     );
 });
 
-interface TableCellCheckboxProps {
+interface SimpleCheckboxProps {
+    className?: string,
     checked?: boolean,
     indeterminate?: boolean,
-    onChange?: (checked: boolean) => void,
+    tooltip?: string,
+    onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void,
 }
 
-export const TableCellCheckbox = memo((
+export const SimpleCheckbox = memo((
     {
+        className,
         checked,
         indeterminate,
+        tooltip,
         onChange,
-    }: TableCellCheckboxProps) => {
-    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(event.target.checked);
-    }, [onChange]);
+    }: SimpleCheckboxProps) => {
     return (
-        <TableCell padding={"none"}>
+        <Tooltip className={className} title={tooltip} disableInteractive>
             <Checkbox
                 checked={checked}
                 indeterminate={indeterminate}
-                onChange={handleChange}
-                disableRipple
+                onChange={onChange}
             />
-        </TableCell>
+        </Tooltip>
     );
 });
 
-interface TableCellIconButtonProps {
+interface SimpleIconButtonProps {
+    className?: string,
     icon: ReactElement,
+    tooltip?: string,
     onClick?: () => void,
 }
 
-export const TableCellIconButton = memo((
+export const SimpleIconButton = memo((
     {
+        className,
         icon,
+        tooltip,
         onClick,
-    }: TableCellIconButtonProps) => {
+    }: SimpleIconButtonProps) => {
     return (
-        <TableCell padding={"none"}>
+        <Tooltip className={className} title={tooltip} disableInteractive>
             <IconButton onClick={onClick}>
                 {icon}
             </IconButton>
-        </TableCell>
+        </Tooltip>
     );
 });
 
-interface TableCellTextProps {
-    primary: string,
-    secondary?: string,
+interface SimpleTextProps {
+    className?: string,
+    style?: CSSProperties,
+    value: string,
 }
 
-export const TableCellText = memo((
+export const SimpleText = memo((
     {
-        primary,
-        secondary,
-    }: TableCellTextProps) => {
+        className,
+        style,
+        value,
+    }: SimpleTextProps) => {
     return (
-        <TableCell padding={"none"}>
-            <ButtonBase>
-                <Typography style={{userSelect: "none"}}>{primary}</Typography>
-            </ButtonBase>
-        </TableCell>
-    );
-});
-
-interface ListCheckboxProps {
-    checked?: boolean,
-    indeterminate?: boolean,
-    onChange?: (checked: boolean) => void,
-}
-
-export const ListCheckbox = memo((
-    {
-        checked,
-        indeterminate,
-        onChange,
-    }: ListCheckboxProps) => {
-    const handleChange = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        onChange?.(event.target.checked);
-    }, [onChange]);
-    return (
-        <Checkbox
-            checked={checked}
-            indeterminate={indeterminate}
-            onChange={handleChange}
-        />
+        <Typography className={className} style={style}>{value}</Typography>
     );
 });
