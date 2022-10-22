@@ -10,7 +10,7 @@ import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
 import Flow, {FlowProps} from "../flow/Flow";
 import {NodeType} from "../flow/utils";
 import "./MainPage.css"
-import NavMenu from "./NavMenu";
+import NavMenu from "../navigation/NavMenu";
 import Banner from "./Banner";
 
 const data: FlowProps = {
