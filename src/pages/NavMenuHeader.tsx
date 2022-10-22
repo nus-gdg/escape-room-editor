@@ -1,32 +1,28 @@
 import React, {memo} from "react";
-import {ListItem, ListItemText} from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
-import DeleteIcon from "@mui/icons-material/Delete";
-import {NavMenuButton, NavMenuCheckbox} from "./utils";
+import {TableCellCheckbox, TableCellIconButton, TableCellText} from "./utils";
+import {TableRow} from "@mui/material";
+
+const renderColumn = (column: string) => <TableCellText key={column} primary={column}/>
 
 interface NavMenuHeaderProps {
-    label: string,
-    variant?: "add" | "delete",
+    columns?: string[],
+    checked?: boolean,
+    indeterminate?: boolean,
     onCheck?: (checked: boolean) => void,
-    onAddAction?: () => void,
-    onDeleteAction?: () => void,
 }
 
 const NavMenuHeader = (
     {
-        label = "",
-        variant,
+        columns,
+        checked,
+        indeterminate,
         onCheck,
-        onAddAction,
-        onDeleteAction,
     }: NavMenuHeaderProps) => {
     return (
-        <ListItem>
-            <NavMenuCheckbox onChange={onCheck}/>
-            <ListItemText primary={label}/>
-            {variant === "add" && <NavMenuButton icon={<AddIcon/>} onClick={onAddAction}/>}
-            {variant === "delete" && <NavMenuButton icon={<DeleteIcon/>} onClick={onDeleteAction}/>}
-        </ListItem>
+        <TableRow>
+            <TableCellCheckbox checked={checked} indeterminate={indeterminate} onChange={onCheck}/>
+            {columns && columns.map(renderColumn)}
+        </TableRow>
     );
 }
 

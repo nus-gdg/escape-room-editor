@@ -1,5 +1,5 @@
 import React, {memo, ReactElement, ReactNode, useCallback, useState} from "react";
-import {Button, Tab, Tabs, Tooltip} from "@mui/material";
+import {Button, Tab, Table, TableBody, TableHead, Tabs, Tooltip} from "@mui/material";
 import ChatBubbleIcon from '@mui/icons-material/ChatBubble';
 import FlagIcon from "@mui/icons-material/Flag";
 import HomeIcon from '@mui/icons-material/Home';
@@ -7,12 +7,10 @@ import InfoIcon from '@mui/icons-material/Info';
 import PublicIcon from "@mui/icons-material/Public";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
-import Banner from "./Banner";
 import Flow, {FlowProps} from "../flow/Flow";
 import {NodeType} from "../flow/utils";
 import "./MainPage.css"
-import RoomDialog from "./RoomDialog";
-import NavigationMenu from "./NavigationMenu";
+import NavMenu from "./NavMenu";
 
 const data: FlowProps = {
     nodes: [{id: "0", type: NodeType.Root, data: {}, position: {x: 0, y: 0}, deletable: false, draggable: false}],
@@ -34,7 +32,7 @@ const tabs: TabProps[] = [
     {
         title: "Rooms",
         icon: <HomeIcon />,
-        renderPanel: () => <NavigationMenu label={"Rooms"} items={["a", "b", "c",]} />
+        renderPanel: () => <strong>ROOMS</strong>//() => <NavMenu label={"Rooms"} ids={["a", "b", "c",]} />
     },
     {
         title: "Items",
@@ -73,28 +71,38 @@ function renderTabPanel(index: number) {
     return tabs[index].renderPanel();
 }
 
-export const MainPage = () => {
-    const [value, setValue] = useState(0);
-    const [openDialog, setOpenDialog] = useState(false);
+const MainPage = () => {
+    const [value, setValue] = useState("");
+    const [checked1, setChecked1] = useState(false);
+    const [checked2, setChecked2] = useState(false);
 
-    const handleChangeTab = useCallback((_: any, newValue: number) => {
-        setValue(newValue);
-    }, [setValue]);
+    const handleCheck = useCallback((id: string, checked: boolean) => {
+        setChecked2(checked);
+    }, []);
 
     return (
         <div className={"page"}>
-            <Banner className={"page__header"}/>
-            <div className={"page__body"}>
-                <Tabs className={"page__navigation"} value={value} onChange={handleChangeTab} orientation="vertical">
-                    {tabs.map(renderTab)}
-                </Tabs>
-                <div className={"page__drawer"}>
-                    {renderTabPanel(value)}
-                </div>
-                {/*<Button onClick={() => setOpenDialog(true)}>PP</Button>*/}
-                {/*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*/}
-                <Flow {...data}/>
-            </div>
+            <NavMenu label={"Rooms"} ids={["a", "b", "c"]}/>
+            {/*<NavMenuItem*/}
+            {/*    id={"POTATO2"}*/}
+            {/*    secondary={"DDASD"}*/}
+            {/*    checked={checked2}*/}
+            {/*    onCheck={handleCheck}*/}
+            {/*/>*/}
+            {/*<Banner className={"page__header"}/>*/}
+            {/*<div className={"page__body"}>*/}
+            {/*    <Tabs className={"page__navigation"} value={value} onChange={handleChangeTab} orientation="vertical">*/}
+            {/*        {tabs.map(renderTab)}*/}
+            {/*    </Tabs>*/}
+            {/*    <div className={"page__drawer"}>*/}
+            {/*        /!*{renderTabPanel(value)}*!/*/}
+            {/*        */}
+            {/*        /!*<NavMenu label={"Rooms"} ids={["a", "b", "c",]} />*!/*/}
+            {/*    </div>*/}
+            {/*    /!*<Button onClick={() => setOpenDialog(true)}>PP</Button>*!/*/}
+            {/*    /!*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*!/*/}
+            {/*    <Flow {...data}/>*/}
+            {/*</div>*/}
         </div>
     );
 };

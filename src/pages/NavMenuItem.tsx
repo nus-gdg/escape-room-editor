@@ -1,41 +1,46 @@
 import React, {memo, useCallback} from "react";
-import {ListItemButton, ListItemText} from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import {NavMenuButton, NavMenuCheckbox} from "./utils";
+import {editIcon, TableCellButton, TableCellCheckbox, TableCellIconButton, TableCellText} from "./utils";
+import {ButtonBase, TableRow} from "@mui/material";
 
 interface NavMenuItemProps {
     id: string,
-    onClick?: (id: string) => void,
+    secondary?: string,
+    checked?: boolean,
     onCheck?: (id: string, checked: boolean) => void,
-    onEditAction?: (id: string) => void,
+    onClick?: (id: string) => void,
+    onEdit?: (id: string) => void,
 }
 
 const NavMenuItem = (
     {
         id = "",
-        onClick,
+        secondary,
+        checked,
         onCheck,
-        onEditAction,
+        onClick,
+        onEdit,
     }: NavMenuItemProps) => {
-    const handleClick = useCallback((event: React.MouseEvent) => {
-        event.stopPropagation();
-        onClick?.(id);
-    }, [onClick]);
-
     const handleCheck = useCallback((checked: boolean) => {
         onCheck?.(id, checked);
     }, [onCheck]);
 
-    const handleEditAction = useCallback(() => {
-        onEditAction?.(id);
-    }, [onEditAction]);
+    const handleClick = useCallback(() => {
+        onClick?.(id);
+    }, [onClick]);
+
+    const handleEdit = useCallback(() => {
+        onEdit?.(id);
+    }, [onEdit]);
 
     return (
-        <ListItemButton onClick={handleClick} disableRipple>
-            <NavMenuCheckbox onChange={handleCheck}/>
-            <ListItemText primary={id}/>
-            <NavMenuButton icon={<EditIcon/>} onClick={handleEditAction}/>
-        </ListItemButton>
+        <TableRow selected={checked} onClick={handleClick} hover>
+            <TableCellCheckbox checked={checked} onChange={handleCheck}/>
+            <TableCellText primary={id}/>
+            {/*<TableCellText primary={id}/>*/}
+            {/*<TableCellButton primary={id} secondary={secondary} onClick={handleClick}/>*/}
+            {/*<TableCellButton primary={id} secondary={secondary} onClick={handleClick}/>*/}
+            <TableCellIconButton icon={editIcon} onClick={handleEdit}/>
+        </TableRow>
     );
 }
 
