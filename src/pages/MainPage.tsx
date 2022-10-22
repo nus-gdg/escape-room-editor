@@ -18,6 +18,8 @@ const data: FlowProps = {
     edges: [],
 }
 
+const testRooms = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
+
 interface TabProps {
     title: string,
     icon: ReactElement,
@@ -89,7 +91,10 @@ const MainPage = () => {
                     {tabs.map(renderTab)}
                 </Tabs>
                 <div className={"page__drawer"}>
-                    <NavMenu label={"Rooms"} names={["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"]}/>
+                    <NavMenu
+                        label={"Rooms"}
+                        names={testRooms}
+                    />
                 </div>
                 {/*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*/}
                 <Flow {...data}/>
