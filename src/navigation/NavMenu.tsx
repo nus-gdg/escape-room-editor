@@ -49,6 +49,11 @@ const NavMenu = (
         }
     }, [names]);
 
+    const handleDelete = useCallback(() => {
+        onDelete?.(selected);
+        setSelected(new Set());
+    }, [onDelete, selected]);
+
     const renderItem = useCallback((name: string) => {
         return (
             <NavItem
@@ -71,7 +76,7 @@ const NavMenu = (
                 selected={selected}
                 onCheck={handleSelectAll}
                 onAdd={onCreate}
-                onDelete={onDelete}
+                onDelete={handleDelete}
             />
             <ul className={"NavMenu-list"}>
                 {names.map(renderItem)}

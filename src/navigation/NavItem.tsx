@@ -30,15 +30,15 @@ const NavItem = (
 
     const handleCheck = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         onCheck?.(name, event.target.checked);
-    }, [onCheck]);
+    }, [onCheck, name]);
 
     const handleClick = useCallback(() => {
         onClick?.(name);
-    }, [onClick]);
+    }, [onClick, name]);
 
     const handleEdit = useCallback(() => {
         onEdit?.(name);
-    }, [onEdit]);
+    }, [onEdit, name]);
 
     const handleMouseDown = useCallback((event: React.MouseEvent) => {
         rippleRef.current?.start(event)

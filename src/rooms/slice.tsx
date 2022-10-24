@@ -1,35 +1,61 @@
-import {RoomData} from "./RoomData";
-import {RoomsAction, RoomsActionId} from "./actions";
-import {uuid} from "../constants";
+import {createSlice, PayloadAction} from "@reduxjs/toolkit";
+import {State} from "../app/store";
+import {createRootNode, FlowData} from "../flow/slice";
 
-export type RoomsState = Record<uuid, RoomData>;
+export const roomType = "room";
 
-export const initialRooms: RoomsState = {
-    "280e4a95-9f9d-4aa0-8339-08cb7a82d10e": {
-        id: "280e4a95-9f9d-4aa0-8339-08cb7a82d10e",
-        title: "HALL",
-    },
-    "78dac654-8bd1-4d51-8b69-2adfeec185e8": {
-        id: "78dac654-8bd1-4d51-8b69-2adfeec185e8",
-        title: "KITCHEN",
-    },
-    "ad65f642-325a-4b4e-9221-d276a1fca597": {
-        id: "ad65f642-325a-4b4e-9221-d276a1fca597",
-        title: "BEDROOM",
-    },
-};
+export interface RoomData extends FlowData {
+    type: typeof roomType,
+}
 
-export const roomsReducer = (state = initialRooms, action: RoomsAction) : RoomsState => {
-    // return state.concat({
-    //     name: `${5}`,
-    // })
-    // return state.map(room => ({...room, name: room.name + '!'}));
-    switch (action.type) {
-        case RoomsActionId.ADD:
-            return { ...state, [action.payload.id]: action.payload };
-    //     case RoomsActionId.CLEAR:
-    //         return { ...state, action };
-        default:
-            return state;
+export function createRoomData(name: string): RoomData {
+    return {
+        name: name,
+        type: roomType,
+        nodes: [createRootNode(roomType, {})],
+        edges: [],
     }
 }
+
+export type RoomsState = Record<string, RoomData>;
+
+const initialState: RoomsState = {
+    hall: createRoomData("hall"),
+    kitchen: createRoomData("kitchen"),
+    bedroom: createRoomData("bedroom"),
+}
+
+export interface CreateRoomPayload {
+    name: string,
+}
+
+export interface UpdateRoomPayload {
+    name: string,
+    data: RoomData,
+}
+
+export interface DeleteRoomsPayload {
+    names: string[],
+}
+
+export const roomsSlice = createSlice({
+    name: "rooms",
+    initialState,
+    reducers: {
+        createRoom: (state, action: PayloadAction<CreateRoomPayload>) => {
+            state[action.payload.name] = createRoomData(action.payload.name);
+        },
+        updateRoom: (state, action: PayloadAction<UpdateRoomPayload>) => {
+            state[action.payload.name] = action.payload.data;
+        },
+        deleteRooms: (state, action: PayloadAction<DeleteRoomsPayload>) => {
+            action.payload.names.forEach(name => {
+                delete state[name];
+            });
+        }
+    }
+});
+
+export const { createRoom, updateRoom, deleteRooms } = roomsSlice.actions;
+export const selectRooms = (state: State) => state.rooms;
+export const roomsReducer = roomsSlice.reducer;

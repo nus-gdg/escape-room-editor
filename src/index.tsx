@@ -1,32 +1,16 @@
-import { ColorModeScript } from "@chakra-ui/react"
 import * as React from "react"
 import ReactDOM from "react-dom"
-import { App } from "./app"
+import {Provider} from "react-redux";
+import {App} from "./app"
+import {store} from "./app/store";
 import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
-
-const theme = createTheme({
-    palette: {
-        mode: 'dark',
-    },
-    components: {
-        MuiCheckbox: {
-            styleOverrides: {
-                root: {
-                    padding: "8px",
-                }
-            }
-        },
-    },
-});
 
 ReactDOM.render(
     <React.StrictMode>
-        <ThemeProvider theme={theme}>
-            <CssBaseline/>
+        <Provider store={store}>
             <App/>
-        </ThemeProvider>
+        </Provider>
     </React.StrictMode>,
     document.getElementById("root"),
 )

@@ -12,13 +12,21 @@ import {NodeType} from "../flow/utils";
 import "./MainPage.css"
 import NavMenu from "../navigation/NavMenu";
 import Banner from "./Banner";
+import {RoomsMenu} from "../rooms/RoomsMenu";
+import RootNode from "../flow/RootNode";
+import PassageNode from "../flow/PassageNode";
+import ReactionOptionNode from "../flow/ReactionOptionNode";
+import TextOptionNode from "../flow/TextOptionNode";
+import {createFlowData, createRootNode, FlowData} from "../flow/slice";
 
-const data: FlowProps = {
-    nodes: [{id: "0", type: NodeType.Root, data: {}, position: {x: 0, y: 0}, deletable: false, draggable: false}],
-    edges: [],
+const data = createFlowData("toilet", "test", createRootNode("root", {}));
+
+const nodeTypes = {
+    [NodeType.Root]: RootNode,
+    [NodeType.Passage]: PassageNode,
+    [NodeType.ReactionOption]: ReactionOptionNode,
+    [NodeType.TextOption]: TextOptionNode,
 }
-
-const testRooms = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l"];
 
 interface TabProps {
     title: string,
@@ -91,13 +99,14 @@ const MainPage = () => {
                     {tabs.map(renderTab)}
                 </Tabs>
                 <div className={"page__drawer"}>
-                    <NavMenu
-                        label={"Rooms"}
-                        names={testRooms}
-                    />
+                    {/*<NavMenu*/}
+                    {/*    label={"Rooms"}*/}
+                    {/*    names={testRooms}*/}
+                    {/*/>*/}
+                    <RoomsMenu/>
                 </div>
                 {/*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*/}
-                <Flow {...data}/>
+                <Flow data={data} nodeTypes={nodeTypes}/>
             </div>
         </div>
     );

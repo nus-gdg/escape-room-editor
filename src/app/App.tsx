@@ -1,37 +1,30 @@
-import React, {createContext, Dispatch, useReducer} from 'react'
-import {GeneralPage} from "../pages";
-import {initialStore, reducers, Store} from "./store";
-import {Action, createUuid} from "../constants";
-import './App.css';
+import React from 'react'
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import MainPage from "../pages/MainPage";
+import './App.css';
 
-export const AppStore = createContext<Store>({} as Store);
-export const AppDispatch = createContext<Dispatch<Action>>(() => {});
-
-AppStore.displayName = "AppStore";
-AppDispatch.displayName = "AppDispatch";
+const theme = createTheme({
+    palette: {
+        mode: 'dark',
+    },
+    components: {
+        MuiCheckbox: {
+            styleOverrides: {
+                root: {
+                    padding: "8px",
+                }
+            }
+        },
+    },
+});
 
 export const App = () => {
-    const [state, dispatch] = useReducer<React.Reducer<Store, Action>>(
-        reducers,
-        initialStore,
-    );
-
-    function testUuids() {
-        for (let i = 0; i < 10; i++) {
-            console.log(createUuid());
-        }
-    }
-
     return (
-        <div id={"app"} >
-            {/*<ChakraProvider resetCSS>*/}
-            <AppDispatch.Provider value={dispatch}>
-                <AppStore.Provider value={state}>
-                    <MainPage />
-                </AppStore.Provider>
-            </AppDispatch.Provider>
-            {/*</ChakraProvider>*/}
+        <div id={"app"}>
+            <ThemeProvider theme={theme}>
+                <CssBaseline/>
+                <MainPage />
+            </ThemeProvider>
         </div>
     )
 }

@@ -8,25 +8,24 @@ import {NodeType} from "./utils";
 import {OnConnectStartParams} from "@reactflow/core/dist/esm/types/general";
 import "reactflow/dist/base.css";
 import "./Flow.css";
-
-const nodeTypes = {
-    [NodeType.Root]: RootNode,
-    [NodeType.Passage]: PassageNode,
-    [NodeType.ReactionOption]: ReactionOptionNode,
-    [NodeType.TextOption]: TextOptionNode,
-}
+import {FlowData} from "./slice";
+import {NodeTypes} from "@reactflow/core/dist/esm/types";
 
 export interface FlowProps {
-    nodes: Node[],
-    edges: Edge[],
+    nodeTypes: NodeTypes,
+    data?: FlowData,
 }
 
-const Flow = (props: FlowProps) => {
+const Flow = (
+    {
+        nodeTypes,
+        data,
+    } : FlowProps) => {
     const connectionRef = useRef<OnConnectStartParams | null>(null);
     const flowViewportRef = useRef<HTMLDivElement>(null);
     const [flow, setFlow] = useState<ReactFlowInstance | null>(null);
-    const [nodes, setNodes, onNodesChange] = useNodesState(props.nodes);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(props.edges);
+    const [nodes, setNodes, onNodesChange] = useNodesState(data ? data.nodes : []);
+    const [edges, setEdges, onEdgesChange] = useEdgesState(data ? data.edges : []);
 
     const isCreatingNode = useCallback((event: MouseEvent): boolean => {
         // Check if mouse is clicking on empty canvas space
