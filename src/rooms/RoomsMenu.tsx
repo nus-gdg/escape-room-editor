@@ -1,9 +1,9 @@
-import {useCallback} from "react";
+import {memo, useCallback} from "react";
 import {useDispatch, useSelector} from "../app/hooks";
 import NavMenu from "../navigation/NavMenu";
-import {createRoom, deleteRooms, selectRooms} from "./slice";
+import {createRoom, deleteRooms, selectRooms} from "./roomsSlice";
 
-export const RoomsMenu = () => {
+export const RoomsMenu = memo(() => {
     const dispatch = useDispatch();
     const rooms = useSelector(selectRooms);
 
@@ -30,4 +30,4 @@ export const RoomsMenu = () => {
 // onUpdate?: (name: string) => void,
         />
     )
-}
+})

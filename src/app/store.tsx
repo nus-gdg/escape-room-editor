@@ -8,8 +8,9 @@
 // import {ItemsAction} from "../items/actions";
 // import {initialItems, itemsReducer, ItemsState} from "../items/slice";
 import {configureStore, combineReducers} from "@reduxjs/toolkit";
-import {flowReducer} from "../flow/slice";
-import {roomsReducer} from "../rooms/slice";
+import {flowReducer} from "../flow";
+import {roomsReducer} from "../rooms";
+// import {itemsReducer} from "../items";
 
 // export interface Store {
 //     // rooms: RoomsState,
@@ -36,6 +37,7 @@ import {roomsReducer} from "../rooms/slice";
 
 export const reducer = combineReducers({
     flow: flowReducer,
+    // items: itemsReducer,
     rooms: roomsReducer,
 });
 

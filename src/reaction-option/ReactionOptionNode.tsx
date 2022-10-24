@@ -2,7 +2,7 @@ import {memo} from "react";
 import {Handle, Position} from "reactflow";
 import {TextBox} from "../forms";
 import {Button, FormControl, InputLabel, NativeSelect,} from "@mui/material";
-import {CustomNode, CustomNodeActions, CustomNodeDetails, CustomNodeHeader, NodeType} from "./utils";
+import {CustomNode, CustomNodeActions, CustomNodeDetails, CustomNodeHeader, NodeType} from "../flow/utils";
 import "./ReactionOptionNode.css";
 
 const ReactionOptionNode = () => {

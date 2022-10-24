@@ -1,21 +1,7 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {State} from "../app/store";
-import {createRootNode, FlowData} from "../flow/slice";
-
-export const roomType = "room";
-
-export interface RoomData extends FlowData {
-    type: typeof roomType,
-}
-
-export function createRoomData(name: string): RoomData {
-    return {
-        name: name,
-        type: roomType,
-        nodes: [createRootNode(roomType, {})],
-        edges: [],
-    }
-}
+import {createRootNode, FlowData} from "../flow/FlowData";
+import {createRoomData, RoomData} from "./RoomData";
 
 export type RoomsState = Record<string, RoomData>;
 

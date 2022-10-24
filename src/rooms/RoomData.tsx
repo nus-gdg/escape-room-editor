@@ -1,6 +1,16 @@
-import {uuid} from "../constants";
+import {createRootNode, FlowData} from "../flow/FlowData";
 
-export interface RoomData {
-    id: uuid,
-    title: string,
+export const nodeType = "room";
+
+export interface RoomData extends FlowData {
+    type: typeof nodeType,
+}
+
+export function createRoomData(name: string): RoomData {
+    return {
+        name: name,
+        type: nodeType,
+        nodes: [createRootNode(nodeType, {})],
+        edges: [],
+    }
 }

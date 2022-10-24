@@ -1,22 +1,17 @@
 import React, {memo, useCallback, useRef, useState} from "react";
 import ReactFlow, {addEdge, Background, Connection, Edge, Node, ReactFlowInstance, useEdgesState, useNodesState, XYPosition} from "reactflow";
-import RootNode from "./RootNode";
-import PassageNode from "./PassageNode";
-import ReactionOptionNode from "./ReactionOptionNode";
-import TextOptionNode from "./TextOptionNode";
-import {NodeType} from "./utils";
+import {NodeTypes} from "@reactflow/core/dist/esm/types";
 import {OnConnectStartParams} from "@reactflow/core/dist/esm/types/general";
 import "reactflow/dist/base.css";
+import {FlowData} from "./FlowData";
 import "./Flow.css";
-import {FlowData} from "./slice";
-import {NodeTypes} from "@reactflow/core/dist/esm/types";
 
 export interface FlowProps {
     nodeTypes: NodeTypes,
     data?: FlowData,
 }
 
-const Flow = (
+export const Flow = memo((
     {
         nodeTypes,
         data,
@@ -135,6 +130,4 @@ const Flow = (
             </ReactFlow>
         </div>
     )
-}
-
-export default memo(Flow);
+});

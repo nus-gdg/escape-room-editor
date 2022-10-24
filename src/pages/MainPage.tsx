@@ -7,26 +7,19 @@ import InfoIcon from '@mui/icons-material/Info';
 import PublicIcon from "@mui/icons-material/Public";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
-import Flow, {FlowProps} from "../flow/Flow";
-import {NodeType} from "../flow/utils";
-import "./MainPage.css"
-import NavMenu from "../navigation/NavMenu";
+import {RoomsMenu} from "../rooms";
 import Banner from "./Banner";
-import {RoomsMenu} from "../rooms/RoomsMenu";
-import RootNode from "../flow/RootNode";
-import PassageNode from "../flow/PassageNode";
-import ReactionOptionNode from "../flow/ReactionOptionNode";
-import TextOptionNode from "../flow/TextOptionNode";
-import {createFlowData, createRootNode, FlowData} from "../flow/slice";
+import Canvas from "./Canvas";
+import "./MainPage.css"
 
-const data = createFlowData("toilet", "test", createRootNode("root", {}));
+// const data = createFlowData("toilet", "test", createRootNode("room", {}));
 
-const nodeTypes = {
-    [NodeType.Root]: RootNode,
-    [NodeType.Passage]: PassageNode,
-    [NodeType.ReactionOption]: ReactionOptionNode,
-    [NodeType.TextOption]: TextOptionNode,
-}
+// const nodeTypes = {
+    // [roomType]: RoomNode,
+    // [NodeType.Passage]: PassageNode,
+    // [NodeType.ReactionOption]: ReactionOptionNode,
+    // [NodeType.TextOption]: TextOptionNode,
+// }
 
 interface TabProps {
     title: string,
@@ -106,7 +99,8 @@ const MainPage = () => {
                     <RoomsMenu/>
                 </div>
                 {/*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*/}
-                <Flow data={data} nodeTypes={nodeTypes}/>
+                {/*<Flow data={data} nodeTypes={nodeTypes}/>*/}
+                <Canvas/>
             </div>
         </div>
     );

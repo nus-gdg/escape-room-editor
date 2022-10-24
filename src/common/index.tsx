@@ -1,20 +1,3 @@
-import {RoomData} from "./index";
-import {FlowProps} from "../flow/Flow";
-import {NodeType} from "../flow/utils";
-import {Edge, Node, XYPosition} from "reactflow";
-
-export interface RoomProps {
-    data: RoomData,
-}
-
-export const Room = ({data}: RoomProps) => {
-    return (
-        <div>
-            {data.title}
-        </div>
-    )
-}
-
 // const data: FlowProps = {
 //     nodes: [{id: "0", type: NodeType.Root, data: {}, position: {x: 0, y: 0}, deletable: false, draggable: false}],
 //     edges: [],
@@ -81,3 +64,4 @@ export const Room = ({data}: RoomProps) => {
 //     flags: Record<string, FlagData>,
 //     flow: FlowData,
 // }
+export const template = 5;
