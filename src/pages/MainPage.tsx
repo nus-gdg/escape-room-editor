@@ -7,9 +7,9 @@ import InfoIcon from '@mui/icons-material/Info';
 import PublicIcon from "@mui/icons-material/Public";
 import SettingsIcon from "@mui/icons-material/Settings";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
-// import {RoomsMenu} from "../rooms";
 import Banner from "../containers/Banner";
 import Canvas from "../containers/Canvas";
+import {RoomsMenu} from "../containers/menus";
 import "./MainPage.css"
 
 // const data = createFlowData("toilet", "test", createRootNode("room", {}));
@@ -96,7 +96,7 @@ const MainPage = () => {
                     {/*    label={"Rooms"}*/}
                     {/*    names={testRooms}*/}
                     {/*/>*/}
-                    {/*<RoomsMenu/>*/}
+                    <RoomsMenu/>
                 </div>
                 {/*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*/}
                 {/*<Flow data={data} nodeTypes={nodeTypes}/>*/}

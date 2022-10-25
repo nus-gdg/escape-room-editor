@@ -1,20 +1,15 @@
-import {memo} from "react";
-import {Handle, Position} from "reactflow";
+import {ReactElement} from "react";
+import {HandleProps, NodeProps} from "reactflow";
+import {FormControl, InputLabel, NativeSelect,} from "@mui/material";
+import {CustomNode} from "../flow";
 import {TextBox} from "../forms";
-import {Button, FormControl, InputLabel, NativeSelect,} from "@mui/material";
-import {CustomNode, CustomNodeActions, CustomNodeDetails, CustomNodeHeader, CustomNodeProps} from "../flow";
-import "./TextOptionNode.css";
 import {TextOptionData} from "./TextOptionData";
+import "./TextOptionNode.css";
 
-export const TextOptionNode = memo((props: CustomNodeProps<TextOptionData>) => {
-    return (
-        <CustomNode>
-            <CustomNodeHeader>
-                <strong>Text Option</strong>
-                {/*<Handle type="target" position={Position.Left} id={NodeType.TextOption}/>*/}
-                {/*<Handle type="source" position={Position.Right} id={NodeType.Passage}/>*/}
-            </CustomNodeHeader>
-            <CustomNodeDetails className="node-text-option__body">
+export function makeTextOptionNode(title: string, ...handles: ReactElement<HandleProps>[]) {
+    return ({data}: NodeProps<TextOptionData>) => {
+        return (
+            <CustomNode title={title} handles={handles}>
                 <FormControl fullWidth>
                     <InputLabel variant="standard" htmlFor="select">Type</InputLabel>
                     <NativeSelect
@@ -31,11 +26,7 @@ export const TextOptionNode = memo((props: CustomNodeProps<TextOptionData>) => {
                 <TextBox label={"Summary"} id={"summary"} />
                 <TextBox label={"Condition"} id={"condition"} />
                 <TextBox label={"Modifiers"} id={"modifiers"} />
-            </CustomNodeDetails>
-            <CustomNodeActions className="node-text-option__footer">
-                <Button>Save</Button>
-                <Button>Cancel</Button>
-            </CustomNodeActions>
-        </CustomNode>
-    );
-})
+            </CustomNode>
+        );
+    }
+}

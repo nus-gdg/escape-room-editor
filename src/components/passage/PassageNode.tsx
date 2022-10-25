@@ -1,30 +1,19 @@
-import {memo} from "react";
-import {Handle, Position} from "reactflow";
+import {ReactElement} from "react";
+import {HandleProps, NodeProps} from "reactflow";
+import {CustomNode} from "../flow";
 import {TextBox} from "../forms";
-import {Button} from "@mui/material";
-import {CustomNode, CustomNodeActions, CustomNodeDetails, CustomNodeHeader, CustomNodeProps} from "../flow/utils";
-import "./PassageNode.css";
 import {PassageData} from "./PassageData";
+import "./PassageNode.css";
 
-export const PassageNode = memo((props: CustomNodeProps<PassageData>) => {
-    return (
-        <CustomNode>
-            <CustomNodeHeader className="node-passage__header">
-                <strong>Passage</strong>
-                {/*<Handle type="target" position={Position.Left} id={NodeType.Passage}/>*/}
-                {/*<Handle type="source" position={Position.Right} id={NodeType.TextOption}/>*/}
-                {/*<Handle type="source" position={Position.Right} id={NodeType.ReactionOption}/>*/}
-            </CustomNodeHeader>
-            <CustomNodeDetails className="node-passage__body">
+export function makePassageNode(title: string, ...handles: ReactElement<HandleProps>[]) {
+    return ({data}: NodeProps<PassageData>) => {
+        return (
+            <CustomNode title={title} handles={handles}>
                 <TextBox label={"Text"} id={"text"} />
                 <TextBox label={"Images"} id={"images"} />
                 <TextBox label={"Condition"} id={"condition"} />
                 <TextBox label={"Modifiers"} id={"modifiers"} />
-            </CustomNodeDetails>
-            <CustomNodeActions className="option-node__footer">
-                <Button>Save</Button>
-                <Button>Cancel</Button>
-            </CustomNodeActions>
-        </CustomNode>
-    );
-})
+            </CustomNode>
+        );
+    }
+}

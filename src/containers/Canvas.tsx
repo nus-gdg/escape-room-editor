@@ -1,9 +1,10 @@
 import {memo} from "react";
 import {useDispatch, useSelector} from "../app";
-import {createSourceHandle, createTargetHandle, Flow, withHandles} from "../components/flow";
-import {PassageNode as BasePassageNode} from "../components/passage";
-import {ReactionOptionNode as BaseReactionOptionNode} from "../components/reaction-option";
-import {TextOptionNode as BaseTextOptionNode} from "../components/text-option";
+import {createSourceHandle, createTargetHandle, Flow} from "../components/flow";
+import {makePassageNode} from "../components/passage";
+import {makeReactionOptionNode} from "../components/reaction-option";
+import {makeRoomNode} from "../components/room";
+import {makeTextOptionNode} from "../components/text-option";
 import {openFlow, selectFlow} from "../slices";
 
 const Canvas = () => {
@@ -30,42 +31,42 @@ export enum NodeId {
     Passage = "passage",
 }
 
-// const RoomNode = withHandles(
-//     BaseRootNode,
-//     createSourceHandle(NodeId.Passage),
-// );
-//
+const RoomNode = makeRoomNode(
+    "Room",
+    createSourceHandle(NodeId.Passage),
+);
+
 // const ItemNode = withHandles(
 //     BaseRootNode,
 //     createSourceHandle(NodeId.Passage),
 // );
 
-const GlobalOptionNode = withHandles(
-    BaseTextOptionNode,
-    createSourceHandle(NodeId.Passage),
+const GlobalOptionNode = makeTextOptionNode(
+    "Global Option",
+    createSourceHandle(NodeId.GlobalOption),
 );
 
-const TextOptionNode = withHandles(
-    BaseTextOptionNode,
+const TextOptionNode = makeTextOptionNode(
+    "Text Option",
     createTargetHandle(NodeId.TextOption),
     createSourceHandle(NodeId.Passage),
 );
 
-const ReactionOptionNode = withHandles(
-    BaseReactionOptionNode,
+const ReactionOptionNode = makeReactionOptionNode(
+    "Reaction Option",
     createTargetHandle(NodeId.ReactionOption),
     createSourceHandle(NodeId.Passage),
 );
 
-const PassageNode = withHandles(
-    BasePassageNode,
+const PassageNode = makePassageNode(
+    "Passage",
     createTargetHandle(NodeId.Passage),
     createSourceHandle(NodeId.TextOption),
     createSourceHandle(NodeId.Passage),
 );
 
 export const nodeTypes = {
-    // [NodeId.Room]: RoomNode,
+    [NodeId.Room]: RoomNode,
     // [NodeId.Room]: ItemNode,
     [NodeId.GlobalOption]: GlobalOptionNode,
     [NodeId.ReactionOption]: ReactionOptionNode,

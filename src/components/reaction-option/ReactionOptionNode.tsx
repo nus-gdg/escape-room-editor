@@ -1,20 +1,15 @@
-import {memo} from "react";
-import {Handle, Position} from "reactflow";
+import {ReactElement} from "react";
+import {HandleProps, NodeProps} from "reactflow";
+import {FormControl, InputLabel, NativeSelect,} from "@mui/material";
+import {CustomNode} from "../flow";
 import {TextBox} from "../forms";
-import {Button, FormControl, InputLabel, NativeSelect,} from "@mui/material";
-import {CustomNode, CustomNodeActions, CustomNodeDetails, CustomNodeHeader, CustomNodeProps} from "../flow";
-import "./ReactionOptionNode.css";
 import {ReactionOptionData} from "./ReactionOptionData";
+import "./ReactionOptionNode.css";
 
-export const ReactionOptionNode = memo((props: CustomNodeProps<ReactionOptionData>) => {
-    return (
-        <CustomNode>
-            <CustomNodeHeader>
-                <strong>Reaction Option</strong>
-                {/*<Handle type="target" position={Position.Left} id={NodeType.ReactionOption}/>*/}
-                {/*<Handle type="source" position={Position.Right} id={NodeType.Passage}/>*/}
-            </CustomNodeHeader>
-            <CustomNodeDetails className="node-reaction-option__body">
+export function makeReactionOptionNode(title: string, ...handles: ReactElement<HandleProps>[]) {
+    return ({data}: NodeProps<ReactionOptionData>) => {
+        return (
+            <CustomNode title={title} handles={handles}>
                 <FormControl fullWidth>
                     <InputLabel variant="standard" htmlFor="select">Type</InputLabel>
                     <NativeSelect
@@ -31,11 +26,7 @@ export const ReactionOptionNode = memo((props: CustomNodeProps<ReactionOptionDat
                 <TextBox label={"Summary"} id={"summary"} />
                 <TextBox label={"Condition"} id={"condition"} />
                 <TextBox label={"Modifiers"} id={"modifiers"} />
-            </CustomNodeDetails>
-            <CustomNodeActions className="node-reaction-option__footer">
-                <Button>Save</Button>
-                <Button>Cancel</Button>
-            </CustomNodeActions>
-        </CustomNode>
-    );
-})
+            </CustomNode>
+        );
+    }
+}

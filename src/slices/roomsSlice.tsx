@@ -1,7 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {State} from "../app/store";
-import {createRootNode, FlowData} from "../components/flow/FlowData";
-import {createRoomData, RoomData} from "../components/room/RoomData";
+import {State} from "../app";
+import {createRoomData, RoomData} from "../components/room";
 
 export type RoomsState = Record<string, RoomData>;
 

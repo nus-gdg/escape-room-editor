@@ -1,21 +1,46 @@
-import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
-import MuiAccordionActions, { AccordionActionsProps } from '@mui/material/AccordionActions';
-import MuiAccordionDetails, { AccordionDetailsProps } from '@mui/material/AccordionDetails';
-import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
+import React, {ReactElement, ReactNode} from "react";
+import {Handle, HandleProps, Position} from "reactflow";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {Handle, HandleProps, NodeProps, Position} from "reactflow";
-import React, {ReactElement} from "react";
+import Accordion from '@mui/material/Accordion';
+import AccordionDetails from '@mui/material/AccordionDetails';
+import AccordionSummary from '@mui/material/AccordionSummary';
 
-export interface CustomNodeProps<T> {
-    nodeProps: NodeProps<T>,
-    handles: ReactElement<HandleProps> | Array<ReactElement<HandleProps>>,
+export interface CustomNodeProps {
+    title: string,
+    handles?: ReactElement<HandleProps> | Array<ReactElement<HandleProps>>,
+    children?: ReactNode,
 }
 
-export function withHandles<T>(
-    Component: React.ComponentType<CustomNodeProps<T>>,
-    ...handles: ReactElement<HandleProps>[]
-) {
-    return (props: NodeProps<T>) => <Component nodeProps={props} handles={handles}/>;
+const nodeTransitionProps = { unmountOnExit: true };
+const nodeHeaderExpandIcon = <ExpandMoreIcon sx={{pointerEvents: "auto"}} />;
+const nodeHeaderSx = {pointerEvents: "none"};
+
+export const CustomNode = (
+    {
+        title,
+        handles,
+        children,
+    }: CustomNodeProps) => {
+    if (children) {
+        return (
+            <Accordion className="node" elevation={0} TransitionProps={nodeTransitionProps} disableGutters>
+                <AccordionSummary sx={nodeHeaderSx} expandIcon={nodeHeaderExpandIcon}>
+                    <strong>{title}</strong>
+                    {handles}
+                </AccordionSummary>
+                <AccordionDetails>
+                    {children}
+                </AccordionDetails>
+            </Accordion>
+        );
+    } else {
+        return (
+            <div className="node">
+                <strong>{title}</strong>
+                {handles}
+            </div>
+        )
+    }
 }
 
 export function createSourceHandle(id: string) {
@@ -24,41 +49,4 @@ export function createSourceHandle(id: string) {
 
 export function createTargetHandle(id: string) {
     return <Handle id={id} type={"target"} position={Position.Left}/>
-}
-
-export const CustomNode = (props: AccordionProps) => {
-    return (
-        <MuiAccordion
-            disableGutters
-            elevation={0}
-            TransitionProps={{ unmountOnExit: true }}
-            {...props}
-        />
-    )
-}
-
-export const CustomNodeHeader = (props: AccordionSummaryProps) => {
-    return (
-        <MuiAccordionSummary
-            sx={{pointerEvents: "none"}}
-            expandIcon={<ExpandMoreIcon sx={{pointerEvents: "auto"}} />}
-            {...props}
-        />
-    )
-}
-
-export const CustomNodeDetails = (props: AccordionDetailsProps) => {
-    return (
-        <MuiAccordionDetails
-            {...props}
-        />
-    )
-}
-
-export const CustomNodeActions = (props: AccordionActionsProps) => {
-    return (
-        <MuiAccordionActions
-            {...props}
-        />
-    )
 }
