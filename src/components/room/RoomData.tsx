@@ -1,4 +1,4 @@
-import {createRootNode, FlowData} from "../flow/FlowData";
+import {createRootNode, FlowData} from "../flow";
 
 export const nodeType = "room";
 

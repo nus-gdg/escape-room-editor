@@ -1,6 +1,6 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {State} from "../app/store";
-import {createRootNode, FlowData} from "../flow";
+import {createRootNode, FlowData} from "../components/flow";
 
 export const itemType = "item";
 

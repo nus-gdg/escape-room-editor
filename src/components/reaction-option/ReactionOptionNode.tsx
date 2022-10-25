@@ -2,18 +2,19 @@ import {memo} from "react";
 import {Handle, Position} from "reactflow";
 import {TextBox} from "../forms";
 import {Button, FormControl, InputLabel, NativeSelect,} from "@mui/material";
-import {CustomNode, CustomNodeActions, CustomNodeDetails, CustomNodeHeader, NodeType} from "../flow/utils";
-import "./TextOptionNode.css";
+import {CustomNode, CustomNodeActions, CustomNodeDetails, CustomNodeHeader, CustomNodeProps} from "../flow";
+import "./ReactionOptionNode.css";
+import {ReactionOptionData} from "./ReactionOptionData";
 
-const TextOptionNode = () => {
+export const ReactionOptionNode = memo((props: CustomNodeProps<ReactionOptionData>) => {
     return (
         <CustomNode>
             <CustomNodeHeader>
-                <strong>Text Option</strong>
-                <Handle type="target" position={Position.Left} id={NodeType.TextOption}/>
-                <Handle type="source" position={Position.Right} id={NodeType.Passage}/>
+                <strong>Reaction Option</strong>
+                {/*<Handle type="target" position={Position.Left} id={NodeType.ReactionOption}/>*/}
+                {/*<Handle type="source" position={Position.Right} id={NodeType.Passage}/>*/}
             </CustomNodeHeader>
-            <CustomNodeDetails className="node-text-option__body">
+            <CustomNodeDetails className="node-reaction-option__body">
                 <FormControl fullWidth>
                     <InputLabel variant="standard" htmlFor="select">Type</InputLabel>
                     <NativeSelect
@@ -31,12 +32,10 @@ const TextOptionNode = () => {
                 <TextBox label={"Condition"} id={"condition"} />
                 <TextBox label={"Modifiers"} id={"modifiers"} />
             </CustomNodeDetails>
-            <CustomNodeActions className="node-text-option__footer">
+            <CustomNodeActions className="node-reaction-option__footer">
                 <Button>Save</Button>
                 <Button>Cancel</Button>
             </CustomNodeActions>
         </CustomNode>
     );
-}
-
-export default memo(TextOptionNode);
+})

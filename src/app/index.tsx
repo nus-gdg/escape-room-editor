@@ -1,5 +1,3 @@
-import {App} from "./App";
-import {useDispatch} from "./useDispatch";
-import {useStore} from "./useStore";
-
-export {App, useDispatch, useStore};
+export * from "./App";
+export * from "./hooks";
+export * from "./store";

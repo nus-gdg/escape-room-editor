@@ -1,7 +1,7 @@
 import {memo, useCallback} from "react";
-import {useDispatch, useSelector} from "../app/hooks";
-import NavMenu from "../navigation/NavMenu";
-import {createRoom, deleteRooms, selectRooms} from "./roomsSlice";
+import {useDispatch, useSelector} from "../../app/hooks";
+import NavMenu from "../../components/navigation/NavMenu";
+import {createRoom, deleteRooms, selectRooms} from "../../slices/roomsSlice";
 
 export const RoomsMenu = memo(() => {
     const dispatch = useDispatch();

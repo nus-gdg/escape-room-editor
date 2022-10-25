@@ -3,30 +3,27 @@ import MuiAccordionActions, { AccordionActionsProps } from '@mui/material/Accord
 import MuiAccordionDetails, { AccordionDetailsProps } from '@mui/material/AccordionDetails';
 import MuiAccordionSummary, { AccordionSummaryProps } from '@mui/material/AccordionSummary';
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {Handle, HandleProps, Position} from "reactflow";
-import {Connection, OnConnect} from "@reactflow/core/dist/esm/types/general";
-import {HandleType} from "@reactflow/core/dist/esm/types/handles";
+import {Handle, HandleProps, NodeProps, Position} from "reactflow";
 import React, {ReactElement} from "react";
 
-export enum NodeType {
-    Root = "root",
-    Passage = "passage",
-    TextOption = "text-option",
-    ReactionOption = "reaction-option",
+export interface CustomNodeProps<T> {
+    nodeProps: NodeProps<T>,
+    handles: ReactElement<HandleProps> | Array<ReactElement<HandleProps>>,
 }
 
-export interface NodeProps {
-    handles?: ReactElement<HandleProps> | Array<ReactElement<HandleProps>>
+export function withHandles<T>(
+    Component: React.ComponentType<CustomNodeProps<T>>,
+    ...handles: ReactElement<HandleProps>[]
+) {
+    return (props: NodeProps<T>) => <Component nodeProps={props} handles={handles}/>;
 }
 
-export function withHandles<T extends NodeProps>(...handles: ReactElement<HandleProps>[]) {
-    return (Component: React.ComponentType<T>) => {
-        return (props: Omit<T, keyof NodeProps>) => {
-            return (
-                <Component {...props as T} handles={handles}/>
-            )
-        };
-    }
+export function createSourceHandle(id: string) {
+    return <Handle id={id} type={"source"} position={Position.Right}/>
+}
+
+export function createTargetHandle(id: string) {
+    return <Handle id={id} type={"target"} position={Position.Left}/>
 }
 
 export const CustomNode = (props: AccordionProps) => {

@@ -1,14 +1,13 @@
 import {memo} from "react";
-import {Handle, Position} from "reactflow";
+import {Handle, Node, Position} from "reactflow";
 import "./RootNode.css";
+import {CustomNodeProps} from "./utils";
 
-const RootNode = () => {
+export const RootNode = memo((props: CustomNodeProps<{}>) => {
     return (
         <div className="node-root__header">
             <strong>Root</strong>
             {/*<Handle type="source" position={Position.Right} id={NodeType.Passage}/>*/}
         </div>
     );
-}
-
-export default memo(RootNode);
+})
