@@ -1,16 +1,20 @@
-.react-flow__node-passage [data-handleid="passage"] {
+.PassageNode-root {
+    width: 300px;
+}
+
+.PassageNode-root [data-handleid="passage"] {
     top: 50%;
     left: 0;
     transform: translate(-50%, -50%);
 }
 
-.react-flow__node-passage [data-handleid="reaction-option"] {
+.PassageNode-root [data-handleid="reaction-option"] {
     top: 25%;
     right: 0;
     transform: translate(50%, -50%);
 }
 
-.react-flow__node-passage [data-handleid="text-option"] {
+.PassageNode-root [data-handleid="text-option"] {
     top: 75%;
     right: 0;
     transform: translate(50%, -50%);

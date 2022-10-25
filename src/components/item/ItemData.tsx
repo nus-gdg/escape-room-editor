@@ -1,16 +1,15 @@
 import {createRootNode, FlowData} from "../flow";
+import {FlowId, NodeId} from "../common";
 
-export const itemType = "item";
-
-export interface RoomData extends FlowData {
-    type: typeof item,
+export interface ItemData extends FlowData {
+    type: FlowId.Item,
 }
 
-export function createRoomData(name: string): RoomData {
+export function createItemData(name: string): ItemData {
     return {
         name: name,
-        type: roomType,
-        nodes: [createRootNode(roomType, {})],
+        type: FlowId.Item,
+        nodes: [createRootNode(NodeId.Item, {})],
         edges: [],
     }
 }

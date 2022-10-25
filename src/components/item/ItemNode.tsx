@@ -1,11 +1,15 @@
-import {ReactElement} from "react";
-import {HandleProps, NodeProps} from "reactflow";
-import {CustomNode} from "../flow";
+import {memo} from "react";
+import {NodeProps} from "reactflow";
+import {NodeId} from "../common";
+import {CustomNode, SourceHandle} from "../flow";
+import "./ItemNode.css";
 
-export function makeRoomNode(title: string, ...handles: ReactElement<HandleProps>[]) {
-    return ({data}: NodeProps<{}>) => {
-        return (
-            <CustomNode title={title} handles={handles}/>
-        );
-    }
-}
+export const ItemNode = memo(({data}: NodeProps<{}>) => {
+    return (
+        <CustomNode
+            className={"ItemNode-root"}
+            title={"Item"}
+            handles={<SourceHandle id={NodeId.Passage}/>}
+        />
+    );
+})

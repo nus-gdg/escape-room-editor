@@ -3,16 +3,15 @@ import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
 import {CustomNode, SourceHandle, TargetHandle} from "../flow";
 import {TextBox} from "../forms";
-import {ReactionOptionData} from "./ReactionOptionData";
-import "./ReactionOptionNode.css";
+import {TextOptionData} from "../text-option";
+import "./GlobalOptionNode.css";
 
-export const ReactionOptionNode = memo(({data}: NodeProps<ReactionOptionData>) => {
+export const GlobalOptionNode = memo(({data}: NodeProps<TextOptionData>) => {
     return (
         <CustomNode
-            className={"ReactionOptionNode-root"}
-            title={"Reaction Option"}
+            className={"GlobalOptionNode-root"}
+            title={"Global Option"}
             handles={[
-                <TargetHandle id={NodeId.ReactionOption}/>,
                 <SourceHandle id={NodeId.Passage}/>,
             ]}
         >

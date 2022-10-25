@@ -1,10 +1,14 @@
-.react-flow__node-reaction-option [data-handleid="reaction-option"] {
+.ReactionOptionNode-root {
+    width: 300px;
+}
+
+.ReactionOptionNode-root [data-handleid="reaction-option"] {
     top: 50%;
     left: 0;
     transform: translate(-50%, -50%);
 }
 
-.react-flow__node-reaction-option [data-handleid="passage"] {
+.ReactionOptionNode-root [data-handleid="passage"] {
     top: 50%;
     right: 0;
     transform: translate(50%, -50%);

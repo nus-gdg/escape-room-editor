@@ -1,32 +1,25 @@
-import {ReactElement} from "react";
-import {HandleProps, NodeProps} from "reactflow";
-import {FormControl, InputLabel, NativeSelect,} from "@mui/material";
-import {CustomNode} from "../flow";
+import {memo} from "react";
+import {NodeProps} from "reactflow";
+import {NodeId} from "../common";
+import {CustomNode, SourceHandle, TargetHandle} from "../flow";
 import {TextBox} from "../forms";
 import {TextOptionData} from "./TextOptionData";
 import "./TextOptionNode.css";
 
-export function makeTextOptionNode(title: string, ...handles: ReactElement<HandleProps>[]) {
-    return ({data}: NodeProps<TextOptionData>) => {
-        return (
-            <CustomNode title={title} handles={handles}>
-                <FormControl fullWidth>
-                    <InputLabel variant="standard" htmlFor="select">Type</InputLabel>
-                    <NativeSelect
-                        sx={{width: "100%", color: "#FFFFFF"}}
-                        // value={undefined}
-                        id={"select"}
-                        className="nodrag"
-                    >
-                        <option value={"text"}>Text</option>
-                        <option value={"reaction"}>Reaction</option>
-                    </NativeSelect>
-                </FormControl>
-                <TextBox label={"Emoji"} id={"emoji"} />
-                <TextBox label={"Summary"} id={"summary"} />
-                <TextBox label={"Condition"} id={"condition"} />
-                <TextBox label={"Modifiers"} id={"modifiers"} />
-            </CustomNode>
-        );
-    }
-}
+export const TextOptionNode = memo(({data}: NodeProps<TextOptionData>) => {
+    return (
+        <CustomNode
+            className={"TextOptionNode-root"}
+            title={"Text Option"}
+            handles={[
+                <TargetHandle id={NodeId.TextOption}/>,
+                <SourceHandle id={NodeId.Passage}/>,
+            ]}
+        >
+            <TextBox label={"Emoji"} id={"emoji"} />
+            <TextBox label={"Summary"} id={"summary"} />
+            <TextBox label={"Condition"} id={"condition"} />
+            <TextBox label={"Modifiers"} id={"modifiers"} />
+        </CustomNode>
+    );
+})
