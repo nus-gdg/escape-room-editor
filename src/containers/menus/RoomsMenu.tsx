@@ -1,7 +1,7 @@
 import {memo, useCallback} from "react";
 import {useDispatch, useSelector} from "../../app";
 import NavMenu from "../../components/navigation/NavMenu";
-import {createRoom, deleteRooms, selectRooms} from "../../slices";
+import {createRoom, deleteRooms, openFlow, selectRooms} from "../../slices";
 
 export const RoomsMenu = memo(() => {
     const dispatch = useDispatch();
@@ -9,7 +9,12 @@ export const RoomsMenu = memo(() => {
 
     const handleCreateRoom = useCallback(() => {
         dispatch(createRoom({name: "new"}));
-    }, []);
+    }, [dispatch]);
+
+    const handleReadRoom = useCallback((name: string) => {
+        console.log(rooms[name]);
+        dispatch(openFlow(rooms[name]));
+    }, [dispatch, rooms]);
 
     // const editRoom = useCallback(() => {
     //     dispatch(editRoom({name: "New Room"}));
@@ -18,15 +23,15 @@ export const RoomsMenu = memo(() => {
     const handleDeleteRooms = useCallback((names: Set<string>) => {
         console.log(names);
         dispatch(deleteRooms({names: Array.from(names)}));
-    }, []);
+    }, [dispatch]);
 
     return (
         <NavMenu
             label={"Rooms"}
             names={Object.keys(rooms)}
             onCreate={handleCreateRoom}
+            onRead={handleReadRoom}
             onDelete={handleDeleteRooms}
-// onRead?: (name: string) => void,
 // onUpdate?: (name: string) => void,
         />
     )

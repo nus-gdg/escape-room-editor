@@ -1,19 +1,19 @@
 import {memo} from "react";
 import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
-import {CustomNode, SourceHandle, TargetHandle} from "../flow";
+import {createSourceHandle, CustomNode} from "../flow";
 import {TextBox} from "../forms";
 import {TextOptionData} from "../text-option";
 import "./GlobalOptionNode.css";
+
+const handles = [createSourceHandle(NodeId.Passage)];
 
 export const GlobalOptionNode = memo(({data}: NodeProps<TextOptionData>) => {
     return (
         <CustomNode
             className={"GlobalOptionNode-root"}
             title={"Global Option"}
-            handles={[
-                <SourceHandle id={NodeId.Passage}/>,
-            ]}
+            handles={handles}
         >
             <TextBox label={"Emoji"} id={"emoji"} />
             <TextBox label={"Summary"} id={"summary"} />

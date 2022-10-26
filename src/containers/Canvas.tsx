@@ -19,7 +19,7 @@ const Canvas = () => {
     )
 };
 
-export default memo(Canvas);
+export default Canvas;
 
 export const nodeTypes = {
     [NodeId.Room]: RoomNode,

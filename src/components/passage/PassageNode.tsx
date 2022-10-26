@@ -1,21 +1,23 @@
-import {memo} from "react";
+import React, {memo} from "react";
 import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
-import {CustomNode, SourceHandle, TargetHandle} from "../flow";
+import {createSourceHandle, createTargetHandle, CustomNode} from "../flow";
 import {TextBox} from "../forms";
 import {PassageData} from "./PassageData";
 import "./PassageNode.css";
+
+const handles = [
+    createTargetHandle(NodeId.Passage),
+    createSourceHandle(NodeId.TextOption),
+    createSourceHandle(NodeId.ReactionOption),
+];
 
 export const PassageNode = memo(({data}: NodeProps<PassageData>) => {
     return (
         <CustomNode
             className={"PassageNode-root"}
             title={"Passage"}
-            handles={[
-                <TargetHandle id={NodeId.Passage}/>,
-                <SourceHandle id={NodeId.TextOption}/>,
-                <SourceHandle id={NodeId.ReactionOption}/>,
-            ]}
+            handles={handles}
         >
             <TextBox label={"Text"} id={"text"} />
             <TextBox label={"Images"} id={"images"} />

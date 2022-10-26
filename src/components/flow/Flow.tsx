@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useRef, useState} from "react";
+import React, {memo, useCallback, useEffect, useRef, useState} from "react";
 import ReactFlow, {addEdge, Background, Connection, Edge, Node, ReactFlowInstance, useEdgesState, useNodesState, XYPosition} from "reactflow";
 import {NodeTypes} from "@reactflow/core/dist/esm/types";
 import {OnConnectStartParams} from "@reactflow/core/dist/esm/types/general";
@@ -19,8 +19,13 @@ export const Flow = memo((
     const connectionRef = useRef<OnConnectStartParams | null>(null);
     const flowViewportRef = useRef<HTMLDivElement>(null);
     const [flow, setFlow] = useState<ReactFlowInstance | null>(null);
-    const [nodes, setNodes, onNodesChange] = useNodesState(data ? data.nodes : []);
-    const [edges, setEdges, onEdgesChange] = useEdgesState(data ? data.edges : []);
+    const [nodes, setNodes, onNodesChange] = useNodesState([]);
+    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+
+    useEffect(() => {
+        setNodes(data ? data.nodes : []);
+        setEdges(data ? data.edges : []);
+    }, [data]);
 
     const isCreatingNode = useCallback((event: MouseEvent): boolean => {
         // Check if mouse is clicking on empty canvas space

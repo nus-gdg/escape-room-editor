@@ -55,19 +55,6 @@ const tabs: TabProps[] = [
     },
 ]
 
-function renderTab(tab: TabProps) {
-    return (
-        <Tab
-            key={tab.title}
-            label={
-                <Tooltip placement={"right"} title={tab.title}>
-                    {tab.icon}
-                </Tooltip>
-            }
-        />
-    )
-}
-
 function renderTabPanel(index: number) {
     if (index < 0 || index >= tabs.length) {
         return;
@@ -76,13 +63,26 @@ function renderTabPanel(index: number) {
 }
 
 const MainPage = () => {
-    const [value, setValue] = useState("");
+    const [value, setValue] = useState(0);
     const [checked1, setChecked1] = useState(false);
     const [checked2, setChecked2] = useState(false);
 
     const handleCheck = useCallback((id: string, checked: boolean) => {
         setChecked2(checked);
     }, []);
+
+    function renderTab(tab: TabProps) {
+        return (
+            <Tab
+                key={tab.title}
+                label={
+                    <Tooltip placement={"right"} title={tab.title}>
+                        {tab.icon}
+                    </Tooltip>
+                }
+            />
+        )
+    }
 
     return (
         <div className={"page"}>
