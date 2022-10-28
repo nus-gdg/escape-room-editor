@@ -3,7 +3,6 @@ import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
 import {createSourceHandle, createTargetHandle, CustomNode} from "../flow";
 import {TextBox} from "../forms";
-import {PassageData} from "./PassageData";
 import "./PassageNode.css";
 
 const handles = [
@@ -12,7 +11,21 @@ const handles = [
     createSourceHandle(NodeId.ReactionOption),
 ];
 
-export const PassageNode = memo(({data}: NodeProps<PassageData>) => {
+export interface PassageNodeData {
+    text: string,
+    images: string,
+    condition: string,
+    modifiers: string,
+}
+
+export const defaultPassageNodeData: PassageNodeData = {
+    text: "",
+    images: "",
+    condition: "",
+    modifiers: "",
+}
+
+export const PassageNode = memo(({data}: NodeProps<PassageNodeData>) => {
     return (
         <CustomNode
             className={"PassageNode-root"}

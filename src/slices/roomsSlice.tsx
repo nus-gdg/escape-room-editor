@@ -1,13 +1,13 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
 import {State} from "../app";
-import {createRoomData, RoomData} from "../components/room";
+import {createRoomFlowData, RoomFlowData} from "../components/room";
 
-export type RoomsState = Record<string, RoomData>;
+export type RoomsState = Record<string, RoomFlowData>;
 
 const initialState: RoomsState = {
-    hall: createRoomData("hall"),
-    kitchen: createRoomData("kitchen"),
-    bedroom: createRoomData("bedroom"),
+    hall: createRoomFlowData("hall"),
+    kitchen: createRoomFlowData("kitchen"),
+    bedroom: createRoomFlowData("bedroom"),
 }
 
 export interface CreateRoomPayload {
@@ -16,7 +16,7 @@ export interface CreateRoomPayload {
 
 export interface UpdateRoomPayload {
     name: string,
-    data: RoomData,
+    data: RoomFlowData,
 }
 
 export interface DeleteRoomsPayload {
@@ -28,7 +28,7 @@ export const roomsSlice = createSlice({
     initialState,
     reducers: {
         createRoom: (state, action: PayloadAction<CreateRoomPayload>) => {
-            state[action.payload.name] = createRoomData(action.payload.name);
+            state[action.payload.name] = createRoomFlowData(action.payload.name);
         },
         updateRoom: (state, action: PayloadAction<UpdateRoomPayload>) => {
             state[action.payload.name] = action.payload.data;

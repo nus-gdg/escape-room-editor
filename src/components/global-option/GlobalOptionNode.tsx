@@ -3,12 +3,21 @@ import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
 import {createSourceHandle, CustomNode} from "../flow";
 import {TextBox} from "../forms";
-import {TextOptionData} from "../text-option";
+import {TextOptionNodeData} from "../text-option";
 import "./GlobalOptionNode.css";
 
 const handles = [createSourceHandle(NodeId.Passage)];
 
-export const GlobalOptionNode = memo(({data}: NodeProps<TextOptionData>) => {
+export interface GlobalOptionNodeData extends TextOptionNodeData {}
+
+export const defaultGlobalOptionNodeData: GlobalOptionNodeData = {
+    emoji: "",
+    summary: "",
+    condition: "",
+    modifiers: "",
+}
+
+export const GlobalOptionNode = memo(({data}: NodeProps<GlobalOptionNodeData>) => {
     return (
         <CustomNode
             className={"GlobalOptionNode-root"}

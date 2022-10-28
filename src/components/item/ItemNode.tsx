@@ -6,7 +6,11 @@ import "./ItemNode.css";
 
 const handles = [createSourceHandle(NodeId.Passage)];
 
-export const ItemNode = memo(({data}: NodeProps<{}>) => {
+export interface ItemNodeData {}
+
+export const defaultItemNodeData = {};
+
+export const ItemNode = memo(({data}: NodeProps<ItemNodeData>) => {
     return (
         <CustomNode
             className={"ItemNode-root"}

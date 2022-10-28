@@ -6,7 +6,11 @@ import "./RoomNode.css";
 
 const handles = [createSourceHandle(NodeId.Passage)];
 
-export const RoomNode = memo(({data}: NodeProps<{}>) => {
+export interface RoomNodeData {}
+
+export const defaultRoomNodeData: RoomNodeData = {};
+
+export const RoomNode = memo(({data}: NodeProps<RoomNodeData>) => {
     return (
         <CustomNode
             className={"RoomNode-root"}

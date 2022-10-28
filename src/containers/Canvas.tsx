@@ -1,25 +1,13 @@
-import {memo} from "react";
-import {useDispatch, useSelector} from "../app";
+import {useSelector} from "../app";
 import {NodeId} from "../components/common";
 import {Flow} from "../components/flow";
-import {GlobalOptionNode} from "../components/global-option";
-import {ItemNode} from "../components/item";
-import {PassageNode} from "../components/passage";
-import {ReactionOptionNode} from "../components/reaction-option";
-import {RoomNode} from "../components/room";
-import {TextOptionNode} from "../components/text-option";
-import {openFlow, selectFlow} from "../slices";
-
-const Canvas = () => {
-    const dispatch = useDispatch();
-    const flow = useSelector(selectFlow);
-
-    return (
-        <Flow data={flow} nodeTypes={nodeTypes}/>
-    )
-};
-
-export default Canvas;
+import {defaultGlobalOptionNodeData, GlobalOptionNode} from "../components/global-option";
+import {defaultItemNodeData, ItemNode} from "../components/item";
+import {defaultPassageNodeData, PassageNode} from "../components/passage";
+import {defaultReactionOptionNodeData, ReactionOptionNode} from "../components/reaction-option";
+import {defaultRoomNodeData, RoomNode} from "../components/room";
+import {defaultTextOptionNodeData, TextOptionNode} from "../components/text-option";
+import {selectFlow} from "../slices";
 
 export const nodeTypes = {
     [NodeId.Room]: RoomNode,
@@ -29,3 +17,22 @@ export const nodeTypes = {
     [NodeId.TextOption]: TextOptionNode,
     [NodeId.Passage]: PassageNode,
 }
+
+export const nodeDefaults = {
+    [NodeId.Room]: defaultRoomNodeData,
+    [NodeId.Item]: defaultItemNodeData,
+    [NodeId.GlobalOption]: defaultGlobalOptionNodeData,
+    [NodeId.ReactionOption]: defaultReactionOptionNodeData,
+    [NodeId.TextOption]: defaultTextOptionNodeData,
+    [NodeId.Passage]: defaultPassageNodeData,
+
+}
+
+const Canvas = () => {
+    const flow = useSelector(selectFlow);
+    return (
+        <Flow data={flow} nodeTypes={nodeTypes} nodeDefaults={nodeDefaults}/>
+    )
+};
+
+export default Canvas;

@@ -1,2 +1,2 @@
-export * from "./GlobalOptionData";
+export * from "./GlobalOptionFlowData";
 export * from "./GlobalOptionNode";

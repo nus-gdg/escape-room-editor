@@ -1,28 +1,12 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit";
-import {State} from "../app/store";
-import {createRootNode, FlowData} from "../components/flow";
+import {createItemFlowData, ItemFlowData} from "../components/item";
 
-export const itemType = "item";
-
-export interface ItemData extends FlowData {
-    type: typeof itemType,
-}
-
-export function createItemData(name: string): ItemData {
-    return {
-        name: name,
-        type: itemType,
-        nodes: [createRootNode(itemType, {})],
-        edges: [],
-    }
-}
-
-export type ItemsState = Record<string, ItemData>;
+export type ItemsState = Record<string, ItemFlowData>;
 
 const initialState: ItemsState = {
-    box: createItemData("box"),
-    key: createItemData("key"),
-    battery: createItemData("battery"),
+    box: createItemFlowData("box"),
+    key: createItemFlowData("key"),
+    battery: createItemFlowData("battery"),
 }
 
 export interface CreateItemPayload {
@@ -31,7 +15,7 @@ export interface CreateItemPayload {
 
 export interface UpdateItemPayload {
     name: string,
-    data: ItemData,
+    data: ItemFlowData,
 }
 
 export interface DeleteItemsPayload {
@@ -43,7 +27,7 @@ export const itemsSlice = createSlice({
     initialState,
     reducers: {
         createItem: (state, action: PayloadAction<CreateItemPayload>) => {
-            state[action.payload.name] = createItemData(action.payload.name);
+            state[action.payload.name] = createItemFlowData(action.payload.name);
         },
         updateItem: (state, action: PayloadAction<UpdateItemPayload>) => {
             state[action.payload.name] = action.payload.data;

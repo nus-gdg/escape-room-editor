@@ -3,7 +3,6 @@ import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
 import {createSourceHandle, createTargetHandle, CustomNode} from "../flow";
 import {TextBox} from "../forms";
-import {ReactionOptionData} from "./ReactionOptionData";
 import "./ReactionOptionNode.css";
 
 const handles = [
@@ -11,7 +10,21 @@ const handles = [
     createSourceHandle(NodeId.Passage),
 ];
 
-export const ReactionOptionNode = memo(({data}: NodeProps<ReactionOptionData>) => {
+export interface ReactionOptionNodeData {
+    emoji: string,
+    summary: string,
+    condition: string,
+    modifiers: string,
+}
+
+export const defaultReactionOptionNodeData: ReactionOptionNodeData = {
+    emoji: "",
+    summary: "",
+    condition: "",
+    modifiers: "",
+}
+
+export const ReactionOptionNode = memo(({data}: NodeProps<ReactionOptionNodeData>) => {
     return (
         <CustomNode
             className={"ReactionOptionNode-root"}
