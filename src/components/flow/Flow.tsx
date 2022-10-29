@@ -34,6 +34,7 @@ export interface FlowProps {
     nodeTypes: NodeTypes,
     nodeDefaults: Record<string, any>,
     data?: FlowData,
+    onSave?: (data: FlowData) => void,
 }
 
 export const Flow = memo((
@@ -41,6 +42,7 @@ export const Flow = memo((
         nodeTypes,
         nodeDefaults,
         data,
+        onSave,
     } : FlowProps) => {
     const connectionRef = useRef<OnConnectStartParams | null>(null);
     const flowViewportRef = useRef<HTMLDivElement>(null);
@@ -119,6 +121,17 @@ export const Flow = memo((
         });
     };
 
+    const handleSave =  () => {
+        if (!data) {
+            return;
+        }
+        onSave?.({
+            ...data,
+            nodes: nodes,
+            edges: edges,
+        })
+    };
+
     return (
         <div className={"viewport"} ref={flowViewportRef}>
             <ReactFlow
@@ -135,7 +148,7 @@ export const Flow = memo((
                 fitView
             >
                 <div className="controls">
-                    <button onClick={() => console.log(nodes)}>debug</button>
+                    <button onClick={handleSave}>debug</button>
                 </div>
                 <Background />
             </ReactFlow>

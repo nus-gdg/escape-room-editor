@@ -9,7 +9,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
 import Banner from "../containers/Banner";
 import Canvas from "../containers/Canvas";
-import {RoomsMenu} from "../containers/menus";
+import RoomsMenu from "../containers/menus/RoomsMenu";
 import "./MainPage.css"
 
 // const data = createFlowData("toilet", "test", createRootNode("room", {}));

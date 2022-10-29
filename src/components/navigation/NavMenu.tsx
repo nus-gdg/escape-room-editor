@@ -65,7 +65,7 @@ const NavMenu = (
                 onEdit={onUpdate}
             />
         )
-    }, [selected]);
+    }, [selected, onRead]);
 
     return (
         <section className={"NavMenu-root"}>

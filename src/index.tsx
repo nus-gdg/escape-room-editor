@@ -14,6 +14,18 @@ ReactDOM.render(
     document.getElementById("root"),
 )
 
+Object.defineProperty(window, 'state', {
+    get() {
+        return store.getState();
+    },
+});
+
+Object.defineProperty(window, 'dispatch', {
+    get() {
+        return store.dispatch;
+    },
+});
+
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
 // Learn more about service workers: https://cra.link/PWA

@@ -3,7 +3,7 @@ import {useDispatch, useSelector} from "../../app";
 import NavMenu from "../../components/navigation/NavMenu";
 import {createRoom, deleteRooms, openFlow, selectRooms} from "../../slices";
 
-export const RoomsMenu = memo(() => {
+const RoomsMenu = () => {
     const dispatch = useDispatch();
     const rooms = useSelector(selectRooms);
 
@@ -11,17 +11,22 @@ export const RoomsMenu = memo(() => {
         dispatch(createRoom({name: "new"}));
     }, [dispatch]);
 
-    const handleReadRoom = useCallback((name: string) => {
-        console.log(rooms[name]);
+    // const handleReadRoom = useCallback((name: string) => {
+    //     console.log(rooms[name]);
+    //     dispatch(openFlow(rooms[name]));
+    // }, [dispatch, rooms, openFlow]);
+
+    const handleReadRoom = (name: string) => {
+        // console.log(rooms[name]);
         dispatch(openFlow(rooms[name]));
-    }, [dispatch, rooms]);
+    };
 
     // const editRoom = useCallback(() => {
     //     dispatch(editRoom({name: "New Room"}));
     // }, []);
 
     const handleDeleteRooms = useCallback((names: Set<string>) => {
-        console.log(names);
+        // console.log(names);
         dispatch(deleteRooms({names: Array.from(names)}));
     }, [dispatch]);
 
@@ -35,4 +40,6 @@ export const RoomsMenu = memo(() => {
 // onUpdate?: (name: string) => void,
         />
     )
-})
+}
+
+export default memo(RoomsMenu);
