@@ -15,6 +15,7 @@ export interface CreateRoomPayload {
 }
 
 export interface UpdateRoomPayload {
+    name: string,
     data: RoomFlowData,
 }
 
@@ -30,6 +31,7 @@ export const roomsSlice = createSlice({
             state[action.payload.name] = createRoomFlowData(action.payload.name);
         },
         updateRoom: (state, action: PayloadAction<UpdateRoomPayload>) => {
+            delete state[action.payload.name]
             state[action.payload.data.name] = action.payload.data;
         },
         deleteRooms: (state, action: PayloadAction<DeleteRoomsPayload>) => {

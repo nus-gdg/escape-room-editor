@@ -36,7 +36,7 @@ const Canvas = () => {
     const handleSave = useCallback((data: FlowData) => {
         const roomFlowData = data as RoomFlowData;
         if (roomFlowData) {
-            dispatch(updateRoom({ data: roomFlowData }));
+            dispatch(updateRoom({ name: data.name, data: roomFlowData }));
         }
     }, []);
     return (
