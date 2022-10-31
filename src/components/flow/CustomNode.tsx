@@ -1,31 +1,35 @@
 import React, {ReactElement, ReactNode} from "react";
-import {Handle, HandleProps, Position} from "reactflow";
+import {Connection, Handle, HandleProps, Position} from "reactflow";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import "./CustomNode.css";
 
+const nodeTransitionProps = { unmountOnExit: true };
+const nodeHeaderExpandIcon = <ExpandMoreIcon className={"CustomNode-expand-icon"} />;
+
+export function isValidConnection(connection: Connection) {
+    return connection.sourceHandle === connection.targetHandle;
+}
+
+export function createSourceHandle(id: string): HandleProps {
+    return { id: id, type: "source", position: Position.Right, isValidConnection: isValidConnection };
+}
+
+export function createTargetHandle(id: string): HandleProps {
+    return { id: id, type: "target", position: Position.Left, isValidConnection: isValidConnection };
+}
+
+function renderHandles(handles: HandleProps[]) {
+    return handles.map(handle => <Handle key={handle.id} {...handle}/>);
+}
+
 export interface CustomNodeProps {
     className?: string,
     title: string,
     handles?: HandleProps[],
     children?: ReactNode,
-}
-
-const nodeTransitionProps = { unmountOnExit: true };
-const nodeHeaderExpandIcon = <ExpandMoreIcon className={"CustomNode-expand-icon"} />;
-
-export function createSourceHandle(id: string): HandleProps {
-    return { id: id, type: "source", position: Position.Right };
-}
-
-export function createTargetHandle(id: string): HandleProps {
-    return { id: id, type: "target", position: Position.Left };
-}
-
-function renderHandles(handles: HandleProps[]) {
-    return handles.map(handle => <Handle key={handle.id} {...handle}/>);
 }
 
 export const CustomNode = (

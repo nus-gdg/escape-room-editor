@@ -37,7 +37,7 @@ export interface FlowProps {
     onSave?: (data: FlowData) => void,
 }
 
-export const Flow = memo((
+export const Flow = (
     {
         nodeTypes,
         nodeDefaults,
@@ -50,22 +50,20 @@ export const Flow = memo((
     const [nodes, setNodes, onNodesChange] = useNodesState([]);
     const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-    console.log({
-        con: connectionRef,
-        fv: flowViewportRef,
-        f: flow,
-        node: nodes,
-        edges: edges,
-    });
+    // console.log({
+    //     con: connectionRef,
+    //     fv: flowViewportRef,
+    //     f: flow,
+    //     node: nodes,
+    //     edges: edges,
+    // });
 
     useEffect(() => {
-        console.log("effect");
         setNodes(data ? data.nodes : []);
         setEdges(data ? data.edges : []);
     }, [data, setNodes, setEdges]);
 
     const handleInit = useCallback((flow: ReactFlowInstance) => {
-        console.log("init");
         setFlow(flow);
     }, [setFlow]);
 
@@ -116,7 +114,6 @@ export const Flow = memo((
 
         // Create new edge
         setEdges((eds) => {
-            console.log("set e");
             return eds.concat(newEdge);
         });
     };
@@ -148,10 +145,11 @@ export const Flow = memo((
                 fitView
             >
                 <div className="controls">
+                    <p>{data?.name}</p>
                     <button onClick={handleSave}>debug</button>
                 </div>
                 <Background />
             </ReactFlow>
         </div>
     )
-});
+};
