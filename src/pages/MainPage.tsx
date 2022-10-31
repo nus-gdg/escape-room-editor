@@ -10,6 +10,7 @@ import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
 import Banner from "../containers/Banner";
 import Canvas from "../containers/Canvas";
 import RoomsMenu from "../containers/menus/RoomsMenu";
+import Navigation from "../containers/Navigation";
 import "./MainPage.css"
 
 // const data = createFlowData("toilet", "test", createRootNode("room", {}));
@@ -63,34 +64,16 @@ function renderTabPanel(index: number) {
 }
 
 const MainPage = () => {
-    const [value, setValue] = useState(0);
-    const [checked1, setChecked1] = useState(false);
-    const [checked2, setChecked2] = useState(false);
-
-    const handleCheck = useCallback((id: string, checked: boolean) => {
-        setChecked2(checked);
-    }, []);
-
-    function renderTab(tab: TabProps) {
-        return (
-            <Tab
-                key={tab.title}
-                label={
-                    <Tooltip placement={"right"} title={tab.title}>
-                        {tab.icon}
-                    </Tooltip>
-                }
-            />
-        )
-    }
+    const [tabIndex, setTabIndex] = useState(0);
 
     return (
         <div className={"page"}>
             <Banner className={"page__header"}/>
             <div className={"page__body"}>
-                <Tabs className={"page__navigation"} value={value} orientation="vertical">
-                    {tabs.map(renderTab)}
-                </Tabs>
+                {/*<Tabs className={"page__navigation"} value={value} orientation="vertical">*/}
+                {/*    {tabs.map(renderTab)}*/}
+                {/*</Tabs>*/}
+                <Navigation tabIndex={tabIndex} onChange={setTabIndex}/>
                 <div className={"page__drawer"}>
                     {/*<NavMenu*/}
                     {/*    label={"Rooms"}*/}
