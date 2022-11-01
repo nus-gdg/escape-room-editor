@@ -22,6 +22,7 @@ import {
 } from "./utils";
 import {NodeId} from "../common";
 import {RoomNode} from "../room";
+import {debounce} from "@mui/material";
 
 export interface FlowData {
     name: string,
@@ -74,10 +75,10 @@ export const Flow = (
         setEdges(eds => applyEdgeChanges(changes, eds))
     }, [setEdges]);
 
-    const onNodeDataChange = useCallback((change: NodeDataChange) => {
-        console.log("ndc");
+    const onNodeDataChange = useCallback(debounce((change: NodeDataChange) => {
+        console.log(change);
         setNodes(nds => applyNodeDataChange(change, nds))
-    }, [setNodes]);
+    }, 250), [setNodes]);
 
     const controlledNodeTypes: NodeTypes = useMemo(() => {
         const types: NodeTypes = {};

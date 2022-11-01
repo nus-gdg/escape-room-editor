@@ -1,4 +1,4 @@
-import {ChangeEvent, memo} from "react";
+import {ChangeEvent, memo, useCallback, useState} from "react";
 import {NodeId} from "../common";
 import {createSourceHandle, createTargetHandle, CustomNodeProps, NodeLayout} from "../flow";
 import {TextBox} from "../forms";
@@ -25,13 +25,17 @@ export const defaultTextOptionNodeData: TextOptionNodeData = {
     modifiers: "",
 }
 
-export const TextOptionNode = memo(({id, data, onChange}: CustomNodeProps<TextOptionNodeData>) => {
-    const handleChangeExpanded = (isExpanded: boolean) => {
-        onChange?.({id: id, data: { ...data, expanded: isExpanded }});
-    }
+const TextOptionNode = ({id, data, onChange}: CustomNodeProps<TextOptionNodeData>) => {
+    const [emoji, setEmoji] = useState(data.emoji);
+
+    const handleChangeExpanded = useCallback((isExpanded: boolean) => {
+        onChange?.({id: id, data: { expanded: isExpanded }});
+    }, [id, onChange]);
 
     const handleChangeEmoji = (event: ChangeEvent<HTMLInputElement>) => {
-        onChange?.({id: id, data: { ...data, emoji: event.currentTarget.value }});
+        const value = event.target.value;
+        setEmoji(value);
+        onChange?.({id: id, data: { ...data, emoji: value }});
     }
 
     return (
@@ -42,10 +46,12 @@ export const TextOptionNode = memo(({id, data, onChange}: CustomNodeProps<TextOp
             expanded={data.expanded}
             onExpand={handleChangeExpanded}
         >
-            <TextBox label={"Emoji"} id={"emoji"} value={data.emoji} onChange={handleChangeEmoji} />
+            <TextBox label={"Emoji"} id={"emoji"} value={emoji} onChange={handleChangeEmoji} />
             <TextBox label={"Summary"} id={"summary"} />
             <TextBox label={"Condition"} id={"condition"} />
             <TextBox label={"Modifiers"} id={"modifiers"} />
         </NodeLayout>
     );
-})
+}
+
+export default memo(TextOptionNode);

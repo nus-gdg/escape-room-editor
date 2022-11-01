@@ -3,7 +3,7 @@ import React, {ComponentType} from "react";
 
 export declare type NodeDataChange<NodeData = any> = {
     id: string;
-    data: NodeData;
+    data: Partial<NodeData>;
 }
 
 export function applyNodeDataChange<NodeData = any>(change: NodeDataChange, nodes: Node<NodeData>[]): Node<NodeData>[] {
@@ -12,7 +12,10 @@ export function applyNodeDataChange<NodeData = any>(change: NodeDataChange, node
         if (node.id === change.id) {
             newNodes.push({
                 ...node,
-                data: change.data
+                data: {
+                    ...node.data,
+                    ...change.data,
+                }
             });
         } else {
             newNodes.push(node);

@@ -1,4 +1,4 @@
-import React, {ReactElement, ReactNode, useCallback} from "react";
+import React, {memo, ReactElement, ReactNode, useCallback, useMemo} from "react";
 import {Connection, Handle, HandleProps, Position} from "reactflow";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
@@ -34,7 +34,7 @@ export interface NodeLayoutProps {
     children?: ReactNode,
 }
 
-export const NodeLayout = (
+const NodeLayout = (
     {
         className,
         title,
@@ -43,9 +43,19 @@ export const NodeLayout = (
         onExpand,
         children,
     }: NodeLayoutProps) => {
+
     const handleExpand = useCallback((_: any, isExpanded: boolean) => {
         onExpand?.(isExpanded);
     }, [onExpand]);
+
+    const accordionSummary = useMemo(() => {
+        return (
+            <AccordionSummary className="NodeLayout-header"  expandIcon={nodeHeaderExpandIcon}>
+                <strong className="NodeLayout-title">{title}</strong>
+                {handles && renderHandles(handles)}
+            </AccordionSummary>
+        )
+    }, [title, handles]);
 
     if (children) {
         return (
@@ -58,10 +68,7 @@ export const NodeLayout = (
                 disableGutters
                 square
             >
-                <AccordionSummary className="NodeLayout-header"  expandIcon={nodeHeaderExpandIcon}>
-                    <strong className="NodeLayout-title">{title}</strong>
-                    {handles && renderHandles(handles)}
-                </AccordionSummary>
+                {accordionSummary}
                 <AccordionDetails className="NodeLayout-body">
                     {children}
                 </AccordionDetails>
@@ -76,3 +83,5 @@ export const NodeLayout = (
         )
     }
 }
+
+export default memo(NodeLayout);
