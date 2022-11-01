@@ -1,18 +1,27 @@
-import React, {memo, useCallback, useEffect, useRef, useState} from "react";
-import ReactFlow, {addEdge, Background, Connection, Edge, Node, ReactFlowInstance, useEdgesState, useNodesState, XYPosition} from "reactflow";
+import React, {ComponentType, memo, useCallback, useEffect, useMemo, useRef, useState} from "react";
+import ReactFlow, {
+    addEdge,
+    applyEdgeChanges,
+    applyNodeChanges, Background, Connection, Edge, EdgeChange, Node,
+    NodeChange, NodeProps, ReactFlowInstance, useEdgesState, useNodesState, XYPosition
+} from "reactflow";
 import {NodeTypes} from "@reactflow/core/dist/esm/types";
 import {OnConnectStartParams} from "@reactflow/core/dist/esm/types/general";
 import "reactflow/dist/base.css";
 import "./Flow.css";
 import {
+    applyNodeDataChange,
     createEdge,
-    createNode,
+    createNode, CustomNodeProps, CustomNodeTypes,
     getMousePosition,
     getNodeId,
     isTouchingCanvas,
     mouseToViewportPosition,
-    viewportToFlowPosition
+    NodeDataChange, OnNodeDataChange,
+    viewportToFlowPosition, withControlledData
 } from "./utils";
+import {NodeId} from "../common";
+import {RoomNode} from "../room";
 
 export interface FlowData {
     name: string,
@@ -30,8 +39,14 @@ export function createFlowData(name: string, type: string, rootNode: Node): Flow
     }
 }
 
+const nodeTypesFactory = (onNodeDataChange: OnNodeDataChange) => {
+    return {
+        [NodeId.Room]: withControlledData(onNodeDataChange, RoomNode),
+    }
+};
+
 export interface FlowProps {
-    nodeTypes: NodeTypes,
+    nodeTypes: CustomNodeTypes,
     nodeDefaults: Record<string, any>,
     data?: FlowData,
     onSave?: (data: FlowData) => void,
@@ -47,16 +62,30 @@ export const Flow = (
     const connectionRef = useRef<OnConnectStartParams | null>(null);
     const flowViewportRef = useRef<HTMLDivElement>(null);
     const [flow, setFlow] = useState<ReactFlowInstance | null>(null);
-    const [nodes, setNodes, onNodesChange] = useNodesState([]);
-    const [edges, setEdges, onEdgesChange] = useEdgesState([]);
 
-    // console.log({
-    //     con: connectionRef,
-    //     fv: flowViewportRef,
-    //     f: flow,
-    //     node: nodes,
-    //     edges: edges,
-    // });
+    const [nodes, setNodes] = useState<Node[]>([]);
+    const [edges, setEdges] = useState<Edge[]>([]);
+
+    const onNodesChange = useCallback((changes: NodeChange[]) => {
+        setNodes(nds => applyNodeChanges(changes, nds));
+    }, [setNodes]);
+
+    const onEdgesChange = useCallback((changes: EdgeChange[]) => {
+        setEdges(eds => applyEdgeChanges(changes, eds))
+    }, [setEdges]);
+
+    const onNodeDataChange = useCallback((change: NodeDataChange) => {
+        console.log("ndc");
+        setNodes(nds => applyNodeDataChange(change, nds))
+    }, [setNodes]);
+
+    const controlledNodeTypes: NodeTypes = useMemo(() => {
+        const types: NodeTypes = {};
+        for (const [type, Component] of Object.entries(nodeTypes)) {
+            types[type] = withControlledData(onNodeDataChange, Component);
+        }
+        return types;
+    }, [nodeTypes, onNodeDataChange]);
 
     useEffect(() => {
         setNodes(data ? data.nodes : []);
@@ -132,7 +161,7 @@ export const Flow = (
     return (
         <div className={"viewport"} ref={flowViewportRef}>
             <ReactFlow
-                nodeTypes={nodeTypes}
+                nodeTypes={controlledNodeTypes}
                 nodes={nodes}
                 edges={edges}
                 minZoom={0.1}

@@ -1,7 +1,7 @@
 import React, {memo} from "react";
 import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
-import {createSourceHandle, createTargetHandle, CustomNode} from "../flow";
+import {createSourceHandle, createTargetHandle, NodeLayout} from "../flow";
 import {TextBox} from "../forms";
 import "./PassageNode.css";
 
@@ -27,7 +27,7 @@ export const defaultPassageNodeData: PassageNodeData = {
 
 export const PassageNode = memo(({data}: NodeProps<PassageNodeData>) => {
     return (
-        <CustomNode
+        <NodeLayout
             className={"PassageNode-root"}
             title={"Passage"}
             handles={handles}
@@ -36,6 +36,6 @@ export const PassageNode = memo(({data}: NodeProps<PassageNodeData>) => {
             <TextBox label={"Images"} id={"images"} />
             <TextBox label={"Condition"} id={"condition"} />
             <TextBox label={"Modifiers"} id={"modifiers"} />
-        </CustomNode>
+        </NodeLayout>
     );
 })

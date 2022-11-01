@@ -1,7 +1,7 @@
 import {memo} from "react";
 import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
-import {createSourceHandle, createTargetHandle, CustomNode} from "../flow";
+import {createSourceHandle, createTargetHandle, NodeLayout} from "../flow";
 import {TextBox} from "../forms";
 import "./ReactionOptionNode.css";
 
@@ -26,7 +26,7 @@ export const defaultReactionOptionNodeData: ReactionOptionNodeData = {
 
 export const ReactionOptionNode = memo(({data}: NodeProps<ReactionOptionNodeData>) => {
     return (
-        <CustomNode
+        <NodeLayout
             className={"ReactionOptionNode-root"}
             title={"Reaction Option"}
             handles={handles}
@@ -35,6 +35,6 @@ export const ReactionOptionNode = memo(({data}: NodeProps<ReactionOptionNodeData
             <TextBox label={"Summary"} id={"summary"} />
             <TextBox label={"Condition"} id={"condition"} />
             <TextBox label={"Modifiers"} id={"modifiers"} />
-        </CustomNode>
+        </NodeLayout>
     );
 })

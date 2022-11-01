@@ -26,7 +26,6 @@ export const nodeDefaults = {
     [NodeId.ReactionOption]: defaultReactionOptionNodeData,
     [NodeId.TextOption]: defaultTextOptionNodeData,
     [NodeId.Passage]: defaultPassageNodeData,
-
 }
 
 const Canvas = () => {
@@ -39,8 +38,13 @@ const Canvas = () => {
             dispatch(updateRoom({ name: data.name, data: roomFlowData }));
         }
     }, []);
+
     return (
-        <Flow data={flow} nodeTypes={nodeTypes} nodeDefaults={nodeDefaults} onSave={handleSave}/>
+        <Flow
+            data={flow}
+            nodeTypes={nodeTypes}
+            nodeDefaults={nodeDefaults}
+            onSave={handleSave}/>
     )
 };
 

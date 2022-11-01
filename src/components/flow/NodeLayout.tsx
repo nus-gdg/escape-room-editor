@@ -1,13 +1,13 @@
-import React, {ReactElement, ReactNode} from "react";
+import React, {ReactElement, ReactNode, useCallback} from "react";
 import {Connection, Handle, HandleProps, Position} from "reactflow";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
-import "./CustomNode.css";
+import "./NodeLayout.css";
 
 const nodeTransitionProps = { unmountOnExit: true };
-const nodeHeaderExpandIcon = <ExpandMoreIcon className={"CustomNode-expand-icon"} />;
+const nodeHeaderExpandIcon = <ExpandMoreIcon className={"NodeLayout-expand-icon"} />;
 
 export function isValidConnection(connection: Connection) {
     return connection.sourceHandle === connection.targetHandle;
@@ -25,43 +25,52 @@ function renderHandles(handles: HandleProps[]) {
     return handles.map(handle => <Handle key={handle.id} {...handle}/>);
 }
 
-export interface CustomNodeProps {
+export interface NodeLayoutProps {
     className?: string,
     title: string,
     handles?: HandleProps[],
+    expanded?: boolean,
+    onExpand?: (isExpanded: boolean) => void,
     children?: ReactNode,
 }
 
-export const CustomNode = (
+export const NodeLayout = (
     {
         className,
         title,
         handles,
+        expanded,
+        onExpand,
         children,
-    }: CustomNodeProps) => {
+    }: NodeLayoutProps) => {
+    const handleExpand = useCallback((_: any, isExpanded: boolean) => {
+        onExpand?.(isExpanded);
+    }, [onExpand]);
+
     if (children) {
         return (
             <Accordion
-                className={`CustomNode-root ${className}`}
+                className={`NodeLayout-root ${className}`}
                 elevation={0}
+                expanded={expanded}
+                onChange={handleExpand}
                 TransitionProps={nodeTransitionProps}
-                defaultExpanded
                 disableGutters
                 square
             >
-                <AccordionSummary className="CustomNode-header"  expandIcon={nodeHeaderExpandIcon}>
-                    <strong className="CustomNode-title">{title}</strong>
+                <AccordionSummary className="NodeLayout-header"  expandIcon={nodeHeaderExpandIcon}>
+                    <strong className="NodeLayout-title">{title}</strong>
                     {handles && renderHandles(handles)}
                 </AccordionSummary>
-                <AccordionDetails className="CustomNode-body">
+                <AccordionDetails className="NodeLayout-body">
                     {children}
                 </AccordionDetails>
             </Accordion>
         );
     } else {
         return (
-            <div className={`CustomNode-root ${className}`}>
-                <strong className="CustomNode-title">{title}</strong>
+            <div className={`NodeLayout-root ${className}`}>
+                <strong className="NodeLayout-title">{title}</strong>
                 {handles && renderHandles(handles)}
             </div>
         )

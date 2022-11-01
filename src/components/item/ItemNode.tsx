@@ -1,7 +1,7 @@
 import {memo} from "react";
 import {NodeProps} from "reactflow";
 import {NodeId} from "../common";
-import {createSourceHandle, CustomNode} from "../flow";
+import {createSourceHandle, NodeLayout} from "../flow";
 import "./ItemNode.css";
 
 const handles = [createSourceHandle(NodeId.Passage)];
@@ -12,7 +12,7 @@ export const defaultItemNodeData = {};
 
 export const ItemNode = memo(({data}: NodeProps<ItemNodeData>) => {
     return (
-        <CustomNode
+        <NodeLayout
             className={"ItemNode-root"}
             title={"Item"}
             handles={handles}
