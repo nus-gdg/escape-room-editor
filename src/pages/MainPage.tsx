@@ -64,25 +64,11 @@ function renderTabPanel(index: number) {
 }
 
 const MainPage = () => {
-    const [tabIndex, setTabIndex] = useState(0);
-
     return (
         <div className={"page"}>
             <Banner className={"page__header"}/>
             <div className={"page__body"}>
-                {/*<Tabs className={"page__navigation"} value={value} orientation="vertical">*/}
-                {/*    {tabs.map(renderTab)}*/}
-                {/*</Tabs>*/}
-                <Navigation tabIndex={tabIndex} onChange={setTabIndex}/>
-                <div className={"page__drawer"}>
-                    {/*<NavMenu*/}
-                    {/*    label={"Rooms"}*/}
-                    {/*    names={testRooms}*/}
-                    {/*/>*/}
-                    <RoomsMenu/>
-                </div>
-                {/*<RoomDialog open={openDialog} onClose={() => setOpenDialog(false)}/>*/}
-                {/*<Flow data={data} nodeTypes={nodeTypes}/>*/}
+                <Navigation />
                 <Canvas/>
             </div>
         </div>
