@@ -15,7 +15,6 @@ const TextBox = (
         value,
         onChange,
     }: TextBoxProps) => {
-    // const [value, setValue] = useState("");
     return (
         <TextField
             id={id}

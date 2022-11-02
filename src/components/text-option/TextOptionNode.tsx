@@ -1,7 +1,7 @@
-import {ChangeEvent, memo, useCallback, useState} from "react";
+import {memo, useCallback} from "react";
 import {NodeId} from "../common";
 import {createSourceHandle, createTargetHandle, CustomNodeProps, NodeLayout} from "../flow";
-import {TextBox} from "../forms";
+import {EmojiField, SimpleTextField} from "../forms";
 import "./TextOptionNode.css";
 
 const handles = [
@@ -26,17 +26,29 @@ export const defaultTextOptionNodeData: TextOptionNodeData = {
 }
 
 const TextOptionNode = ({id, data, onChange}: CustomNodeProps<TextOptionNodeData>) => {
-    const [emoji, setEmoji] = useState(data.emoji);
+    const handleChange = useCallback((payload: Partial<TextOptionNodeData>) => {
+        onChange?.({id: id, data: payload});
+    }, [onChange, id]);
 
-    const handleChangeExpanded = useCallback((isExpanded: boolean) => {
-        onChange?.({id: id, data: { expanded: isExpanded }});
-    }, [id, onChange]);
+    const handleChangeExpanded = useCallback((value: boolean) => {
+        handleChange({ expanded: value });
+    }, [handleChange]);
 
-    const handleChangeEmoji = (event: ChangeEvent<HTMLInputElement>) => {
-        const value = event.target.value;
-        setEmoji(value);
-        onChange?.({id: id, data: { ...data, emoji: value }});
-    }
+    const handleChangeEmoji = useCallback((value: string) => {
+        handleChange({ emoji: value });
+    }, [handleChange]);
+
+    const handleChangeSummary = useCallback((value: string) => {
+        handleChange({ summary: value });
+    }, [handleChange]);
+
+    const handleChangeCondition = useCallback((value: string) => {
+        handleChange({ condition: value });
+    }, [handleChange]);
+
+    const handleChangeModifiers = useCallback((value: string) => {
+        handleChange({ modifiers: value });
+    }, [handleChange]);
 
     return (
         <NodeLayout
@@ -46,10 +58,10 @@ const TextOptionNode = ({id, data, onChange}: CustomNodeProps<TextOptionNodeData
             expanded={data.expanded}
             onExpand={handleChangeExpanded}
         >
-            <TextBox label={"Emoji"} id={"emoji"} value={emoji} onChange={handleChangeEmoji} />
-            <TextBox label={"Summary"} id={"summary"} />
-            <TextBox label={"Condition"} id={"condition"} />
-            <TextBox label={"Modifiers"} id={"modifiers"} />
+            <EmojiField value={data.emoji} onChange={handleChangeEmoji}/>
+            <SimpleTextField value={data.summary} onChange={handleChangeSummary} label={"Summary"}/>
+            <SimpleTextField value={data.condition} onChange={handleChangeCondition} label={"Condition"}/>
+            <SimpleTextField value={data.modifiers} onChange={handleChangeModifiers} label={"Modifiers"}/>
         </NodeLayout>
     );
 }
