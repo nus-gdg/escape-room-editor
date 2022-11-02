@@ -1,7 +1,6 @@
 export * from "./EmojiField";
 export * from "./Input";
-export * from "./SimpleTextField";
-export * from "./Tabs";
+export * from "./TextField";
 
 export {default as EmojiField} from "./EmojiField";
-export {default as SimpleTextField} from "./SimpleTextField";
+export {default as TextField} from "./TextField";

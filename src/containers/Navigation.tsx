@@ -5,6 +5,7 @@ import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
 import PublicIcon from "@mui/icons-material/Public";
 import SportsBaseballIcon from "@mui/icons-material/SportsBaseball";
+import {tooltipProps} from "../components/common";
 import RoomsMenu from "./menus/RoomsMenu";
 import ItemsMenu from "./menus/ItemsMenu";
 import "./Navigation.css";
@@ -18,9 +19,7 @@ function createTab(icon: ReactElement, description: string): ReactElement {
                 <Tooltip
                     placement={"right"}
                     title={description}
-                    disableInteractive={true}
-                    enterDelay={1000}
-                    enterNextDelay={1000}
+                    {...tooltipProps}
                 >
                     {icon}
                 </Tooltip>

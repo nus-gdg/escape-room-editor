@@ -1,5 +1,6 @@
 import {ChangeEvent, memo, useCallback, useEffect, useState} from "react";
-import {debounce, TextField} from "@mui/material";
+import debounce from "@mui/utils/debounce";
+import MuiTextField from "@mui/material/TextField"
 import {debounceTime} from "../common";
 import {defaultTextFieldProps} from "./utils";
 
@@ -9,7 +10,7 @@ export interface SimpleTextFieldProps {
     onChange?: (value: string) => void,
 }
 
-const SimpleTextField = (
+const TextField = (
     {
         label = "Text",
         value,
@@ -27,20 +28,26 @@ const SimpleTextField = (
         onChange?.(newValue);
     }, debounceTime), [onChange]);
 
-    const handleChangeText = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         setText(newValue);
         onChangeDebounced(newValue);
-    }, [setText, onChangeDebounced]);
+    }, [setText]);
+
+    const handleBlur = useCallback(() => {
+        onChange?.(text);
+        onChangeDebounced.clear();
+    }, [text, onChange, onChangeDebounced]);
 
     return (
-        <TextField
+        <MuiTextField
             label={label}
             value={text}
-            onChange={handleChangeText}
+            onChange={handleChange}
+            onBlur={handleBlur}
             {...defaultTextFieldProps}
         />
     )
 }
 
-export default memo(SimpleTextField);
+export default memo(TextField);

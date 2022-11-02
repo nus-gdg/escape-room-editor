@@ -27,17 +27,23 @@ const EmojiField = (
         onChange?.(newValue);
     }, debounceTime), [onChange]);
 
-    const handleChangeEmoji = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const handleChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         setEmoji(newValue);
         onChangeDebounced(newValue);
     }, [setEmoji, onChangeDebounced]);
 
+    const handleBlur = useCallback(() => {
+        onChange?.(emoji);
+        onChangeDebounced.clear();
+    }, [emoji, onChange, onChangeDebounced]);
+
     return (
         <TextField
             label={label}
             value={emoji}
-            onChange={handleChangeEmoji}
+            onChange={handleChange}
+            onBlur={handleBlur}
             {...defaultTextFieldProps}
         />
     )

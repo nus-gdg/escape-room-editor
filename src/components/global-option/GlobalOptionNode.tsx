@@ -1,7 +1,7 @@
 import {memo, useCallback} from "react";
 import {NodeId} from "../common";
 import {createSourceHandle, CustomNodeProps, NodeLayout} from "../flow";
-import {EmojiField, SimpleTextField} from "../forms";
+import {EmojiField, TextField} from "../forms";
 import {TextOptionNodeData} from "../text-option";
 import "./GlobalOptionNode.css";
 
@@ -56,9 +56,9 @@ const GlobalOptionNode = (
             onExpand={handleChangeExpanded}
         >
             <EmojiField value={data.emoji} onChange={handleChangeEmoji}/>
-            <SimpleTextField value={data.summary} onChange={handleChangeSummary} label={"Summary"}/>
-            <SimpleTextField value={data.condition} onChange={handleChangeCondition} label={"Condition"}/>
-            <SimpleTextField value={data.modifiers} onChange={handleChangeModifiers} label={"Modifiers"}/>
+            <TextField value={data.summary} onChange={handleChangeSummary} label={"Summary"}/>
+            <TextField value={data.condition} onChange={handleChangeCondition} label={"Condition"}/>
+            <TextField value={data.modifiers} onChange={handleChangeModifiers} label={"Modifiers"}/>
         </NodeLayout>
     );
 }

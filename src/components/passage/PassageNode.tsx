@@ -1,7 +1,7 @@
 import React, {memo, useCallback} from "react";
 import {NodeId} from "../common";
 import {createSourceHandle, createTargetHandle, CustomNodeProps, NodeLayout} from "../flow";
-import {SimpleTextField} from "../forms";
+import {TextField} from "../forms";
 import "./PassageNode.css";
 
 const handles = [
@@ -64,10 +64,10 @@ const PassageNode = (
             expanded={data.expanded}
             onExpand={handleChangeExpanded}
         >
-            <SimpleTextField value={data.text} onChange={handleChangeText} label={"Text"}/>
-            <SimpleTextField value={data.images} onChange={handleChangeImages} label={"Images"}/>
-            <SimpleTextField value={data.condition} onChange={handleChangeCondition} label={"Condition"}/>
-            <SimpleTextField value={data.modifiers} onChange={handleChangeModifiers} label={"Modifiers"}/>
+            <TextField value={data.text} onChange={handleChangeText} label={"Text"}/>
+            <TextField value={data.images} onChange={handleChangeImages} label={"Images"}/>
+            <TextField value={data.condition} onChange={handleChangeCondition} label={"Condition"}/>
+            <TextField value={data.modifiers} onChange={handleChangeModifiers} label={"Modifiers"}/>
         </NodeLayout>
     );
 }

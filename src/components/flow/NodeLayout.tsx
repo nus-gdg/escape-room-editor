@@ -1,7 +1,7 @@
-import {memo, ReactNode, useCallback, useEffect, useMemo, useState} from "react";
+import {ChangeEvent, memo, ReactNode, useCallback, useEffect, useMemo, useState} from "react";
 import {Connection, Handle, HandleProps, Position} from "reactflow";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import {debounce} from "@mui/material";
+import debounce from "@mui/utils/debounce";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
@@ -53,18 +53,17 @@ const NodeLayout = (
         }
     }, [setExpandedDetails, expanded]);
 
-    const onExpandDebounced = useCallback(debounce((newValue: boolean) => {
-        onExpand?.(newValue);
-    }, debounceTime), [onExpand]);
-
-    const handleExpand = useCallback((_: any, newValue: boolean) => {
+    const handleAccordionExpand = useCallback((_: any, newValue: boolean) => {
         setExpandedDetails(newValue);
-        onExpandDebounced(newValue);
-    }, [setExpandedDetails, onExpandDebounced]);
+        onExpand?.(newValue);
+    }, [setExpandedDetails, onExpand]);
 
     const accordionSummary = useMemo(() => {
         return (
-            <AccordionSummary className="NodeLayout-header" expandIcon={nodeHeaderExpandIcon}>
+            <AccordionSummary
+                className="NodeLayout-header"
+                expandIcon={nodeHeaderExpandIcon}
+            >
                 <strong className="NodeLayout-title">{title}</strong>
                 {handles && renderHandles(handles)}
             </AccordionSummary>
@@ -77,7 +76,7 @@ const NodeLayout = (
                 className={`NodeLayout-root ${className}`}
                 elevation={0}
                 expanded={expandedDetails}
-                onChange={handleExpand}
+                onChange={handleAccordionExpand}
                 TransitionProps={nodeTransitionProps}
                 disableGutters
                 square
