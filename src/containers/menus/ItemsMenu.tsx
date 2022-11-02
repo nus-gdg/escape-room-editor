@@ -1,6 +1,6 @@
 import {memo} from "react";
 import {useDispatch, useSelector} from "../../app";
-import NavMenu from "../../components/navigation/NavMenu";
+import List from "../../components/list/List";
 import {createRoom, deleteRooms, openFlow, selectRooms, updateRoom} from "../../slices";
 import {createDefaultName} from "./utils";
 
@@ -35,7 +35,7 @@ const ItemsMenu = () => {
     };
 
     return (
-        <NavMenu
+        <List
             label={"Items"}
             names={Object.keys(rooms).sort()}
             onCreate={handleCreateRoom}

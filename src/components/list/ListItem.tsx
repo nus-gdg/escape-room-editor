@@ -4,11 +4,11 @@ import TouchRipple, {TouchRippleActions} from "@mui/material/ButtonBase/TouchRip
 import Typography from "@mui/material/Typography";
 import Checkbox from "../forms/Checkbox";
 import IconButton from "../forms/IconButton";
-import "./NavItem.css";
+import "./ListItem.css";
 
 const editIcon = <EditIcon/>
 
-export interface NavItemProps {
+export interface ListItemProps {
     name: string,
     value?: string,
     checked?: boolean,
@@ -17,7 +17,7 @@ export interface NavItemProps {
     onEdit?: (name: string) => void,
 }
 
-const NavItem = (
+const ListItem = (
     {
         name = "",
         value,
@@ -25,7 +25,7 @@ const NavItem = (
         onCheck,
         onClick,
         onEdit,
-    }: NavItemProps) => {
+    }: ListItemProps) => {
     const rippleRef = useRef<TouchRippleActions>(null);
 
     const handleCheck = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
@@ -51,28 +51,28 @@ const NavItem = (
 
         return (
             <button
-                className={"NavItem-button"}
+                className={"ListItem-button"}
                 onClick={handleClick}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
             >
-                <Typography className={"NavItem-name"}>{name}</Typography>
-                {value && <Typography className={"NavItem-value"}>{`: ${value}`}</Typography>}
+                <Typography className={"ListItem-name"}>{name}</Typography>
+                {value && <Typography className={"ListItem-value"}>{`: ${value}`}</Typography>}
             </button>
         )
     }, [name, value, onClick]);
 
     return (
-        <li className={checked ? "NavItem-root selected" : "NavItem-root"}>
+        <li className={checked ? "ListItem-root selected" : "ListItem-root"}>
             <Checkbox
-                className={"NavItem-checkbox"}
+                className={"ListItem-checkbox"}
                 checked={checked}
                 onChange={handleCheck}
             />
             {label}
             <IconButton
-                className={"NavItem-edit"}
+                className={"ListItem-edit"}
                 icon={editIcon}
                 onClick={handleEdit}
                 tooltip={"Edit"}
@@ -82,4 +82,4 @@ const NavItem = (
     );
 }
 
-export default memo(NavItem);
+export default memo(ListItem);

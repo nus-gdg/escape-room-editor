@@ -4,12 +4,12 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@mui/material/Typography";
 import Checkbox from "../forms/Checkbox";
 import IconButton from "../forms/IconButton";
-import "./NavHeader.css";
+import "./ListHeader.css";
 
 const addIcon = <AddIcon/>
 const deleteIcon = <DeleteIcon/>
 
-export interface NavHeaderProps {
+export interface ListHeaderProps {
     label: string,
     checked?: boolean,
     indeterminate?: boolean,
@@ -19,7 +19,7 @@ export interface NavHeaderProps {
     onDelete?: (names: Set<string>) => void,
 }
 
-const NavHeader = (
+const ListHeader = (
     {
         label,
         checked,
@@ -28,7 +28,7 @@ const NavHeader = (
         onCheck,
         onAdd,
         onDelete,
-    }: NavHeaderProps) => {
+    }: ListHeaderProps) => {
     const handleCheck = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
         onCheck?.(event.target.checked);
     }, [onCheck]);
@@ -43,7 +43,7 @@ const NavHeader = (
 
     const addAction = (
         <IconButton
-            className={"NavHeader-add"}
+            className={"ListHeader-add"}
             icon={addIcon}
             onClick={onAdd}
             tooltip={"Create"}
@@ -52,9 +52,9 @@ const NavHeader = (
 
     const deleteAction = (
         <>
-            <Typography className={"NavHeader-deleteText"}>{`(${selected?.size})`}</Typography>
+            <Typography className={"ListHeader-deleteText"}>{`(${selected?.size})`}</Typography>
             <IconButton
-                className={"NavHeader-delete"}
+                className={"ListHeader-delete"}
                 icon={deleteIcon}
                 onClick={handleDelete}
                 tooltip={"Delete"}
@@ -63,13 +63,13 @@ const NavHeader = (
     );
 
     const heading = useMemo(() => {
-        return <Typography className={"NavHeader-label"}>{label}</Typography>
+        return <Typography className={"ListHeader-label"}>{label}</Typography>
     }, [label]);
 
     return (
-        <div className={"NavHeader-root" + (hasSelection? " delete" : " add")}>
+        <div className={"ListHeader-root" + (hasSelection? " delete" : " add")}>
             <Checkbox
-                className={"NavHeader-checkbox"}
+                className={"ListHeader-checkbox"}
                 checked={checked}
                 indeterminate={indeterminate}
                 onChange={handleCheck}
@@ -81,4 +81,4 @@ const NavHeader = (
     );
 }
 
-export default memo(NavHeader);
+export default memo(ListHeader);

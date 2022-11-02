@@ -1,4 +1,4 @@
-.NavHeader-root {
+.ListHeader-root {
     position: relative;
     display: grid;
     padding-right: 20px;
@@ -7,18 +7,18 @@
     background-color: darkslategrey;
 }
 
-.NavHeader-root.add {
+.ListHeader-root.add {
     grid-template-columns: 40px auto 40px;
 }
 
-.NavHeader-root.delete {
+.ListHeader-root.delete {
     grid-template-columns: 40px auto auto 40px;
 }
 
-.NavHeader-root > .NavHeader-label {
+.ListHeader-root > .ListHeader-label {
     text-align: left;
 }
 
-.NavHeader-root > .NavHeader-deleteText {
+.ListHeader-root > .ListHeader-deleteText {
     text-align: right;
 }

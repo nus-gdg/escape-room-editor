@@ -1,9 +1,9 @@
 import React, {memo, useCallback, useState} from "react";
-import NavHeader from "./NavHeader";
-import NavItem from "./NavItem";
-import "./NavMenu.css";
+import ListHeader from "./ListHeader";
+import ListItem from "./ListItem";
+import "./List.css";
 
-interface NavMenuProps {
+interface ListProps {
     label: string,
     names: string[],
     onCreate?: () => void,
@@ -12,7 +12,7 @@ interface NavMenuProps {
     onDelete?: (names: Set<string>) => void,
 }
 
-const NavMenu = (
+const ListMenu = (
     {
         label,
         names = [],
@@ -20,7 +20,7 @@ const NavMenu = (
         onRead,
         onUpdate,
         onDelete,
-    }: NavMenuProps) => {
+    }: ListProps) => {
     const [selected, setSelected] = useState(new Set<string>());
     // console.log(selected);
 
@@ -51,7 +51,7 @@ const NavMenu = (
 
     const renderItem = useCallback((name: string) => {
         return (
-            <NavItem
+            <ListItem
                 key={name}
                 name={name}
                 checked={selected.has(name)}
@@ -63,8 +63,8 @@ const NavMenu = (
     }, [selected, onRead]);
 
     return (
-        <section className={"NavMenu-root"}>
-            <NavHeader
+        <section className={"ListMenu-root"}>
+            <ListHeader
                 label={label}
                 checked={selected.size === names.length}
                 indeterminate={selected.size > 0 && selected.size < names.length}
@@ -73,11 +73,11 @@ const NavMenu = (
                 onAdd={onCreate}
                 onDelete={handleDelete}
             />
-            <ul className={"NavMenu-list"}>
+            <ul className={"ListMenu-list"}>
                 {names.map(renderItem)}
             </ul>
         </section>
     );
 }
 
-export default memo(NavMenu);
+export default memo(ListMenu);
