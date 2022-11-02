@@ -1,8 +1,7 @@
-import React, {memo} from "react";
-import {NodeProps} from "reactflow";
+import React, {memo, useCallback} from "react";
 import {NodeId} from "../common";
-import {createSourceHandle, createTargetHandle, NodeLayout} from "../flow";
-import {TextBox} from "../forms";
+import {createSourceHandle, createTargetHandle, CustomNodeProps, NodeLayout} from "../flow";
+import {SimpleTextField} from "../forms";
 import "./PassageNode.css";
 
 const handles = [
@@ -12,6 +11,7 @@ const handles = [
 ];
 
 export interface PassageNodeData {
+    expanded: boolean,
     text: string,
     images: string,
     condition: string,
@@ -19,23 +19,57 @@ export interface PassageNodeData {
 }
 
 export const defaultPassageNodeData: PassageNodeData = {
+    expanded: true,
     text: "",
     images: "",
     condition: "",
     modifiers: "",
 }
 
-export const PassageNode = memo(({data}: NodeProps<PassageNodeData>) => {
+const PassageNode = (
+    {
+        id,
+        data,
+        onChange
+    }: CustomNodeProps<PassageNodeData>) => {
+    const handleChange = useCallback((payload: Partial<PassageNodeData>) => {
+        onChange?.({id: id, data: payload});
+    }, [onChange, id]);
+
+    const handleChangeExpanded = useCallback((value: boolean) => {
+        handleChange({ expanded: value });
+    }, [handleChange]);
+
+    const handleChangeText = useCallback((value: string) => {
+        handleChange({ text: value });
+    }, [handleChange]);
+
+    const handleChangeImages = useCallback((value: string) => {
+        handleChange({ images: value });
+    }, [handleChange]);
+
+    const handleChangeCondition = useCallback((value: string) => {
+        handleChange({ condition: value });
+    }, [handleChange]);
+
+    const handleChangeModifiers = useCallback((value: string) => {
+        handleChange({ modifiers: value });
+    }, [handleChange]);
+
     return (
         <NodeLayout
             className={"PassageNode-root"}
             title={"Passage"}
             handles={handles}
+            expanded={data.expanded}
+            onExpand={handleChangeExpanded}
         >
-            <TextBox label={"Text"} id={"text"} />
-            <TextBox label={"Images"} id={"images"} />
-            <TextBox label={"Condition"} id={"condition"} />
-            <TextBox label={"Modifiers"} id={"modifiers"} />
+            <SimpleTextField value={data.text} onChange={handleChangeText} label={"Text"}/>
+            <SimpleTextField value={data.images} onChange={handleChangeImages} label={"Images"}/>
+            <SimpleTextField value={data.condition} onChange={handleChangeCondition} label={"Condition"}/>
+            <SimpleTextField value={data.modifiers} onChange={handleChangeModifiers} label={"Modifiers"}/>
         </NodeLayout>
     );
-})
+}
+
+export default memo(PassageNode);

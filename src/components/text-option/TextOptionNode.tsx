@@ -25,7 +25,12 @@ export const defaultTextOptionNodeData: TextOptionNodeData = {
     modifiers: "",
 }
 
-const TextOptionNode = ({id, data, onChange}: CustomNodeProps<TextOptionNodeData>) => {
+const TextOptionNode = (
+    {
+        id,
+        data,
+        onChange
+    }: CustomNodeProps<TextOptionNodeData>) => {
     const handleChange = useCallback((payload: Partial<TextOptionNodeData>) => {
         onChange?.({id: id, data: payload});
     }, [onChange, id]);

@@ -75,10 +75,10 @@ export const Flow = (
         setEdges(eds => applyEdgeChanges(changes, eds))
     }, [setEdges]);
 
-    const onNodeDataChange = useCallback(debounce((change: NodeDataChange) => {
+    const onNodeDataChange = useCallback((change: NodeDataChange) => {
         console.log(change);
         setNodes(nds => applyNodeDataChange(change, nds))
-    }, 250), [setNodes]);
+    }, [setNodes]);
 
     const controlledNodeTypes: NodeTypes = useMemo(() => {
         const types: NodeTypes = {};

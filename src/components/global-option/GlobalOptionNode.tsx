@@ -1,8 +1,7 @@
-import {memo} from "react";
-import {NodeProps} from "reactflow";
+import {memo, useCallback} from "react";
 import {NodeId} from "../common";
-import {createSourceHandle, NodeLayout} from "../flow";
-import {TextBox} from "../forms";
+import {createSourceHandle, CustomNodeProps, NodeLayout} from "../flow";
+import {EmojiField, SimpleTextField} from "../forms";
 import {TextOptionNodeData} from "../text-option";
 import "./GlobalOptionNode.css";
 
@@ -18,17 +17,50 @@ export const defaultGlobalOptionNodeData: GlobalOptionNodeData = {
     modifiers: "",
 }
 
-export const GlobalOptionNode = memo(({data}: NodeProps<GlobalOptionNodeData>) => {
+const GlobalOptionNode = (
+    {
+        id,
+        data,
+        onChange
+    }: CustomNodeProps<GlobalOptionNodeData>) => {
+    const handleChange = useCallback((payload: Partial<GlobalOptionNodeData>) => {
+        onChange?.({id: id, data: payload});
+    }, [onChange, id]);
+
+    const handleChangeExpanded = useCallback((value: boolean) => {
+        handleChange({ expanded: value });
+    }, [handleChange]);
+
+    const handleChangeEmoji = useCallback((value: string) => {
+        handleChange({ emoji: value });
+    }, [handleChange]);
+
+    const handleChangeSummary = useCallback((value: string) => {
+        handleChange({ summary: value });
+    }, [handleChange]);
+
+    const handleChangeCondition = useCallback((value: string) => {
+        handleChange({ condition: value });
+    }, [handleChange]);
+
+    const handleChangeModifiers = useCallback((value: string) => {
+        handleChange({ modifiers: value });
+    }, [handleChange]);
+
     return (
         <NodeLayout
             className={"GlobalOptionNode-root"}
             title={"Global Option"}
             handles={handles}
+            expanded={data.expanded}
+            onExpand={handleChangeExpanded}
         >
-            <TextBox label={"Emoji"} id={"emoji"} />
-            <TextBox label={"Summary"} id={"summary"} />
-            <TextBox label={"Condition"} id={"condition"} />
-            <TextBox label={"Modifiers"} id={"modifiers"} />
+            <EmojiField value={data.emoji} onChange={handleChangeEmoji}/>
+            <SimpleTextField value={data.summary} onChange={handleChangeSummary} label={"Summary"}/>
+            <SimpleTextField value={data.condition} onChange={handleChangeCondition} label={"Condition"}/>
+            <SimpleTextField value={data.modifiers} onChange={handleChangeModifiers} label={"Modifiers"}/>
         </NodeLayout>
     );
-})
+}
+
+export default memo(GlobalOptionNode);

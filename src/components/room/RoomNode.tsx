@@ -9,7 +9,11 @@ export interface RoomNodeData {}
 
 export const defaultRoomNodeData: RoomNodeData = {};
 
-export const RoomNode = memo(({data, onChange}: CustomNodeProps<RoomNodeData>) => {
+const RoomNode = (
+    {
+        data,
+        onChange
+    }: CustomNodeProps<RoomNodeData>) => {
     return (
         <NodeLayout
             className={"RoomNode-root"}
@@ -17,4 +21,6 @@ export const RoomNode = memo(({data, onChange}: CustomNodeProps<RoomNodeData>) =
             handles={handles}
         />
     );
-})
+}
+
+export default memo(RoomNode);

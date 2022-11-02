@@ -1,8 +1,7 @@
-import {memo} from "react";
-import {NodeProps} from "reactflow";
+import {memo, useCallback} from "react";
 import {NodeId} from "../common";
-import {createSourceHandle, createTargetHandle, NodeLayout} from "../flow";
-import {TextBox} from "../forms";
+import {createSourceHandle, createTargetHandle, CustomNodeProps, NodeLayout} from "../flow";
+import {EmojiField, SimpleTextField} from "../forms";
 import "./ReactionOptionNode.css";
 
 const handles = [
@@ -11,6 +10,7 @@ const handles = [
 ];
 
 export interface ReactionOptionNodeData {
+    expanded: boolean,
     emoji: string,
     summary: string,
     condition: string,
@@ -18,23 +18,57 @@ export interface ReactionOptionNodeData {
 }
 
 export const defaultReactionOptionNodeData: ReactionOptionNodeData = {
+    expanded: true,
     emoji: "",
     summary: "",
     condition: "",
     modifiers: "",
 }
 
-export const ReactionOptionNode = memo(({data}: NodeProps<ReactionOptionNodeData>) => {
+const ReactionOptionNode = (
+    {
+        id,
+        data,
+        onChange
+    }: CustomNodeProps<ReactionOptionNodeData>) => {
+    const handleChange = useCallback((payload: Partial<ReactionOptionNodeData>) => {
+        onChange?.({id: id, data: payload});
+    }, [onChange, id]);
+
+    const handleChangeExpanded = useCallback((value: boolean) => {
+        handleChange({ expanded: value });
+    }, [handleChange]);
+
+    const handleChangeEmoji = useCallback((value: string) => {
+        handleChange({ emoji: value });
+    }, [handleChange]);
+
+    const handleChangeSummary = useCallback((value: string) => {
+        handleChange({ summary: value });
+    }, [handleChange]);
+
+    const handleChangeCondition = useCallback((value: string) => {
+        handleChange({ condition: value });
+    }, [handleChange]);
+
+    const handleChangeModifiers = useCallback((value: string) => {
+        handleChange({ modifiers: value });
+    }, [handleChange]);
+
     return (
         <NodeLayout
             className={"ReactionOptionNode-root"}
             title={"Reaction Option"}
             handles={handles}
+            expanded={data.expanded}
+            onExpand={handleChangeExpanded}
         >
-            <TextBox label={"Emoji"} id={"emoji"} />
-            <TextBox label={"Summary"} id={"summary"} />
-            <TextBox label={"Condition"} id={"condition"} />
-            <TextBox label={"Modifiers"} id={"modifiers"} />
+            <EmojiField value={data.emoji} onChange={handleChangeEmoji}/>
+            <SimpleTextField value={data.summary} onChange={handleChangeSummary} label={"Summary"}/>
+            <SimpleTextField value={data.condition} onChange={handleChangeCondition} label={"Condition"}/>
+            <SimpleTextField value={data.modifiers} onChange={handleChangeModifiers} label={"Modifiers"}/>
         </NodeLayout>
     );
-})
+}
+
+export default memo(ReactionOptionNode);

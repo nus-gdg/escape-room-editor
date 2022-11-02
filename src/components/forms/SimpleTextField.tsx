@@ -1,5 +1,6 @@
-import {ChangeEvent, memo, useEffect, useState} from "react";
-import {TextField} from "@mui/material";
+import {ChangeEvent, memo, useCallback, useEffect, useState} from "react";
+import {debounce, TextField} from "@mui/material";
+import {debounceTime} from "../common";
 import {defaultTextFieldProps} from "./utils";
 
 export interface SimpleTextFieldProps {
@@ -14,17 +15,23 @@ const SimpleTextField = (
         value,
         onChange
     }: SimpleTextFieldProps) => {
-    const [text, setText] = useState("");
+    const [text, setText] = useState(value ?? "");
 
     useEffect(() => {
-        setText(value ?? "");
+        if (value) {
+            setText(value);
+        }
     }, [setText, value]);
 
-    const handleChangeText = (event: ChangeEvent<HTMLInputElement>) => {
+    const onChangeDebounced = useCallback(debounce((newValue: string) => {
+        onChange?.(newValue);
+    }, debounceTime), [onChange]);
+
+    const handleChangeText = useCallback((event: ChangeEvent<HTMLInputElement>) => {
         const newValue = event.target.value;
         setText(newValue);
-        onChange?.(newValue);
-    }
+        onChangeDebounced(newValue);
+    }, [setText, onChangeDebounced]);
 
     return (
         <TextField

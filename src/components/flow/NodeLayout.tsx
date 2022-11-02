@@ -1,9 +1,11 @@
-import React, {memo, ReactElement, ReactNode, useCallback, useMemo} from "react";
+import {memo, ReactNode, useCallback, useEffect, useMemo, useState} from "react";
 import {Connection, Handle, HandleProps, Position} from "reactflow";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import {debounce} from "@mui/material";
 import Accordion from "@mui/material/Accordion";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import AccordionDetails from "@mui/material/AccordionDetails";
+import {debounceTime} from "../common";
 import "./NodeLayout.css";
 
 const nodeTransitionProps = { unmountOnExit: true };
@@ -39,18 +41,30 @@ const NodeLayout = (
         className,
         title,
         handles,
-        expanded,
+        expanded = true,
         onExpand,
         children,
     }: NodeLayoutProps) => {
+    const [expandedDetails, setExpandedDetails] = useState(expanded ?? true);
 
-    const handleExpand = useCallback((_: any, isExpanded: boolean) => {
-        onExpand?.(isExpanded);
-    }, [onExpand]);
+    useEffect(() => {
+        if (expanded !== undefined) {
+            setExpandedDetails(expanded);
+        }
+    }, [setExpandedDetails, expanded]);
+
+    const onExpandDebounced = useCallback(debounce((newValue: boolean) => {
+        onExpand?.(newValue);
+    }, debounceTime), [onExpand]);
+
+    const handleExpand = useCallback((_: any, newValue: boolean) => {
+        setExpandedDetails(newValue);
+        onExpandDebounced(newValue);
+    }, [setExpandedDetails, onExpandDebounced]);
 
     const accordionSummary = useMemo(() => {
         return (
-            <AccordionSummary className="NodeLayout-header"  expandIcon={nodeHeaderExpandIcon}>
+            <AccordionSummary className="NodeLayout-header" expandIcon={nodeHeaderExpandIcon}>
                 <strong className="NodeLayout-title">{title}</strong>
                 {handles && renderHandles(handles)}
             </AccordionSummary>
@@ -62,7 +76,7 @@ const NodeLayout = (
             <Accordion
                 className={`NodeLayout-root ${className}`}
                 elevation={0}
-                expanded={expanded}
+                expanded={expandedDetails}
                 onChange={handleExpand}
                 TransitionProps={nodeTransitionProps}
                 disableGutters
