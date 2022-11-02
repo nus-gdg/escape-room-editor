@@ -3,11 +3,6 @@ import NavHeader from "./NavHeader";
 import NavItem from "./NavItem";
 import "./NavMenu.css";
 
-interface NavData {
-    name: string,
-    value: string,
-}
-
 interface NavMenuProps {
     label: string,
     names: string[],
@@ -27,7 +22,7 @@ const NavMenu = (
         onDelete,
     }: NavMenuProps) => {
     const [selected, setSelected] = useState(new Set<string>());
-    console.log(selected);
+    // console.log(selected);
 
     const handleSelect = useCallback((name: string, checked: boolean) => {
         setSelected(set => {
