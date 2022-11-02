@@ -1,10 +1,10 @@
 import {ChangeEvent, memo, useCallback, useEffect, useState} from "react";
-import debounce from "@mui/utils/debounce";
 import MuiTextField from "@mui/material/TextField"
-import {debounceTime} from "../common";
-import {defaultTextFieldProps} from "./utils";
+import debounce from "@mui/utils/debounce";
+import {debounceTime, withNoDrag} from "./utils";
 
 export interface SimpleTextFieldProps {
+    className?: string,
     label?: string,
     value?: string,
     onChange?: (value: string) => void,
@@ -12,6 +12,7 @@ export interface SimpleTextFieldProps {
 
 const TextField = (
     {
+        className,
         label = "Text",
         value,
         onChange
@@ -41,11 +42,11 @@ const TextField = (
 
     return (
         <MuiTextField
+            className={withNoDrag(className)}
             label={label}
             value={text}
             onChange={handleChange}
             onBlur={handleBlur}
-            {...defaultTextFieldProps}
         />
     )
 }

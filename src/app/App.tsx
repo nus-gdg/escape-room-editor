@@ -15,6 +15,25 @@ const theme = createTheme({
                 }
             }
         },
+        MuiTooltip: {
+            defaultProps: {
+                disableInteractive: true,
+                enterDelay: 500,
+                enterNextDelay: 500,
+            }
+        },
+        MuiTextField: {
+            styleOverrides: {
+                root: {
+                    width: "100%",
+                }
+            },
+            defaultProps: {
+                multiline: true,
+                variant: "filled",
+                InputLabelProps: {shrink: true},
+            }
+        }
     },
 });
 

@@ -12,7 +12,7 @@ interface ListProps {
     onDelete?: (names: Set<string>) => void,
 }
 
-const ListMenu = (
+const List = (
     {
         label,
         names = [],
@@ -80,4 +80,4 @@ const ListMenu = (
     );
 }
 
-export default memo(ListMenu);
+export default memo(List);

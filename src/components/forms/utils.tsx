@@ -1,10 +1,6 @@
-import React from "react";
-import {TextFieldProps} from "@mui/material";
+export const debounceTime = 250;
 
-export const defaultTextFieldProps: TextFieldProps = {
-    className: "nodrag",
-    multiline: true,
-    variant: "filled",
-    InputLabelProps: {shrink: true},
-    sx: {width: "100%"},
+// Stops drag events on a focused component
+export function withNoDrag(className?: string) {
+    return className ? className + " nodrag" : "nodrag";
 }

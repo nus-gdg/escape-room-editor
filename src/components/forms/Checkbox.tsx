@@ -1,7 +1,6 @@
 import React, {memo} from "react";
 import Tooltip from "@mui/material/Tooltip";
 import MuiCheckbox from "@mui/material/Checkbox";
-import {tooltipProps} from "../common";
 
 export interface CheckboxProps {
     className?: string,
@@ -20,7 +19,7 @@ const Checkbox = (
         onChange,
     }: CheckboxProps) => {
     return (
-        <Tooltip className={className} title={tooltip} {...tooltipProps}>
+        <Tooltip className={className} title={tooltip}>
             <MuiCheckbox
                 checked={checked}
                 indeterminate={indeterminate}

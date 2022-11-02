@@ -2,8 +2,8 @@ import React, {memo, useCallback, useMemo} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@mui/material/Typography";
-import Checkbox from "../forms/Checkbox";
-import IconButton from "../forms/IconButton";
+import Checkbox from "./Checkbox";
+import IconButton from "./IconButton";
 import "./ListHeader.css";
 
 const addIcon = <AddIcon/>

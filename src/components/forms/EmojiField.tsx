@@ -1,9 +1,10 @@
 import {ChangeEvent, memo, useCallback, useEffect, useState} from "react";
-import {debounce, TextField} from "@mui/material";
-import {debounceTime} from "../common";
-import {defaultTextFieldProps} from "./utils";
+import MuiTextField from "@mui/material/TextField"
+import debounce from "@mui/utils/debounce";
+import {debounceTime, withNoDrag} from "./utils";
 
 export interface EmojiFieldProps {
+    className?: string,
     label?: string,
     value?: string,
     onChange?: (value: string) => void,
@@ -11,6 +12,7 @@ export interface EmojiFieldProps {
 
 const EmojiField = (
     {
+        className,
         label = "Emoji",
         value,
         onChange
@@ -39,12 +41,12 @@ const EmojiField = (
     }, [emoji, onChange, onChangeDebounced]);
 
     return (
-        <TextField
+        <MuiTextField
+            className={withNoDrag(className)}
             label={label}
             value={emoji}
             onChange={handleChange}
             onBlur={handleBlur}
-            {...defaultTextFieldProps}
         />
     )
 }

@@ -1,6 +1,6 @@
 import {memo} from "react";
 import {useDispatch, useSelector} from "../../app";
-import List from "../../components/list/List";
+import List from "../../components/forms/List";
 import {createRoom, deleteRooms, openFlow, selectRooms, updateRoom} from "../../slices";
 import {createDefaultName} from "./utils";
 

@@ -2,8 +2,8 @@ import React, {memo, useCallback, useMemo, useRef} from "react";
 import EditIcon from "@mui/icons-material/Edit";
 import TouchRipple, {TouchRippleActions} from "@mui/material/ButtonBase/TouchRipple";
 import Typography from "@mui/material/Typography";
-import Checkbox from "../forms/Checkbox";
-import IconButton from "../forms/IconButton";
+import Checkbox from "./Checkbox";
+import IconButton from "./IconButton";
 import "./ListItem.css";
 
 const editIcon = <EditIcon/>
