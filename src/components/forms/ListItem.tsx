@@ -13,8 +13,8 @@ export interface ListItemProps {
     value?: string,
     checked?: boolean,
     onCheck?: (name: string, checked: boolean) => void,
-    onClick?: (name: string) => void,
-    onEdit?: (name: string) => void,
+    onRead?: (name: string) => void,
+    onUpdate?: (name: string) => void,
 }
 
 const ListItem = (
@@ -23,22 +23,22 @@ const ListItem = (
         value,
         checked,
         onCheck,
-        onClick,
-        onEdit,
+        onRead,
+        onUpdate,
     }: ListItemProps) => {
     const rippleRef = useRef<TouchRippleActions>(null);
 
-    const handleCheck = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        onCheck?.(name, event.target.checked);
+    const handleCheck = useCallback((checked: boolean) => {
+        onCheck?.(name, checked);
     }, [onCheck, name]);
 
-    const handleEdit = useCallback(() => {
-        onEdit?.(name);
-    }, [onEdit, name]);
+    const handleUpdate = useCallback(() => {
+        onUpdate?.(name);
+    }, [onUpdate, name]);
 
     const label = useMemo(() => {
-        const handleClick = () => {
-            onClick?.(name);
+        const handleRead = () => {
+            onRead?.(name);
         };
 
         const handleMouseDown = (event: React.MouseEvent) => {
@@ -52,7 +52,7 @@ const ListItem = (
         return (
             <button
                 className={"ListItem-button"}
-                onClick={handleClick}
+                onClick={handleRead}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
@@ -61,7 +61,7 @@ const ListItem = (
                 {value && <Typography className={"ListItem-value"}>{`: ${value}`}</Typography>}
             </button>
         )
-    }, [name, value, onClick]);
+    }, [name, value, onRead]);
 
     return (
         <li className={checked ? "ListItem-root selected" : "ListItem-root"}>
@@ -74,7 +74,7 @@ const ListItem = (
             <IconButton
                 className={"ListItem-edit"}
                 icon={editIcon}
-                onClick={handleEdit}
+                onClick={handleUpdate}
                 tooltip={"Edit"}
             />
             <TouchRipple ref={rippleRef}/>

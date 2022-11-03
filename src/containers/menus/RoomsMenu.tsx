@@ -30,8 +30,8 @@ const RoomsMenu = () => {
         dispatch(updateRoom({name: name, data: data}));
     };
 
-    const handleDeleteRooms = (names: Set<string>) => {
-        dispatch(deleteRooms({names: Array.from(names)}));
+    const handleDeleteRooms = (names: string[]) => {
+        dispatch(deleteRooms({names: names}));
     };
 
     return (

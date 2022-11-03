@@ -1,9 +1,9 @@
-.ListMenu-root {
+.List-root {
     width: 100%;
     height: 100%;
 }
 
-.ListMenu-root > .ListMenu-list {
+.List-root > .List-items {
     overflow-y: auto;
     height: calc(100% - 41px);
 }

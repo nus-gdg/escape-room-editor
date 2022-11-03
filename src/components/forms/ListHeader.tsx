@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useMemo} from "react";
+import {memo, useMemo} from "react";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
 import Typography from "@mui/material/Typography";
@@ -13,10 +13,10 @@ export interface ListHeaderProps {
     label: string,
     checked?: boolean,
     indeterminate?: boolean,
-    selected?: Set<string>,
+    selected?: number,
     onCheck?: (checked: boolean) => void,
-    onAdd?: () => void,
-    onDelete?: (names: Set<string>) => void,
+    onCreate?: () => void,
+    onDelete?: () => void,
 }
 
 const ListHeader = (
@@ -26,37 +26,28 @@ const ListHeader = (
         indeterminate,
         selected,
         onCheck,
-        onAdd,
+        onCreate,
         onDelete,
     }: ListHeaderProps) => {
-    const handleCheck = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
-        onCheck?.(event.target.checked);
-    }, [onCheck]);
 
-    const handleDelete = useCallback(() => {
-        if (selected) {
-            onDelete?.(selected);
-        }
-    }, [onDelete, selected]);
-
-    const hasSelection = selected && selected.size > 0;
+    const hasSelection = selected && selected > 0;
 
     const addAction = (
         <IconButton
             className={"ListHeader-add"}
             icon={addIcon}
-            onClick={onAdd}
+            onClick={onCreate}
             tooltip={"Create"}
         />
     );
 
     const deleteAction = (
         <>
-            <Typography className={"ListHeader-deleteText"}>{`(${selected?.size})`}</Typography>
+            <Typography className={"ListHeader-deleteText"}>{`(${selected})`}</Typography>
             <IconButton
                 className={"ListHeader-delete"}
                 icon={deleteIcon}
-                onClick={handleDelete}
+                onClick={onDelete}
                 tooltip={"Delete"}
             />
         </>
@@ -72,7 +63,7 @@ const ListHeader = (
                 className={"ListHeader-checkbox"}
                 checked={checked}
                 indeterminate={indeterminate}
-                onChange={handleCheck}
+                onChange={onCheck}
                 tooltip={"Select all"}
             />
             {heading}

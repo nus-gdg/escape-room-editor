@@ -1,4 +1,4 @@
-import React, {memo, useCallback, useState} from "react";
+import {memo, useCallback, useState} from "react";
 import ListHeader from "./ListHeader";
 import ListItem from "./ListItem";
 import "./List.css";
@@ -9,7 +9,7 @@ interface ListProps {
     onCreate?: () => void,
     onRead?: (name: string) => void,
     onUpdate?: (name: string) => void,
-    onDelete?: (names: Set<string>) => void,
+    onDelete?: (names: string[]) => void,
 }
 
 const List = (
@@ -22,7 +22,6 @@ const List = (
         onDelete,
     }: ListProps) => {
     const [selected, setSelected] = useState(new Set<string>());
-    // console.log(selected);
 
     const handleSelect = useCallback((name: string, checked: boolean) => {
         setSelected(set => {
@@ -34,7 +33,7 @@ const List = (
             }
             return nextSet;
         });
-    }, []);
+    }, [setSelected]);
 
     const handleSelectAll = useCallback((checked: boolean) => {
         if (checked) {
@@ -42,10 +41,22 @@ const List = (
         } else {
             setSelected(new Set());
         }
-    }, [names]);
+    }, [setSelected, names]);
+
+    const handleCreate = useCallback(() => {
+        onCreate?.();
+    }, [onCreate]);
+
+    const handleRead = useCallback((name: string) => {
+        onRead?.(name);
+    }, [onRead]);
+
+    const handleUpdate = useCallback((name: string) => {
+        onUpdate?.(name);
+    }, [onUpdate]);
 
     const handleDelete = useCallback(() => {
-        onDelete?.(selected);
+        onDelete?.(Array.from(selected));
         setSelected(new Set());
     }, [onDelete, selected]);
 
@@ -56,24 +67,24 @@ const List = (
                 name={name}
                 checked={selected.has(name)}
                 onCheck={handleSelect}
-                onClick={onRead}
-                onEdit={onUpdate}
+                onRead={handleRead}
+                onUpdate={handleUpdate}
             />
         )
     }, [selected, onRead]);
 
     return (
-        <section className={"ListMenu-root"}>
+        <section className={"List-root"}>
             <ListHeader
                 label={label}
                 checked={selected.size === names.length}
                 indeterminate={selected.size > 0 && selected.size < names.length}
-                selected={selected}
+                selected={selected.size}
                 onCheck={handleSelectAll}
-                onAdd={onCreate}
+                onCreate={handleCreate}
                 onDelete={handleDelete}
             />
-            <ul className={"ListMenu-list"}>
+            <ul className={"List-items"}>
                 {names.map(renderItem)}
             </ul>
         </section>
