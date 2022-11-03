@@ -5,5 +5,5 @@
 
 .List-root > .List-items {
     overflow-y: auto;
-    height: calc(100% - 41px);
+    height: calc(100% - 48px);
 }

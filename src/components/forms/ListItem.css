@@ -2,7 +2,7 @@
     display: grid;
     position: relative;
     user-select: none;
-    grid-template-columns: 40px auto 40px;
+    grid-template-columns: 40px calc(100% - 80px) 40px;
     padding: 4px 20px 4px 0;
 }
 

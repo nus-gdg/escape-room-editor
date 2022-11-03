@@ -1,5 +1,5 @@
 import {memo, ReactElement, useCallback, useState} from "react";
-import {Tab, Tabs, Tooltip} from "@mui/material";
+import {Tab, Tabs} from "@mui/material";
 import FlagIcon from "@mui/icons-material/Flag";
 import HomeIcon from "@mui/icons-material/Home";
 import InfoIcon from "@mui/icons-material/Info";
@@ -38,7 +38,7 @@ const sections = [
         panel: <RoomsMenu/>,
     },
     {
-        tab: createTab(<PublicIcon/>, "GlobalCommands"),
+        tab: createTab(<PublicIcon/>, "Global Commands"),
         panel: <RoomsMenu/>,
     },
 ];

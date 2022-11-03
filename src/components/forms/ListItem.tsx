@@ -52,12 +52,13 @@ const ListItem = (
         return (
             <button
                 className={"ListItem-button"}
+                title={name}
                 onClick={handleRead}
                 onMouseDown={handleMouseDown}
                 onMouseUp={handleMouseUp}
                 onMouseLeave={handleMouseUp}
             >
-                <Typography className={"ListItem-name"}>{name}</Typography>
+                <Typography className={"ListItem-name"} noWrap>{name}</Typography>
                 {value && <Typography className={"ListItem-value"}>{`: ${value}`}</Typography>}
             </button>
         )
@@ -73,9 +74,9 @@ const ListItem = (
             {label}
             <IconButton
                 className={"ListItem-edit"}
+                title={"Edit"}
                 icon={editIcon}
                 onClick={handleUpdate}
-                tooltip={"Edit"}
             />
             <TouchRipple ref={rippleRef}/>
         </li>

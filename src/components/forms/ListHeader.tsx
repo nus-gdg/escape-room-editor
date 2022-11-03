@@ -35,9 +35,9 @@ const ListHeader = (
     const addAction = (
         <IconButton
             className={"ListHeader-add"}
+            title={"Create"}
             icon={addIcon}
             onClick={onCreate}
-            tooltip={"Create"}
         />
     );
 
@@ -46,9 +46,9 @@ const ListHeader = (
             <Typography className={"ListHeader-deleteText"}>{`(${selected})`}</Typography>
             <IconButton
                 className={"ListHeader-delete"}
+                title={"Delete"}
                 icon={deleteIcon}
                 onClick={onDelete}
-                tooltip={"Delete"}
             />
         </>
     );
@@ -61,10 +61,10 @@ const ListHeader = (
         <div className={"ListHeader-root" + (hasSelection? " delete" : " add")}>
             <Checkbox
                 className={"ListHeader-checkbox"}
+                title={"Select all"}
                 checked={checked}
                 indeterminate={indeterminate}
                 onChange={onCheck}
-                tooltip={"Select all"}
             />
             {heading}
             {(hasSelection) ? deleteAction : addAction}
