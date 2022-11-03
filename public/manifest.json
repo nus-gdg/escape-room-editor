@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Escape Room Editor",
+  "name": "Escape Room Editor - NUSGDG",
   "icons": [
     {
       "src": "favicon.ico",
