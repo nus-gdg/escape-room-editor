@@ -14,11 +14,8 @@ function createTab(icon: ReactElement, description: string): ReactElement {
         <Tab
             className={"Navigation-tab"}
             key={description}
-            label={
-                <Tooltip placement={"right"} title={description}>
-                    {icon}
-                </Tooltip>
-            }
+            label={icon}
+            title={description}
         />
     );
 }
