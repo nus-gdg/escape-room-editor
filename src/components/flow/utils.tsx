@@ -34,7 +34,11 @@ export function withControlledData<NodeData = any>(
     onNodeDataChange: OnNodeDataChange,
     CustomNode: ComponentType<CustomNodeProps<NodeData>>
 ) {
-    return (props: NodeProps<NodeData>) => <CustomNode {...props} onChange={onNodeDataChange}/>;
+    const withControlledData = (props: NodeProps<NodeData>) => {
+        return <CustomNode {...props} onChange={onNodeDataChange}/>;
+    }
+    withControlledData.displayName = "withControlledData"
+    return withControlledData;
 }
 
 export declare type CustomNodeTypes = {
