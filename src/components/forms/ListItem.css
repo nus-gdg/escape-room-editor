@@ -3,7 +3,7 @@
     position: relative;
     user-select: none;
     grid-template-columns: 40px auto 40px;
-    padding-right: 20px;
+    padding: 4px 20px 4px 0;
 }
 
 .ListItem-root:hover, .ListItem-root.selected:hover {
