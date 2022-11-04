@@ -1,9 +1,9 @@
 import {memo} from "react";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import UploadIcon from "@mui/icons-material/Upload";
 import AppBar from "@mui/material/AppBar";
 import {SxProps} from "@mui/system";
 import {IconButton} from "../components/forms";
+import OpenButton from "./buttons/OpenButton";
 import SaveButton from "./buttons/SaveButton";
 import Logo from "./Logo";
 import "./Banner.css";
@@ -14,7 +14,6 @@ const bannerStyle: SxProps = {
     gridTemplateColumns: "50% 50%",
 }
 
-const openIcon = <UploadIcon/>;
 const playIcon = <PlayCircleIcon/>;
 
 export interface BannerProps {
@@ -34,7 +33,7 @@ const Banner = (
             <div className={"Banner-right"}>
                 <IconButton icon={playIcon} title={"Play"}/>
                 <SaveButton/>
-                <IconButton icon={openIcon} title={"Open"}/>
+                <OpenButton/>
             </div>
         </AppBar>
     )
