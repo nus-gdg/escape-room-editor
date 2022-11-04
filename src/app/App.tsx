@@ -1,5 +1,7 @@
-import React from 'react'
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import CssBaseline from "@mui/material/CssBaseline";
+import StyledEngineProvider from "@mui/material/StyledEngineProvider";
+import ThemeProvider from "@mui/material/styles/ThemeProvider";
+import createTheme from "@mui/material/styles/createTheme";
 import MainPage from "../pages/MainPage";
 import './App.css';
 
@@ -40,10 +42,12 @@ const theme = createTheme({
 export const App = () => {
     return (
         <div id={"app"}>
-            <ThemeProvider theme={theme}>
-                <CssBaseline/>
-                <MainPage />
-            </ThemeProvider>
+            <StyledEngineProvider injectFirst>
+                <ThemeProvider theme={theme}>
+                    <CssBaseline/>
+                    <MainPage/>
+                </ThemeProvider>
+            </StyledEngineProvider>
         </div>
     )
 }
