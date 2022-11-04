@@ -225,6 +225,7 @@ export const Flow = (
                 onConnectStart={handleConnectStart}
                 onConnectEnd={handleConnectEnd}
                 fitView
+                disableKeyboardA11y
             >
                 <div className="react-flow__label" style={labelProps}>
                     <Typography>
