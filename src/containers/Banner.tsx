@@ -1,25 +1,42 @@
-import React, {memo} from "react";
-import {IconButton, Toolbar, AppBar} from "@mui/material";
-import PublicIcon from "@mui/icons-material/Public";
+import {memo} from "react";
+import PlayCircleIcon from "@mui/icons-material/PlayCircle";
+import SaveIcon from "@mui/icons-material/Save";
+import UploadIcon from "@mui/icons-material/Upload";
+import AppBar from "@mui/material/AppBar";
+import {SxProps} from "@mui/system";
+import {IconButton} from "../components/forms";
+import Logo from "./Logo";
+import "./Banner.css";
 
-interface BannerProps {
-    className? : string
+const bannerStyle: SxProps = {
+    zIndex: 1,
+    display: "grid",
+    gridTemplateColumns: "50% 50%",
 }
 
-const Banner = ({className}: BannerProps) => {
+const openIcon = <UploadIcon/>;
+const saveIcon = <SaveIcon/>;
+const playIcon = <PlayCircleIcon/>;
+
+export interface BannerProps {
+    className?: string,
+}
+
+const Banner = (
+    {
+        className
+    }: BannerProps) => {
     return (
-        <AppBar position={"static"} sx={{zIndex: (theme) => theme.zIndex.drawer + 1}} className={className}>
-            <Toolbar>
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                >
-                    <PublicIcon />
-                </IconButton>
-            </Toolbar>
+        <AppBar className={"Banner-root " + className} position={"static"} sx={bannerStyle} >
+            <div className={"Banner-left"}>
+                <Logo/>
+                <h1>Escape Room Editor</h1>
+            </div>
+            <div className={"Banner-right"}>
+                <IconButton icon={playIcon} title={"Play"}/>
+                <IconButton icon={saveIcon} title={"Save"}/>
+                <IconButton icon={openIcon} title={"Open"}/>
+            </div>
         </AppBar>
     )
 }

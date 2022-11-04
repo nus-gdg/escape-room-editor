@@ -1,0 +1,36 @@
+.Banner-root {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    z-index: 1;
+    width: 100%;
+}
+
+.Banner-root > div {
+    display: inline-flex;
+    align-items: center;
+}
+
+.Banner-left {
+    flex-direction: row;
+}
+
+.Banner-right {
+    flex-direction: row-reverse;
+    margin-right: 8px;
+}
+
+.Banner-root h1 {
+    margin: 0;
+    padding-top: 1px;
+    color: grey;
+    font-size: 16px;
+    font-weight: bold;
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.Banner-root button {
+    margin-right: 8px;
+}
