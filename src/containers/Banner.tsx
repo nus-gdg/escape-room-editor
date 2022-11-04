@@ -1,10 +1,10 @@
 import {memo} from "react";
 import PlayCircleIcon from "@mui/icons-material/PlayCircle";
-import SaveIcon from "@mui/icons-material/Save";
 import UploadIcon from "@mui/icons-material/Upload";
 import AppBar from "@mui/material/AppBar";
 import {SxProps} from "@mui/system";
 import {IconButton} from "../components/forms";
+import SaveButton from "./buttons/SaveButton";
 import Logo from "./Logo";
 import "./Banner.css";
 
@@ -15,7 +15,6 @@ const bannerStyle: SxProps = {
 }
 
 const openIcon = <UploadIcon/>;
-const saveIcon = <SaveIcon/>;
 const playIcon = <PlayCircleIcon/>;
 
 export interface BannerProps {
@@ -34,7 +33,7 @@ const Banner = (
             </div>
             <div className={"Banner-right"}>
                 <IconButton icon={playIcon} title={"Play"}/>
-                <IconButton icon={saveIcon} title={"Save"}/>
+                <SaveButton/>
                 <IconButton icon={openIcon} title={"Open"}/>
             </div>
         </AppBar>
