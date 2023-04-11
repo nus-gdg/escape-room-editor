@@ -115,6 +115,12 @@ export const Flow = (
         document.getElementById("react-flow__minimap-desc-1")?.remove();
     }, [])
 
+    useEffect(() => {
+        const unload = () => document.cookie = "name=potato; samesite=lax";
+        window.addEventListener("beforeunload", unload);
+        return () => window.removeEventListener("beforeunload", unload);
+    }, []);
+
     const handleInit = useCallback((flow: ReactFlowInstance) => {
         setFlow(flow);
     }, [setFlow]);
@@ -224,6 +230,7 @@ export const Flow = (
                 onConnect={handleConnect}
                 onConnectStart={handleConnectStart}
                 onConnectEnd={handleConnectEnd}
+                onMouseLeave={() => console.log("LEG")}
                 fitView
                 disableKeyboardA11y
             >
