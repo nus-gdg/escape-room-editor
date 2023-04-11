@@ -1,0 +1,55 @@
+.controls {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    z-index: 4;
+    font-size: 12px;
+}
+
+.controls button {
+    margin-left: 5px;
+}
+
+.viewport {
+    width: 100%;
+    height: 100%;
+}
+
+.react-flow__attribution {
+    background-color: transparent;
+    padding: 0;
+    margin-right: 15px;
+    text-align: right;
+}
+
+/*Selection*/
+.react-flow__node {
+    border: none;
+}
+
+.react-flow__node.selected {
+    border: 1px solid #ffffff;
+    border-radius: 10px;
+}
+
+/*Handle Shape*/
+.react-flow__handle {
+    --react-flow__handle-diameter: 14px;
+    width: var(--react-flow__handle-diameter);
+    height: var(--react-flow__handle-diameter);
+    border-radius: calc(var(--react-flow__handle-diameter) / 2);
+    background-color: #778899;
+}
+
+/*Handle Colors*/
+[data-handleid="passage"] {
+    background-color: #c2524c;
+}
+
+[data-handleid="reaction-option"] {
+    background-color: #58c24c;
+}
+
+[data-handleid="text-option"] {
+    background-color: #1b73cb;
+}

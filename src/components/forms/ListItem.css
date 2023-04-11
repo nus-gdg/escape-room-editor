@@ -1,0 +1,20 @@
+.ListItem-root {
+    display: grid;
+    position: relative;
+    user-select: none;
+    grid-template-columns: 40px calc(100% - 80px) 40px;
+    padding: 4px 20px 4px 0;
+}
+
+.ListItem-root:hover, .ListItem-root.selected:hover {
+    background-color: rgba(75, 128, 128, 0.2);
+}
+
+.ListItem-root.selected {
+    background-color: rgba(75, 128, 128, 0.1);
+}
+
+.ListItem-root > .ListItem-button {
+    background-color: transparent;
+    text-align: left;
+}

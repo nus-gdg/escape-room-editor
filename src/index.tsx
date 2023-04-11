@@ -1,17 +1,30 @@
-import { ColorModeScript } from "@chakra-ui/react"
 import * as React from "react"
 import ReactDOM from "react-dom"
-import { App } from "./pages/App"
+import {Provider} from "react-redux";
+import {App, store} from "./app"
 import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
 
 ReactDOM.render(
     <React.StrictMode>
-        <ColorModeScript />
-        <App />
+        <Provider store={store}>
+            <App/>
+        </Provider>
     </React.StrictMode>,
     document.getElementById("root"),
 )
+
+Object.defineProperty(window, 'state', {
+    get() {
+        return store.getState();
+    },
+});
+
+Object.defineProperty(window, 'dispatch', {
+    get() {
+        return store.dispatch;
+    },
+});
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

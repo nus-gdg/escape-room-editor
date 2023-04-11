@@ -1,0 +1,27 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.page__body {
+    display: flex;
+    flex-direction: row;
+    flex-grow: 1;
+    height: calc(100vh - 64px);
+}
+
+.Navigation-tabs, .Navigation-tabs .MuiButtonBase-root {
+    background-color: #4f545c;
+}
+
+.Navigation-menu {
+    width: 300px;
+    background-color: #35383c;
+}
+
+/*.page__drawer {*/
+/*    width: 350px;*/
+/*    height: calc(100vh - 64px);*/
+/*    background-color: #35383c;*/
+/*}*/

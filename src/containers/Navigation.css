@@ -1,0 +1,8 @@
+.Navigation-root {
+    display: flex;
+    flex-direction: row;
+}
+
+.Navigation-tabs, .Navigation-tabs .MuiButtonBase-root {
+    min-width: 56px;
+}

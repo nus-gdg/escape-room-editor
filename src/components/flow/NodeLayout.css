@@ -1,0 +1,19 @@
+.NodeLayout-root, .NodeLayout-root.MuiAccordion-root {
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    background-color: #4f4f4f;
+}
+
+.NodeLayout-root > .NodeLayout-title {
+    padding: 12px 16px;
+}
+
+.NodeLayout-header {
+    pointer-events: none;
+}
+
+.NodeLayout-expand-icon {
+    pointer-events: auto;
+}
+

@@ -1,0 +1,87 @@
+:root {
+    --grey-50: #FFFFFF;  /* Font (Focused), Icons (Focused) */
+    --grey-100: #dcddde; /* Font (Chat)*/
+    --grey-200: #b9bbbe; /* Icons (Normal)*/
+    --grey-300: #96989d; /* Font (Normal) */
+    --grey-400: #4f545c; /* Font (Dim) */
+    --grey-500: #40444b; /* Input Background */
+    --grey-600: #36393f; /* Chat Background */
+    --grey-700: #2f3136; /* Side Menu, Scroll Bar Background */
+    --grey-800: #292b2f; /* Username */
+    --grey-900: #202225; /* Server Menu, Search Bar Background */
+
+    --font-focused: var(--grey-50);
+    --font-bright: var(--grey-100);
+    --font-normal: var(--grey-300);
+    --font-dim: var(--grey-400);
+
+    --icons-focused: var(--grey-50);
+    --icons-normal: var(--grey-200);
+
+    --background-x-light: var(--grey-500);
+    --background-light: var(--grey-600);
+    --background-medium: var(--grey-700);
+    --background-dark: var(--grey-800);
+    --background-x-dark: var(--grey-900);
+
+    --message-color: #bd7ef9;
+
+    --header-height: 40px;
+    --padding-top: 10px;
+    --padding-right: 10px;
+    --padding-bottom: 10px;
+    --padding-left: 10px;
+    --padding: var(--padding-top) var(--padding-right) var(--padding-bottom) var(--padding-left);
+
+    vertical-align: middle;
+    font-family: sans-serif;
+    color: var(--font-normal);
+    background-color: var(--background-x-dark);
+}
+
+#app {
+    min-height: 100vh;
+    height: 0;
+}
+
+button {
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    border-width: 0;
+    line-height: 1em;
+    align-items: center;
+    color: inherit;
+}
+
+input, textarea {
+    /*display: block;*/
+    /*padding: 2px 6px 2px 6px;*/
+    /*margin: 0;*/
+    border-radius: 5px;
+    border-width: 0;
+    background-color: var(--background-x-dark);
+    color: var(--font-bright);
+}
+
+input::placeholder, textarea::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    font-family: sans-serif;
+    color: var(--font-normal);
+    opacity: 1; /* Firefox */
+}
+
+input:-ms-input-placeholder, textarea::-ms-input-placeholder { /* Internet Explorer 10-11 */
+    font-family: sans-serif;
+    color: var(--font-normal);
+}
+
+input::-ms-input-placeholder, textarea::-ms-input-placeholder { /* Microsoft Edge */
+    font-family: sans-serif;
+    color: var(--font-normal);
+}
+
+ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

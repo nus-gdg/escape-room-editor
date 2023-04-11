@@ -1,0 +1,24 @@
+.ListHeader-root {
+    position: relative;
+    display: grid;
+    padding: 4px 20px 4px 0;
+    align-items: center;
+    user-select: none;
+    background-color: darkslategrey;
+}
+
+.ListHeader-root.add {
+    grid-template-columns: 40px auto 40px;
+}
+
+.ListHeader-root.delete {
+    grid-template-columns: 40px auto auto 40px;
+}
+
+.ListHeader-root > .ListHeader-label {
+    text-align: left;
+}
+
+.ListHeader-root > .ListHeader-deleteText {
+    text-align: right;
+}

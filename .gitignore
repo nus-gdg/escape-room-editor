@@ -9,3 +9,6 @@ node_modules/
 
 # Visual Studio cache directory
 .vs/
+
+# Test files
+/src/*.json

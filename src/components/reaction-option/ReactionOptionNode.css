@@ -1,0 +1,15 @@
+.ReactionOptionNode-root {
+    width: 300px;
+}
+
+.ReactionOptionNode-root [data-handleid="reaction-option"] {
+    top: 50%;
+    left: 0;
+    transform: translate(-50%, -50%);
+}
+
+.ReactionOptionNode-root [data-handleid="passage"] {
+    top: 50%;
+    right: 0;
+    transform: translate(50%, -50%);
+}

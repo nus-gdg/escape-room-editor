@@ -1,0 +1,114 @@
+.page {
+    display: flex;
+    flex-direction: column;
+    overflow: scroll;
+    width: 100%;
+    min-width: var(--resolution-width-small);
+    height: 100vh;
+    font-family: sans-serif;
+    color: var(--font-normal);
+    /*background-color: var(--background-light);*/
+    background-color: white;
+    --resolution-width-small: 640px;
+    --header-height: 40px;
+    --footer-height: 0px;
+    --body-height: calc(100% - var(--header-height) - var(--footer-height));
+    --toolbar-height: 2em;
+    --padding-left: 6px;
+    --padding-right: 6px;
+    --editor-width: 60%;
+    --sidebar-width: calc((100% - var(--editor-width)) / 2);
+    --sidebar-min-width: calc(var(--resolution-width-small) / 4);
+}
+
+.header {
+    height: var(--header-height);
+    line-height: var(--header-height);
+    background-color: var(--background-x-dark);
+}
+
+.titlebar {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    padding-left: var(--padding-left);
+    padding-right: var(--padding-right);
+    font-weight: bold;
+}
+
+.titlebar-left {
+}
+
+.titlebar-right {
+    margin-left: auto;
+    margin-right: 0;
+}
+
+.body {
+    display: flex;
+    flex-direction: row;
+    height: var(--body-height);
+    /*min-height: var(--body-min-height);*/
+    background-color: var(--background-light);
+}
+
+/*.body > * {*/
+/*    height: 100%;*/
+/*}*/
+
+.menu {
+    width: 20%;
+    background-color: var(--background-light);
+}
+
+.editor {
+    width: 50%;
+    background-color: var(--background-medium);
+}
+
+.preview {
+    width: 30%;
+    background-color: var(--background-light);
+}
+
+.footer {
+    height: var(--footer-height);
+    line-height: var(--footer-height);
+    background-color: var(--background-dark);
+}
+
+/*.toolbar {*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    height: var(--toolbar-height);*/
+/*    line-height: var(--toolbar-height);*/
+/*    background-color: var(--background-dark);*/
+/*    border-width: 1px;*/
+/*    border-color: var(--background-x-dark);*/
+/*    font-size: 12px;*/
+/*}*/
+
+/*.sidemenu {*/
+/*    overflow-y: scroll;*/
+/*    width: var(--sidebar-width);*/
+/*    min-width: var(--sidebar-min-width);*/
+/*    height: 100%;*/
+/*    background-color: var(--background-medium);*/
+/*}*/
+
+/*.sidemenu > .list {*/
+/*    padding-right: 20px;*/
+/*}*/
+
+/*.editor {*/
+/*    overflow-x: hidden;*/
+/*    overflow-y: scroll;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    width: var(--editor-width);*/
+/*    height: 100%;*/
+/*}*/
+
+/*.list-item-indicator {*/
+/*    visibility: hidden;*/
+/*}*/
