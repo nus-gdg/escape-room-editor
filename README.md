@@ -1,3 +1,9 @@
+# Escape Room Editor
+
+This editor creates your own game data for the Escape Room Discord Bot.
+
+![[Preview]](public/preview.png)
+
 This project was bootstrapped with
 [Create React App](https://github.com/facebook/create-react-app).
 
